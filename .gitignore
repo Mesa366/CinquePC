@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### MARTIN ###
+00-recursos/
+
 ### STS ###
 .apt_generated
 .classpath
