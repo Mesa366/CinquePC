@@ -1,4 +1,4 @@
-package com.cinque.pc.Entidades;
+package com.cinque.pc.Entities;
 
 import javax.persistence.Basic;
 import javax.persistence.FetchType;
