@@ -13,118 +13,118 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Product {
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	
-	private String id;
 
-	private String name;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-	private Double price;
+    private String name;
 
-	private MyUser seller;
+    private Double price;
 
-	private MyUser buyer;
-	@Temporal(TemporalType.DATE)
-	
-	private Date sellingDate;
-	@Temporal(TemporalType.DATE)
-	
-	private Date buyingDate;
+    private MyUser seller;
 
-	private List<String> categories;
+    private MyUser buyer;
 
-	private Integer stock;
+    @Temporal(TemporalType.DATE)
+    private Date sellingDate;
 
-	public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
-			List<String> categories, Integer stock, MyUser buyer) {
+    @Temporal(TemporalType.DATE)
+    private Date buyingDate;
 
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.seller = seller;
-		this.sellingDate = sellingDate;
-		this.buyingDate = buyingDate;
-		this.categories = categories;
-		this.stock = stock;
-		this.buyer = buyer;
-	}
+    private List<String> categories;
 
-	public Product() {
+    private Integer stock;
 
-	}
+    public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
+                   List<String> categories, Integer stock, MyUser buyer) {
 
-	public String getId() {
-		return id;
-	}
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.seller = seller;
+        this.sellingDate = sellingDate;
+        this.buyingDate = buyingDate;
+        this.categories = categories;
+        this.stock = stock;
+        this.buyer = buyer;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Product() {
 
-	public String getName() {
-		return name;
-	}
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public MyUser getSeller() {
-		return seller;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSeller(MyUser seller) {
-		this.seller = seller;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public MyUser getBuyer() {
-		return buyer;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-	public void setBuyer(MyUser buyer) {
-		this.buyer = buyer;
-	}
+    public MyUser getSeller() {
+        return seller;
+    }
 
-	public Date getSellingDate() {
-		return sellingDate;
-	}
+    public void setSeller(MyUser seller) {
+        this.seller = seller;
+    }
 
-	public void setSellingDate(Date sellingDate) {
-		this.sellingDate = sellingDate;
-	}
+    public MyUser getBuyer() {
+        return buyer;
+    }
 
-	public Date getBuyingDate() {
-		return buyingDate;
-	}
+    public void setBuyer(MyUser buyer) {
+        this.buyer = buyer;
+    }
 
-	public void setBuyingDate(Date buyingDate) {
-		this.buyingDate = buyingDate;
-	}
+    public Date getSellingDate() {
+        return sellingDate;
+    }
 
-	public List<String> getCategories() {
-		return categories;
-	}
+    public void setSellingDate(Date sellingDate) {
+        this.sellingDate = sellingDate;
+    }
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
+    public Date getBuyingDate() {
+        return buyingDate;
+    }
 
-	public Integer getStock() {
-		return stock;
-	}
+    public void setBuyingDate(Date buyingDate) {
+        this.buyingDate = buyingDate;
+    }
 
-	public void setStock(Integer stock) {
-		this.stock = stock;
-	}
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
 }
