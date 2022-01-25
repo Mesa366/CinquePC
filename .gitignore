@@ -7,6 +7,9 @@ target/
 ### MARTIN ###
 00-recursos/
 
+### TODOS ###
+bin/
+
 ### STS ###
 .apt_generated
 .classpath
