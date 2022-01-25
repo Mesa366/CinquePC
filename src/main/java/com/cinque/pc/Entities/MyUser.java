@@ -3,9 +3,19 @@ package com.cinque.pc.Entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Id;
+
+@Entity
 public class MyUser {
 
-
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
 	private String name;
 	private String password;
 	private String email;
