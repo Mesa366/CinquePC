@@ -4,9 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+<<<<<<< HEAD
+=======
 ### MARTIN ###
 00-recursos/
 
+>>>>>>> ce4d9b6d8a74796c9a30d9637c509d26b9b217dc
 ### STS ###
 .apt_generated
 .classpath
