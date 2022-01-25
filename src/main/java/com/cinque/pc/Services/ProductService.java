@@ -60,4 +60,33 @@ public class ProductService {
 		
 	}
 	
+	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
+	
+	public List<Product> getAll() {
+		return productRepository.findAll();
+	}
+	
+	public Product getById(String id) {
+		return productRepository.getById(id);
+	}
+	
+	/* TODO 
+	 *  public List<Product> getByAtt(){
+		return ;
+	} */
+	
+	public void productStatus(String id) throws Exception{
+		Product product = productRepository.getById(id); 
+		product.setEnabled(!product.getEnabled());
+		productRepository.save(product);
+		
+	}
+	
+	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR
+	public void deleteProduct(String id) throws Exception {
+		
+	}
+	*/
+	
+	/* TODO METODO PARA VENDER COMBOS - PUEDE SER QUE EL FRONT HAGA ESTA PARTE(EL COMBO EN EL CARRITO DE COMPRAS)*/
 }

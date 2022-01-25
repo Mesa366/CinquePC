@@ -36,9 +36,11 @@ public class Product {
     private List<String> categories;
 
     private Integer stock;
-
+    
+    private Boolean enabled;
+    
     public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
-                   List<String> categories, Integer stock, MyUser buyer) {
+                   List<String> categories, Integer stock, MyUser buyer, Boolean enabled) {
 
         this.id = id;
         this.name = name;
@@ -49,6 +51,7 @@ public class Product {
         this.categories = categories;
         this.stock = stock;
         this.buyer = buyer;
+        this.enabled = enabled;
     }
 
     public Product() {
@@ -126,5 +129,13 @@ public class Product {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
-
+    
+    public Boolean getEnabled() {
+    	return enabled;
+    }
+    
+    public void setEnabled(Boolean enabled) {
+    	this.enabled = enabled;
+    }
+    
 }
