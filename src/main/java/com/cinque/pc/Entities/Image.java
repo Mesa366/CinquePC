@@ -1,5 +1,9 @@
 package com.cinque.pc.Entities;
 
+/* TODO traducir al ingles
+ * 	corregir detalles
+ */
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,16 +13,36 @@ import javax.persistence.Lob;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 
+/**
+ * Entidad de Imagenes. Persistencia de imagenes para cada producto. Tiene 2
+ * fines. Foto de perfil y foto de producto
+ *
+ * @author Martín Pavesio
+ */
+
 @Entity
 public class Image {
-	
+
+	/**
+	 * Estrategia seleccionada GeneratedValue por defecto. Si falla, usa
+	 * GenericGenerator. Garantiza un ID único e irrepetible rápidamente.
+	 * 
+	 * @param id   UUID autogenerada
+	 * @param mime es el tipo de archivo de imagen
+	 * @param name es el nombre del archivo
+	 */
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "UUID2")
 	private String id;
 	private String mime;
 	private String name;
 
+	/**
+	 * Large Object Annotation. Habilita uso de @Basic para especificar el tipo de
+	 * Fetch. Basic especifica prioridad de carga. con Lazy prioriza carga de
+	 * página, luego de imagenes.
+	 */
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] content;
@@ -54,7 +78,5 @@ public class Image {
 	public void setContent(byte[] content) {
 		this.content = content;
 	}
-	
-	
 
 }

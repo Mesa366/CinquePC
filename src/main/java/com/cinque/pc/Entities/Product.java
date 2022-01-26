@@ -1,5 +1,9 @@
 package com.cinque.pc.Entities;
 
+/* TODO traducir al ingles
+ * 	corregir detalles
+ */
+
 import java.util.Date;
 import java.util.List;
 
@@ -11,131 +15,130 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * Entidad de Productos. Sarasa
+ *
+ * @author David Gonzalez
+ */
+
 @Entity
 public class Product {
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+	@Id
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "UUID2")
+	private String id;
+	private String name;
+	private Double price;
+	private MyUser seller;
+	private MyUser buyer;
 
-    private String name;
+	@Temporal(TemporalType.DATE)
+	private Date sellingDate;
 
-    private Double price;
+	@Temporal(TemporalType.DATE)
+	private Date buyingDate;
+	private List<String> categories;
+	private Integer stock;
+	private Boolean enabled;
 
-    private MyUser seller;
+	public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
+			List<String> categories, Integer stock, MyUser buyer, Boolean enabled) {
 
-    private MyUser buyer;
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.seller = seller;
+		this.sellingDate = sellingDate;
+		this.buyingDate = buyingDate;
+		this.categories = categories;
+		this.stock = stock;
+		this.buyer = buyer;
+		this.enabled = enabled;
+	}
 
-    @Temporal(TemporalType.DATE)
-    private Date sellingDate;
+	public Product() {
 
-    @Temporal(TemporalType.DATE)
-    private Date buyingDate;
+	}
 
-    private List<String> categories;
+	public String getId() {
+		return id;
+	}
 
-    private Integer stock;
-    
-    private Boolean enabled;
-    
-    public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
-                   List<String> categories, Integer stock, MyUser buyer, Boolean enabled) {
+	public void setId(String id) {
+		this.id = id;
+	}
 
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.seller = seller;
-        this.sellingDate = sellingDate;
-        this.buyingDate = buyingDate;
-        this.categories = categories;
-        this.stock = stock;
-        this.buyer = buyer;
-        this.enabled = enabled;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Product() {
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    }
+	public Double getPrice() {
+		return price;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public MyUser getSeller() {
+		return seller;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setSeller(MyUser seller) {
+		this.seller = seller;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public MyUser getBuyer() {
+		return buyer;
+	}
 
-    public Double getPrice() {
-        return price;
-    }
+	public void setBuyer(MyUser buyer) {
+		this.buyer = buyer;
+	}
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+	public Date getSellingDate() {
+		return sellingDate;
+	}
 
-    public MyUser getSeller() {
-        return seller;
-    }
+	public void setSellingDate(Date sellingDate) {
+		this.sellingDate = sellingDate;
+	}
 
-    public void setSeller(MyUser seller) {
-        this.seller = seller;
-    }
+	public Date getBuyingDate() {
+		return buyingDate;
+	}
 
-    public MyUser getBuyer() {
-        return buyer;
-    }
+	public void setBuyingDate(Date buyingDate) {
+		this.buyingDate = buyingDate;
+	}
 
-    public void setBuyer(MyUser buyer) {
-        this.buyer = buyer;
-    }
+	public List<String> getCategories() {
+		return categories;
+	}
 
-    public Date getSellingDate() {
-        return sellingDate;
-    }
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
+	}
 
-    public void setSellingDate(Date sellingDate) {
-        this.sellingDate = sellingDate;
-    }
+	public Integer getStock() {
+		return stock;
+	}
 
-    public Date getBuyingDate() {
-        return buyingDate;
-    }
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
 
-    public void setBuyingDate(Date buyingDate) {
-        this.buyingDate = buyingDate;
-    }
+	public Boolean getEnabled() {
+		return enabled;
+	}
 
-    public List<String> getCategories() {
-        return categories;
-    }
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-    
-    public Boolean getEnabled() {
-    	return enabled;
-    }
-    
-    public void setEnabled(Boolean enabled) {
-    	this.enabled = enabled;
-    }
-    
 }
