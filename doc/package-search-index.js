@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.cinque.pc"},{"l":"com.cinque.pc.Controllers"},{"l":"com.cinque.pc.Entities"},{"l":"com.cinque.pc.Repositories"},{"l":"com.cinque.pc.Services"}];updateSearchResults();
