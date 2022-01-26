@@ -18,13 +18,9 @@ public class Product {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
     private String name;
-
     private Double price;
-
     private MyUser seller;
-
     private MyUser buyer;
 
     @Temporal(TemporalType.DATE)
@@ -32,13 +28,10 @@ public class Product {
 
     @Temporal(TemporalType.DATE)
     private Date buyingDate;
-
     private List<String> categories;
-
     private Integer stock;
-    
     private Boolean enabled;
-    
+
     public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
                    List<String> categories, Integer stock, MyUser buyer, Boolean enabled) {
 

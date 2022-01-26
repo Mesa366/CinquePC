@@ -19,7 +19,7 @@ public class ProductService {
 	
 	@Autowired
 	private Validator validator;
-	
+
 	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, List<String> categories ,Integer stock) throws Exception {
 		
 		validator.stringValidate(name, "Name");

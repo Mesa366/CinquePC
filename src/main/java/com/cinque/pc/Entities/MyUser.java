@@ -12,6 +12,8 @@ import org.springframework.data.annotation.Id;
 @Entity
 public class MyUser {
 
+	/*TODO Agregar roles, ver si acá o en service*/
+
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -22,9 +24,7 @@ public class MyUser {
 	private Integer dni;
 	private Integer phone;
 	private Date birthday;
-
 	private List<Product> SellingProduct;
-
 	private List<Product> WishList;
 
 	public MyUser() {

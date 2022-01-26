@@ -33,9 +33,9 @@ public class ProductController {
 	public String form(@RequestParam(required = false) String id, Model model) {
 		if (id != null) {
 
-			Optional<Product> product = productService.findById(id);
-			if (product.isPresent()) {
-				model.addAttribute("product", product.get());
+			Optional<Product> opt = productService.findById(id);
+			if (opt.isPresent()) {
+				model.addAttribute("product", opt.get());
 			} else {
 				return "productForm"; //return "redirect:/";
 			}
