@@ -1,46 +1,81 @@
 package com.cinque.pc.Entities;
 
+/* TODO traducir al ingles
+ * 	corregir detalles
+ */
+
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 
+/**
+ * Entidad de Usuarios. Persistencia de usuarios. Tiene 2 fines: Comprador y
+ * Vendedor.
+ *
+ * @author Martín Pavesio
+ */
+
 @Entity
 public class MyUser {
 
-	/*TODO Agregar roles, ver si acá o en service*/
+	/* TODO Agregar roles, ver si acá o en service */
+
+	/**
+	 * Estrategia seleccionada GeneratedValue por defecto. Si falla, usa
+	 * GenericGenerator. Garantiza un ID único e irrepetible rápidamente.
+	 * 
+	 * @param id             UUID autogenerada
+	 * @param sellingProduct Lista de productos (catálogo) del vendedor.
+	 * @param wishList       Lista de productos deseados para el comprador.
+	 */
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "UUID2")
 	private String id;
+
+	@OneToOne
+	private Image profilePicture;
+
 	private String name;
 	private String password;
 	private String email;
 	private Integer dni;
 	private Integer phone;
 	private Date birthday;
-	private List<Product> SellingProduct;
-	private List<Product> WishList;
+	private List<Product> sellingProduct;
+	private List<Product> wishList;
 
 	public MyUser() {
 
 	}
 
-	public MyUser(String name, String password, String email, Integer dni, Integer phone, Date birthday,
-			List<Product> sellingProduct, List<Product> wishList) {
+	public MyUser(String id, Image profilePicture, String name, String password, String email, Integer dni,
+			Integer phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
+		this.id = id;
 		this.name = name;
+		this.profilePicture = profilePicture;
 		this.password = password;
 		this.email = email;
 		this.dni = dni;
 		this.phone = phone;
 		this.birthday = birthday;
-		SellingProduct = sellingProduct;
-		WishList = wishList;
+		this.sellingProduct = sellingProduct;
+		this.wishList = wishList;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -49,6 +84,14 @@ public class MyUser {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Image getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(Image profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 	public String getPassword() {
@@ -92,31 +135,19 @@ public class MyUser {
 	}
 
 	public List<Product> getSellingProduct() {
-		return SellingProduct;
+		return sellingProduct;
 	}
 
 	public void setSellingProduct(List<Product> sellingProduct) {
-		SellingProduct = sellingProduct;
+		this.sellingProduct = sellingProduct;
 	}
 
 	public List<Product> getWishList() {
-		return WishList;
+		return wishList;
 	}
 
 	public void setWishList(List<Product> wishList) {
-		WishList = wishList;
+		this.wishList = wishList;
 	}
 
-	@Override
-	public String toString() {
-		return "MyUser [name=" + name + ", password=" + password + ", email=" + email + ", dni=" + dni + ", phone="
-				+ phone + ", birthday=" + birthday + ", SellingProduct=" + SellingProduct + ", WishList=" + WishList
-				+ ", getName()=" + getName() + ", getPassword()=" + getPassword() + ", getEmail()=" + getEmail()
-				+ ", getDni()=" + getDni() + ", getPhone()=" + getPhone() + ", getBirthday()=" + getBirthday()
-				+ ", getSellingProduct()=" + getSellingProduct() + ", getWishList()=" + getWishList() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
-	
-	
-	
 }
