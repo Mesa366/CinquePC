@@ -2,6 +2,7 @@ package com.cinque.pc.Services;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,11 @@ public class ProductService {
 	public Product getById(String id) {
 		return productRepository.getById(id);
 	}
+	
+	public Optional<Product> findById(String id) {
+		return productRepository.findById(id);
+	}
+	
 	
 	/* TODO 
 	 *  public List<Product> getByAtt(){
