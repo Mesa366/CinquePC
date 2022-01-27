@@ -7,11 +7,7 @@ package com.cinque.pc.Entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.OneToOne;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -55,7 +51,11 @@ public class MyUser {
 	private Integer dni;
 	private Integer phone;
 	private Date birthday;
+
+	@OneToMany
 	private List<Product> sellingProduct;
+
+	@OneToMany
 	private List<Product> wishList;
 
 	public MyUser() {

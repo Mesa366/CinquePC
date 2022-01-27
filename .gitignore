@@ -9,6 +9,8 @@ target/
 
 ### TODOS ###
 bin/
+*.properties
+/src/main/resources/
 
 ### ANA ###
 doc/
