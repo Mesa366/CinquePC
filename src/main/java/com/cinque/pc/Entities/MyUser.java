@@ -4,7 +4,6 @@ package com.cinque.pc.Entities;
  * 	corregir detalles
  */
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +11,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
+import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Id;
+
 
 /**
  * Entidad de Usuarios. Persistencia de usuarios. Tiene 2 fines: Comprador y
