@@ -11,7 +11,7 @@ target/
 bin/
 
 ### ANA ###
-git/
+doc/
 
 ### STS ###
 .apt_generated
