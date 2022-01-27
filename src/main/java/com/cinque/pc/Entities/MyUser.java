@@ -7,6 +7,7 @@ package com.cinque.pc.Entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
@@ -33,6 +34,7 @@ public class MyUser {
 	 * @param id             UUID autogenerada
 	 * @param sellingProduct Lista de productos (catálogo) del vendedor.
 	 * @param wishList       Lista de productos deseados para el comprador.
+	 * @param email - It requires a column = unique because in an user system we need a unique parameter to login/register  
 	 */
 
 	@Id
@@ -45,7 +47,10 @@ public class MyUser {
 
 	private String name;
 	private String password;
+	
+	@Column(unique = true, nullable = false)
 	private String email;
+	
 	private Integer dni;
 	private Integer phone;
 	private Date birthday;
