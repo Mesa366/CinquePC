@@ -4,14 +4,16 @@ package com.cinque.pc.Entities;
  * 	corregir detalles
  */
 
+import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Lob;
+import javax.persistence.Id;
+
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
 
 /**
  * Entidad de Imagenes. Persistencia de imagenes para cada producto. Tiene 2
@@ -35,6 +37,8 @@ public class Image {
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "UUID2")
 	private String id;
+        
+        
 	private String mime;
 	private String name;
 
