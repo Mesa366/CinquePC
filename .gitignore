@@ -9,11 +9,8 @@ target/
 
 ### TODOS ###
 bin/
-*.properties
-!**/src/main/resources/
-!**/resources/
-src/main/resources/application.properties
-!**/src/main/resources/application.properties
+/src/main/resources/
+application.properties
 
 ### ANA ###
 doc/
@@ -45,3 +42,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
