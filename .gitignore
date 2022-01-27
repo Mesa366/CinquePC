@@ -10,6 +10,9 @@ target/
 ### TODOS ###
 bin/
 
+### ANA ###
+git/
+
 ### STS ###
 .apt_generated
 .classpath
