@@ -9,9 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Lob;
+import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
 
 /**
  * Entidad de Imagenes. Persistencia de imagenes para cada producto. Tiene 2
@@ -20,6 +20,7 @@ import org.springframework.data.annotation.Id;
  * @author Martín Pavesio
  */
 
+// TODO investigar si debemos usar implements Serializable
 @Entity
 public class Image {
 

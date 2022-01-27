@@ -7,11 +7,7 @@ package com.cinque.pc.Entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,7 +26,11 @@ public class Product {
 	private String id;
 	private String name;
 	private Double price;
+
+	@OneToOne
 	private MyUser seller;
+
+	@OneToOne
 	private MyUser buyer;
 
 	@Temporal(TemporalType.DATE)
