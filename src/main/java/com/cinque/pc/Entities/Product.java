@@ -21,8 +21,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class Product {
 
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "UUID2")
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String name;
 	private Double price;

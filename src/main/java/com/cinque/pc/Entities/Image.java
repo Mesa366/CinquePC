@@ -33,8 +33,8 @@ public class Image {
 	 * @param name es el nombre del archivo
 	 */
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "UUID2")
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
         
         
