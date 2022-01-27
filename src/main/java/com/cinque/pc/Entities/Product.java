@@ -32,18 +32,22 @@ public class Product {
 
 	@OneToOne
 	private MyUser buyer;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private MyUser user;
 
 	@Temporal(TemporalType.DATE)
 	private Date sellingDate;
 
 	@Temporal(TemporalType.DATE)
 	private Date buyingDate;
-	private List<String> categories;
+	
 	private Integer stock;
 	private Boolean enabled;
 
 	public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
-			List<String> categories, Integer stock, MyUser buyer, Boolean enabled) {
+			Integer stock, MyUser buyer, Boolean enabled) {
 
 		this.id = id;
 		this.name = name;
@@ -51,7 +55,6 @@ public class Product {
 		this.seller = seller;
 		this.sellingDate = sellingDate;
 		this.buyingDate = buyingDate;
-		this.categories = categories;
 		this.stock = stock;
 		this.buyer = buyer;
 		this.enabled = enabled;
@@ -115,14 +118,6 @@ public class Product {
 
 	public void setBuyingDate(Date buyingDate) {
 		this.buyingDate = buyingDate;
-	}
-
-	public List<String> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
 	}
 
 	public Integer getStock() {

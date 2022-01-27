@@ -20,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 
 @Entity
+@Table(name = "user")
 public class MyUser {
 
 	/* TODO Agregar roles, ver si acá o en service */
@@ -52,10 +53,18 @@ public class MyUser {
 	private Integer phone;
 	private Date birthday;
 
-	@OneToMany
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
 	private List<Product> sellingProduct;
 
-	@OneToMany
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
 	private List<Product> wishList;
 
 	public MyUser() {

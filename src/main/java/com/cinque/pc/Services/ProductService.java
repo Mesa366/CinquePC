@@ -20,14 +20,14 @@ public class ProductService {
 	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, List<String> categories ,Integer stock) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, Integer stock) throws Exception {
 		
 		validator.stringValidate(name, "Name");
 		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA */
-		validator.listValidate(categories, "Categories");
+		
 		
 		Product product = new Product(); 
 		
@@ -35,7 +35,6 @@ public class ProductService {
 		product.setPrice(price);
 		product.setSeller(seller);
 		product.setSellingDate(sellingDate);
-		product.setCategories(categories);
 		product.setStock(stock);
 		
 		productRepository.save(product);
@@ -54,7 +53,7 @@ public class ProductService {
 		
 		product.setName(name);
 		product.setPrice(price);
-		product.setCategories(categories);
+		
 		product.setStock(stock);
 		
 		productRepository.save(product);
