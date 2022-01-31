@@ -41,7 +41,7 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private MyUserRepository userRepo;
-	@Autowired
+	
 	private MyUser user;
 
 	//CREATE
