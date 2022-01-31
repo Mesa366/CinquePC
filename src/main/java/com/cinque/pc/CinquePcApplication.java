@@ -22,11 +22,11 @@ public class CinquePcApplication {
 	 * Indica a la configuración de Spring Security cuál es el servicio utilizado para autenticar al usuario. (Chequear esta data)
 	 * @param auth
 	 */
-	/*
+
 	@Autowired
 	public void configuraGlobal(AuthenticationManagerBuilder auth) throws Exception{
 		auth.userDetailsService(myUserService).passwordEncoder(new BCryptPasswordEncoder());
 	}
-	*/
+
 
 }

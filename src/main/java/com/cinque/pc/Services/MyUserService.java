@@ -1,12 +1,19 @@
 package com.cinque.pc.Services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,9 +38,7 @@ public class MyUserService implements UserDetailsService{
 	@Autowired
 	private Image;
 	*/
-	/* TODO Tenemos que hacer el uso de MyUserDetailsService
-	 * 
-	 */
+
 	@Autowired
 	private MyUserRepository userRepo;
 	@Autowired
@@ -56,12 +61,11 @@ public class MyUserService implements UserDetailsService{
 		/**
 		 * Password encryption
 		 */
-		/*
+
 		String encPass = new BCryptPasswordEncoder().encode(password);
 		
 		user.setPassword(encPass);
-		*/
-		user.setPassword(password);		
+
 		user.setEmail(email);
 		user.setDni(dni);
 		user.setPhone(phone);
@@ -119,7 +123,7 @@ public class MyUserService implements UserDetailsService{
 		userRepo.delete(user);
 	}
 	
-	/*TODO PERMISOS(cuáles?)
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<MyUser> opt = userRepo.getByEmail(email);
@@ -147,7 +151,6 @@ public class MyUserService implements UserDetailsService{
 		return null;
 		}
 		}
-*/
 
 	
 	
