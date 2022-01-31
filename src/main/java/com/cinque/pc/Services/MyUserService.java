@@ -1,10 +1,23 @@
 package com.cinque.pc.Services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
@@ -16,7 +29,7 @@ import com.cinque.pc.Repositories.MyUserRepository;
  *
  */
 @Service
-public class MyUserService {
+public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private Validator validator;
@@ -25,11 +38,11 @@ public class MyUserService {
 	@Autowired
 	private Image;
 	*/
-	/* TODO Tenemos que hacer el uso de MyUserDetailsService
-	 * 
-	 */
+
 	@Autowired
 	private MyUserRepository userRepo;
+	@Autowired
+	private MyUser user;
 
 	//CREATE
 	/**
@@ -45,7 +58,14 @@ public class MyUserService {
 				
 		MyUser user = new MyUser();
 		user.setName(name);
-		user.setPassword(password);
+		/**
+		 * Password encryption
+		 */
+
+		String encPass = new BCryptPasswordEncoder().encode(password);
+		
+		user.setPassword(encPass);
+
 		user.setEmail(email);
 		user.setDni(dni);
 		user.setPhone(phone);
@@ -102,6 +122,36 @@ public class MyUserService {
 		MyUser user = userRepo.getById(id);
 		userRepo.delete(user);
 	}
+	
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Optional<MyUser> opt = userRepo.getByEmail(email);
+		if (opt.isPresent()) {
+			MyUser myUser = opt.get();
+			
+			//Creación de permisos
+			List<GrantedAuthority> authorities = new ArrayList();
+			
+			GrantedAuthority authority1 = new SimpleGrantedAuthority("ROLE_REGISTERED_USER");
+			authorities.add(authority1);
+			GrantedAuthority authority2 = new SimpleGrantedAuthority("ROLE_ADMIN_USER");
+			authorities.add(authority2);
+			
+			//Sesión de usuario
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession(true);
+			
+			session.setAttribute("usersession", myUser);
+			
+			//Usuario logeado, con sus respectivos permisos.
+			User user = new User(myUser.getEmail(), myUser.getPassword(), authorities);
+			return user;
+		}else{
+		return null;
+		}
+		}
+
 	
 	
 }
