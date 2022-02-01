@@ -37,6 +37,9 @@ public class Product {
 	private MyUser seller;
 
 	@OneToOne
+	private Image photo;
+	
+	@OneToOne
 	private MyUser buyer;
 	
 	@ManyToOne
@@ -52,17 +55,19 @@ public class Product {
 	private Integer stock;
 	private Boolean enabled;
 
-	public Product(String id, String name, Double price, MyUser seller, Date sellingDate, Date buyingDate,
-			Integer stock, MyUser buyer, Boolean enabled) {
-
+	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser buyer, MyUser user,
+			Date sellingDate, Date buyingDate, Integer stock, Boolean enabled) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.seller = seller;
+		this.photo = photo;
+		this.buyer = buyer;
+		this.user = user;
 		this.sellingDate = sellingDate;
 		this.buyingDate = buyingDate;
 		this.stock = stock;
-		this.buyer = buyer;
 		this.enabled = enabled;
 	}
 
@@ -142,4 +147,22 @@ public class Product {
 		this.enabled = enabled;
 	}
 
+	public Image getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Image photo) {
+		this.photo = photo;
+	}
+
+	public MyUser getUser() {
+		return user;
+	}
+
+	public void setUser(MyUser user) {
+		this.user = user;
+	}
+
+	
+	
 }
