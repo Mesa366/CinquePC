@@ -42,13 +42,7 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private MyUserRepository userRepo;
-<<<<<<< HEAD
-	
-	
-=======
 
-
->>>>>>> main
 	//CREATE
 	/**
 	 * Creates user 
