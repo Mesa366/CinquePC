@@ -42,9 +42,7 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private MyUserRepository userRepo;
-	
 
-	
 
 	//CREATE
 	/**
