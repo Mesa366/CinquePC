@@ -17,13 +17,11 @@ import com.cinque.pc.Services.MyUserService;
 @RequestMapping("/user")
 public class MyUserController {
 	
+	/* TODO preauthorized */
 	
 	/*Controllers needed: 
-	 * 1.- Login lo vamos a hacer aparte
-	 * 2.- Update
-	 * 3.- Borrar usuario
-	 * 4.- Vista de panel de usuario
-	 * 5.- Lista de productos de venta de la persona
+	
+	
 	 * 6.- Ver historial de compra
 	 * 7.- Wishlist
 	 * 
@@ -32,7 +30,14 @@ public class MyUserController {
 	@Autowired 
 	private MyUserService myUserService;
 	
-	//@GetMapping("/id")
+	@GetMapping("/{id}")
+	public String profile(@PathVariable String id, Model model) {
+		
+		model.addAttribute("user", myUserService.getById(id));
+		
+		return "profile";
+	}
+	
 	@GetMapping("/update/{id}")
 	public String updateUser(@PathVariable String id, Model model) {
 		
@@ -40,6 +45,7 @@ public class MyUserController {
 		
 		return "userProfile";		
 	}
+
 	
 	//TODO method for changing password securely
 	//TODO can the user simply change his/her email?
@@ -52,6 +58,21 @@ public class MyUserController {
 		
 	}
 	
+	@GetMapping("/delete/{id}")
+	public String deleteUser(@PathVariable String id) {
+		myUserService.deleteUser(id);
+		
+		return "redirect:../";
+	}
+	
+	
+	@GetMapping("/{id}/sellerList")
+	public String sellerList(@PathVariable String id, Model model) {
+		
+		model.addAttribute("sellerList", myUserService.getById(id).getSellingProduct());
+		
+		return "catalog";
+	}
 	
 	
 
