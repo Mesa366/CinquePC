@@ -74,6 +74,14 @@ public class ProductService {
 		return productRepository.findById(id);
 	}
 	
+	public List<Product> getProductsBySellerId(String id){
+		return productRepository.getProductsBySellerId(id);
+	}
+	
+	public List<Product> getProductsByBuyerId(String id){
+		return productRepository.getProductsByBuyerId(id);
+	}
+	
 	
 	/* TODO 
 	 *  public List<Product> getByAtt(){
