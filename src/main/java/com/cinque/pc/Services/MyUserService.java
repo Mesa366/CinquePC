@@ -23,12 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Repositories.MyUserRepository;
 
-
-/**
- * 
- * @author Lamberti
- *
- */
 @Service
 public class MyUserService implements UserDetailsService{
 
