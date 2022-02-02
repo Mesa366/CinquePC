@@ -35,11 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/css/*", "/js/*", "/img/*", "/**")
             .permitAll()
         .and().formLogin()
-            .loginPage("/auth/login") // Que formulario esta mi login
+            .loginPage("/auth/form/login") // Que formulario esta mi login
                 .loginProcessingUrl("/auth/logincheck")
                 .usernameParameter("username") // Como viajan los datos del logueo
                 .passwordParameter("password")// Como viajan los datos del logueo
-                .defaultSuccessUrl("/") // A que URL viaja
+                .defaultSuccessUrl("/")// A que URL viaja
                 .permitAll()
         .and().logout() // Aca configuro la salida
             .logoutUrl("/auth/logout")

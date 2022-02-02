@@ -22,7 +22,7 @@ public class LoginController {
 		if (state.equals("register")) {
 			model.addAttribute("state", "register");
 		}
-		return"formUser";
+		return"index";
 	}
 
 }
