@@ -2,6 +2,7 @@ package com.cinque.pc.Controllers;
 
 import java.sql.Date;
 
+import com.cinque.pc.Repositories.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,15 +74,16 @@ public class LoginController {
 
 	// TODO method for changing password securely
 	// TODO can the user simply change his/her email?
-//	@PostMapping("/update/{id}")
-//	public String updateUserRedirect(@PathVariable String id,Image profilePicture,
-//	String name, String password, String email, Integer dni, Integer phone,
-//	Date birthday) {
-//		
-//
-//		return "redirect:/{id}";
-//		
-//	}
+	//@PostMapping("/update/{id}")
+	//public String updateUserRedirect(@PathVariable String id,Image profilePicture,
+	//String name, String password, String email, Integer dni, Integer phone,
+	//Date birthday) {
+
+
+
+		//return "redirect:/{id}";
+
+	//}
 
 	// USER REGISTER
 	@PostMapping("/register")
@@ -98,12 +100,27 @@ public class LoginController {
 	@PostMapping("/update/{id}")
 	public String updateUserRedirect(@PathVariable String id, Image profilePicture, String name, String password,
 			String email, Integer dni, Integer phone) throws Exception {
-
+		System.out.println("NAME: "+name);
+		System.out.println("CLAVE: "+password);
+		System.out.println("MAIL: "+email);
+		System.out.println("DNI: "+dni);
+		System.out.println("NUM TEL: "+phone);
 		myUserService.updateUser(id, name, password, email, dni, phone, null, null);
 
-		return "redirect:../";
-
+		//return "redirect:../";
+		return "redirect:/auth/form/update/" + id ;
 	}
+
+	/*
+	@GetMapping("/form/delete/")
+	public String deleteUser(String id) throws Exception{
+
+		MyUserRepository.delete(user);
+
+		return "redirect:../";
+	}
+	*/
+
 
 	/*
 	 * @PostMapping("/register")
