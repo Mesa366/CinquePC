@@ -14,6 +14,88 @@
 
 <body>
     <div class="container">
+	
+    <!-- <div sec:authorize="hasRole('ROLE_REGISTERED_USER')">   -->
+
+    <form th:action="@{/auth/register/}" method="POST" th:if="${#strings.equals(state, 'register') }">
+	
+        <img src="..." class="img-thumbnail" alt="...">
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Nombre</span>
+            <input type="text" name="name" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Email</span>
+            <input type="email"  name="email" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">DNI</span>
+            <input type="number" name="dni" class="form-control" placeholder="DNI" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Teléfono</span>
+            <input type="number"  name="phone" class="form-control" placeholder="Teléfono" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Contraseña</span>
+            <input type="text" name="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+        
+        
+    </form>
+
+
+    <form th:action="@{/auth/update/}" method="POST" th:if="${#strings.equals(state, 'update') }">
+	
+        <img src="..." class="img-thumbnail" alt="...">
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Nombre</span>
+            <input type="text" name="name" th:value="${myUser.name}" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+
+        <input type="hidden" name="id" th:value="${myUser.id}" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Email</span>
+            <input type="email"  name="email" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">DNI</span>
+            <input type="number" name="dni" class="form-control" placeholder="DNI" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Teléfono</span>
+            <input type="number"  name="phone" class="form-control" placeholder="Teléfono" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Contraseña</span>
+            <input type="text" name="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
+        
+        
+    </form>
+
+
+
+
+
+
+    </div>
 
     </div>
 

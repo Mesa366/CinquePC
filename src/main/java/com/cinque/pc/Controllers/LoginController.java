@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinque.pc.Entities.Image;
+import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Services.MyUserService;
 
 @Controller
@@ -21,9 +23,13 @@ public class LoginController {
 	MyUserService myUserService;
 
 	
-	@GetMapping("/form/{state}")
-	public String form(@PathVariable String state, Model model) {
-		if(!(state.equals("register")) || !(state.equals("login")) || !(state.equals("update"))) {
+	@GetMapping("/form/{state}/{id}")
+	public String form(@PathVariable("state") String state, Model model, @PathVariable("id") String id) {
+		
+	System.out.println("id: "+id);
+		
+		
+		if(!(state.equals("register")) && !(state.equals("login")) && !(state.equals("update"))) {
 			return "redirect:../";
 		}
 		if (state.equals("login")) {
@@ -31,40 +37,86 @@ public class LoginController {
 		}
 		if (state.equals("register")) {
 			model.addAttribute("state", "register");
+			
+			model.addAttribute("myUser", new MyUser());
+			
 		}
 		if (state.equals("update")) {
 			model.addAttribute("state", "update");
+			
+			model.addAttribute("myUser", myUserService.getById(id));			
+			
+			
 		}		
-		return"index";
+		return"layout/user";
 	}
 
+	//TODO TEST (ESTE FUNCA!)
+//	@GetMapping("/form/{id}")
+//	public String form1(Model model, @PathVariable("id") String id) {
+//		
+//		model.addAttribute("state", "update");
+//		
+//		model.addAttribute("myUser", myUserService.getById(id));
+//		
+//		return"layout/user";
+//	}
+	
+	
+	
 	/**
 	USER UPDATE
 	*/
 
 	//TODO method for changing password securely
 	//TODO can the user simply change his/her email?
-	@PostMapping("/update/{id}")
-	public String updateUserRedirect(@PathVariable String id,Image profilePicture,
-	String name, String password, String email, Integer dni, Integer phone,
-	Date birthday) {
-		
-
-		return "redirect:/{id}";
-		
-	}
+//	@PostMapping("/update/{id}")
+//	public String updateUserRedirect(@PathVariable String id,Image profilePicture,
+//	String name, String password, String email, Integer dni, Integer phone,
+//	Date birthday) {
+//		
+//
+//		return "redirect:/{id}";
+//		
+//	}
 
 		
 	//USER REGISTER
-	@PostMapping("/register/{id}")
-	public String registerUserRedirect(@PathVariable String id,Image profilePicture,
-	String name, String password, String email, Integer dni, Integer phone,
-	Date birthday) {
+	@PostMapping("/register")
+	public String registerUserRedirect(Image profilePicture,
+	String name, String password, String email, Integer dni, Integer phone) throws Exception {
 		
-		return "redirect:/{id}";
+		myUserService.createUser(name, password, email, dni, phone, null, null);		
+		
+		
+		
+		return "redirect:../";
 		
 	}
+	
+	//UPDATE REGISTER
+	@PostMapping("/update/{id}")
+	public String updateUserRedirect(@PathVariable String id, Image profilePicture,
+	String name, String password, String email, Integer dni, Integer phone) throws Exception {
+		
+		myUserService.updateUser(id, name, password, email, dni, phone, null, null);	
+		
+		
+		
+		return "redirect:../";
+		
+	}
+	
 
-
+	/*
+	 * @PostMapping("/register")
+	
+	public String registerUserRedirect(@RequestParam MyUser myUser) {
+		
+		myUserService.createUser(myUser);
+		
+		return "redirect:../";
+	}
+	 */
 
 }
