@@ -85,7 +85,7 @@ public class MyUserService implements UserDetailsService{
 		validator.stringValidate(email, "Email");
 		validator.integerValidate(dni, "DNI");
 		validator.integerValidate(phone, "Phone");
-		validator.dateValidate(birthday, "Birthday");
+		//validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = userRepo.getById(id);
 		user.setName(name);
