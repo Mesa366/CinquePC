@@ -47,7 +47,7 @@ public class MyUserService implements UserDetailsService{
 		validator.stringValidate(email, "Email");
 		validator.integerValidate(dni, "DNI");
 		validator.integerValidate(phone, "Phone");
-		validator.dateValidate(birthday, "Birthday");
+//		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = new MyUser();
 		user.setName(name);
@@ -65,6 +65,13 @@ public class MyUserService implements UserDetailsService{
 		user.setBirthday(birthday);
 		
 		userRepo.save(user);		
+	}
+	
+	public void createUser(MyUser myUser) {
+		
+		//TODO encriptar pass
+		
+		userRepo.save(myUser);
 	}
 	
 	//UPDATE

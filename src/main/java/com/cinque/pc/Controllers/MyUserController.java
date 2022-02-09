@@ -43,17 +43,7 @@ public class MyUserController {
 		return "userProfile";		
 	}
 
-	
-	//TODO method for changing password securely
-	//TODO can the user simply change his/her email?
-	@PostMapping("/update/{id}")
-	public String updateUserRedirect(@PathVariable String id,Image profilePicture,
-	String name, String password, String email, Integer dni, Integer phone,
-	Date birthday) {
-		
-		return "redirect:/{id}";
-		
-	}
+
 	
 	@GetMapping("/delete/{id}")
 	public String deleteUser(@PathVariable String id) {
