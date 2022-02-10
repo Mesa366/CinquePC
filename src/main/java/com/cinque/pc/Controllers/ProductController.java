@@ -1,18 +1,19 @@
 package com.cinque.pc.Controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.cinque.pc.Entities.MyUser;
+import com.cinque.pc.Services.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Services.ProductService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 /* TODO revisar mapping permalink Martin */
@@ -21,31 +22,27 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
+	@Autowired
+	MyUserService myUserService;
 
 	@GetMapping("/{id}")
 	public String product(@PathVariable String id, Model model) {
 		Product product = productService.getById(id);
 		model.addAttribute("product", product);
-		return "product";
+		return "product-single";
 	}
 
 	@GetMapping("/form")
-	public String form(@RequestParam(required = false) String id, Model model) {
-		if (id != null) {
-
-			Optional<Product> opt = productService.findById(id);
-			if (opt.isPresent()) {
-				model.addAttribute("product", opt.get());
-			} else {
-				return "productForm"; //return "redirect:/";
-			}
-
-		} else {
-			model.addAttribute("product", new Product());
-		}
-		return "productForm";
+	public String form() {
+		return "product-form";
 	}
 
+	@PostMapping("/form")
+	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId) throws Exception{
+		MyUser user = myUserService.getById(userId);
+		productService.createProduct(name,price,user, new Date(),stock);
+		return "redirect:../";
+	}
 	@GetMapping("/catalog")
 	public String catalog(Model model) {
 		List<Product> catalog = productService.getAll();
@@ -53,6 +50,22 @@ public class ProductController {
 		return "catalog";
 	}
 
-	// @PostMapping("/")
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable String id,Model model){
+		Product product = productService.getById(id);
+		model.addAttribute("product",product);
+		return "product-form";
+	}
 
+	@PostMapping("/update/{id}")
+	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo) throws Exception{
+		productService.editProduct(id,name,price,stock);
+		return "product-single";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteProduct(@PathVariable String id) throws Exception{
+		productService.productStatus(id);
+		return "redirect:../";
+	}
 }
