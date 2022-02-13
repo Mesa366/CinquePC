@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cinque.pc.Entities.Image;
+import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -26,20 +28,39 @@ public class MyUserController {
 	
 	@Autowired
 	private ProductService productService;
+        
+        
+        @GetMapping("/register")
+	public String registrar(Model model) {
+		MyUser user = new MyUser();
+		model.addAttribute("user", user);
+		return "register"; //TODO template
+	}
+
+	@PostMapping("/register")
+	public String usuarioCreado(MyUser user, RedirectAttributes ra) {
+		try {
+                    myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
+                            35, user.getPhone(), user.getBirthday(), null);
+                    ra.addFlashAttribute("exitoso", "Se registró correctamente! Inicie sesión");
+                    return "redirect:/index";
+		} catch (Exception e) {
+                    ra.addFlashAttribute("error", e.getMessage());
+		}
+		return "redirect:/user/register";
+	}
 	
 	@GetMapping("/{id}")
 	public String profile(@PathVariable String id, Model model) {
 		
-		model.addAttribute("user", myUserService.getById(id));
-		
+		model.addAttribute("user", myUserService.getById(id));		
 		return "profile";
 	}
 	
 	@GetMapping("/update/{id}")
 	public String updateUser(@PathVariable String id, Model model) {
 		
-		model.addAttribute("user", myUserService.getById(id));
-		
+		model.addAttribute("user", myUserService.getById(id));		
 		return "userProfile";		
 	}
 
@@ -47,8 +68,7 @@ public class MyUserController {
 	
 	@GetMapping("/delete/{id}")
 	public String deleteUser(@PathVariable String id) {
-		myUserService.deleteUser(id);
-		
+		myUserService.deleteUser(id);		
 		return "redirect:../";
 	}
 	

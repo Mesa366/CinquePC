@@ -40,8 +40,17 @@ public class MyUserService implements UserDetailsService{
 	//CREATE
 	/**
 	 * Creates user 
+        * @param name
+        * @param password
+        * @param email
+        * @param dni
+        * @param phone
+        * @param birthday
+        * @param picture
+        * @throws java.lang.Exception
 	 */
-	public void createUser(String name, String password, String email, Integer dni, Integer phone, Date birthday, MultipartFile picture) throws Exception {
+	public void createUser(String name, String password, String email, Integer dni, Integer phone, 
+                Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(name, "Name");
 		validator.stringValidate(password, "Password");
 		validator.stringValidate(email, "Email");
@@ -78,7 +87,8 @@ public class MyUserService implements UserDetailsService{
 	/**
 	 * Updates user
 	 */
-	public void updateUser(String id, String name, String password, String email, Integer dni, Integer phone, Date birthday, MultipartFile picture) throws Exception {
+	public void updateUser(String id, String name, String password, String email, Integer dni, 
+                Integer phone, Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(id, "ID");
 		validator.stringValidate(name, "Name");
 		validator.stringValidate(password, "Password");
