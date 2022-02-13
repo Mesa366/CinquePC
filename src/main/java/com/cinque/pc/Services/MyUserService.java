@@ -55,8 +55,7 @@ public class MyUserService implements UserDetailsService{
 		 * Password encryption
 		 */
 
-		String encPass = new BCryptPasswordEncoder().encode(password);
-		
+		String encPass = new BCryptPasswordEncoder().encode(password);		
 		user.setPassword(encPass);
 
 		user.setEmail(email);

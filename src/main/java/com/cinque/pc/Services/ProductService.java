@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Repositories.ProductRepository;
@@ -18,14 +20,18 @@ public class ProductService {
 	private ProductRepository productRepository;
 	
 	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, Integer stock) throws Exception {
+	public void createProduct (String name, Double price, Integer enabled, MyUser seller, Date sellingDate, Integer stock, MultipartFile photo) throws Exception {
 		
 		validator.stringValidate(name, "Name");
 		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
+		validator.integerValidate(enabled, "Enabled");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA */
 		
 		
@@ -36,16 +42,28 @@ public class ProductService {
 		product.setSeller(seller);
 		product.setSellingDate(sellingDate);
 		product.setStock(stock);
+		Image productPhoto = imageService.saveImage(photo);
+		product.setPhoto(productPhoto);
+		
+		if(enabled != null) {
+			if(enabled == 1) {
+				product.setEnabled(true);
+			}
+			if(enabled == 2) {
+				product.setEnabled(false);
+			}
+		}
 		
 		productRepository.save(product);
 		
 	}
 	
-	public void editProduct(String id, String name, Double price,Integer stock) throws Exception{
+	public void editProduct(String id, String name, Double price, Integer enabled,Integer stock, MultipartFile photo) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
+		validator.integerValidate(enabled, "Enabled");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
 		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
 //		validator.listValidate(categories, "Categories");
@@ -53,9 +71,19 @@ public class ProductService {
 		Product product = productRepository.getById(id); 
 		
 		product.setName(name);
-		product.setPrice(price);
-		
+		product.setPrice(price);		
 		product.setStock(stock);
+		Image productPhoto = imageService.saveImage(photo);
+		product.setPhoto(productPhoto);
+		
+		if(enabled != null) {
+			if(enabled == 1) {
+				product.setEnabled(true);
+			}
+			if(enabled == 2) {
+				product.setEnabled(false);
+			}
+		}
 		
 		productRepository.save(product);
 		

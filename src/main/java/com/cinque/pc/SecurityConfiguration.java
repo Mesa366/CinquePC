@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
         .and().formLogin()
             .loginPage("/auth/form/login") // Que formulario esta mi login
-                .loginProcessingUrl("/auth/logincheck")
+                .loginProcessingUrl("/auth/login")
                 .usernameParameter("email") // Como viajan los datos del logueo
                 .passwordParameter("password")// Como viajan los datos del logueo
                 .defaultSuccessUrl("/")// A que URL viaja

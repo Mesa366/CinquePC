@@ -38,28 +38,22 @@ public class ProductController {
 	}
 
 	@PostMapping("/form")
-	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId) throws Exception{
+	public String productRegister(String name, Double price, Integer enabled, Integer stock, MultipartFile photo,String userId) throws Exception{
 		MyUser user = myUserService.getById(userId);
-		productService.createProduct(name,price,user, new Date(),stock);
-		return "redirect:../";
+		
+		productService.createProduct(name,price, enabled,user, new Date(),stock, photo);
+		return "redirect:/catalog";
 	}
 	@GetMapping("/catalog")
 	public String catalog(Model model) {
 		List<Product> catalog = productService.getAll();
 		model.addAttribute("products", catalog);
 		return "catalog";
-	}
-
-	@GetMapping("/update/{id}")
-	public String update(@PathVariable String id,Model model){
-		Product product = productService.getById(id);
-		model.addAttribute("product",product);
-		return "product-form";
-	}
-
+	}	
+	
 	@PostMapping("/update/{id}")
-	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo) throws Exception{
-		productService.editProduct(id,name,price,stock);
+	public String updateProduct(@PathVariable String id,String name, Double price, Integer enabled, Integer stock, MultipartFile photo) throws Exception{
+		productService.editProduct(id,name,price, enabled,stock, photo);
 		return "product-single";
 	}
 
