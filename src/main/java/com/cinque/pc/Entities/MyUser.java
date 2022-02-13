@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -58,6 +59,7 @@ public class MyUser {
 	
 	private Integer dni;
 	private Integer phone;
+        @Temporal(javax.persistence.TemporalType.DATE)
 	private Date birthday;
 
 	@OneToMany(
