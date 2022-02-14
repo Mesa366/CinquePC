@@ -56,7 +56,7 @@ public class MyUserService implements UserDetailsService{
 	public void createUser(String name, String password, String email, String dni, String phone, 
                 Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password");
+		validator.stringValidate(password, "Password"); //TODO validar y agregar doble verificacion
 		validator.stringValidate(email, "Email");
 		validator.stringValidate(dni, "DNI");
 		validator.stringValidate(phone, "Phone");
@@ -81,13 +81,6 @@ public class MyUserService implements UserDetailsService{
                 user.setProfilePicture(profilePicture);
                 
 		userRepo.save(user);		
-	}
-	
-	public void createUser(MyUser myUser) {
-		
-		//TODO encriptar pass
-		
-		userRepo.save(myUser);
 	}
 	
 	//UPDATE

@@ -33,7 +33,7 @@ public class MyUserController {
 	public String registrar(Model model) {
 		MyUser user = new MyUser();
 		model.addAttribute("user", user);
-		return "register"; //TODO template
+		return "register";
 	}
 
 	@PostMapping("/register")
