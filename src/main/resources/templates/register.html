@@ -22,19 +22,22 @@
             <input type="text" class="form-control" id="exampleInputName" th:field="${user.name}" th:name="name"/>
           </div>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <label for="Password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" th:field="${user.password}" th:name="password"/>
+          </div>
+          <div class="mb-3">
+            <label for="Email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="${user.email}" th:name="email"/>
           </div>
-
-    
+          <div class="mb-3">
+            <label for="exampleInputPhone" class="form-label">DNI</label>
+            <input type="text" class="form-control" id="exampleInputPhone" th:field="${user.dni}" th:name="dni"/>
+          </div>
     <div class="mb-3">
       <label for="exampleInputPhone" class="form-label">Phone</label>
-      <input type="number" class="form-control" id="exampleInputPhone" th:field="${user.phone}" th:name="phone"/>
+      <input type="text" class="form-control" id="exampleInputPhone" th:field="${user.phone}" th:name="phone"/>
     </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" th:field="${user.password}" th:name="password"/>
-        </div>
+
 
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1"/>

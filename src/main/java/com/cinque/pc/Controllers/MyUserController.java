@@ -41,9 +41,9 @@ public class MyUserController {
 	public String usuarioCreado(MyUser user, RedirectAttributes ra) {
 		try {
                     myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
-                            35, user.getPhone(), user.getBirthday(), null);
+                            user.getDni(), user.getPhone(), user.getBirthday(), null);
                     ra.addFlashAttribute("exitoso", "Se registró correctamente! Inicie sesión");
-                    return "redirect:/index";
+                    return "redirect:/user/register";
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());
 		}

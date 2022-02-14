@@ -57,8 +57,8 @@ public class MyUser {
 	@Column(unique = true, nullable = false)
 	private String email;
 	
-	private Integer dni;
-	private Integer phone;
+	private String dni;
+	private String phone;
         @Temporal(javax.persistence.TemporalType.DATE)
 	private Date birthday;
 
@@ -80,8 +80,8 @@ public class MyUser {
 
 	}
 
-	public MyUser(String id, Image profilePicture, String name, String password, String email, Integer dni,
-			Integer phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
+	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni,
+			String phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
 		this.id = id;
 		this.name = name;
 		this.profilePicture = profilePicture;
@@ -134,19 +134,19 @@ public class MyUser {
 		this.email = email;
 	}
 
-	public Integer getDni() {
+	public String getDni() {
 		return dni;
 	}
 
-	public void setDni(Integer dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

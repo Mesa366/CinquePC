@@ -49,13 +49,13 @@ public class MyUserService implements UserDetailsService{
         * @param picture
         * @throws java.lang.Exception
 	 */
-	public void createUser(String name, String password, String email, Integer dni, Integer phone, 
+	public void createUser(String name, String password, String email, String dni, String phone, 
                 Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(name, "Name");
 		validator.stringValidate(password, "Password");
 		validator.stringValidate(email, "Email");
-		validator.integerValidate(dni, "DNI");
-		validator.integerValidate(phone, "Phone");
+		validator.stringValidate(dni, "DNI");
+		validator.stringValidate(phone, "Phone");
 //		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = new MyUser();
@@ -87,14 +87,14 @@ public class MyUserService implements UserDetailsService{
 	/**
 	 * Updates user
 	 */
-	public void updateUser(String id, String name, String password, String email, Integer dni, 
-                Integer phone, Date birthday, MultipartFile picture) throws Exception {
+	public void updateUser(String id, String name, String password, String email, String dni, 
+                String phone, Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(id, "ID");
 		validator.stringValidate(name, "Name");
 		validator.stringValidate(password, "Password");
 		validator.stringValidate(email, "Email");
-		validator.integerValidate(dni, "DNI");
-		validator.integerValidate(phone, "Phone");
+		validator.stringValidate(dni, "DNI");
+		validator.stringValidate(phone, "Phone");
 		//validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = userRepo.getById(id);
