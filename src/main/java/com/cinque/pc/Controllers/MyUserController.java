@@ -1,6 +1,5 @@
 package com.cinque.pc.Controllers;
 
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -38,10 +37,10 @@ public class MyUserController {
 	}
 
 	@PostMapping("/register")
-	public String usuarioCreado(MyUser user, RedirectAttributes ra) {
+	public String usuarioCreado(MyUser user, MultipartFile photo, RedirectAttributes ra) {
 		try {
                     myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
-                            user.getDni(), user.getPhone(), user.getBirthday(), null);
+                          user.getDni(), user.getPhone(), user.getBirthday(), photo);
                     ra.addFlashAttribute("success", "User created successfully. Sign in now!");
                     return "redirect:/user/register";
 		} catch (Exception e) {

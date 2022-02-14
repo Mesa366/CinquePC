@@ -1,5 +1,6 @@
 package com.cinque.pc.Services;
 
+import com.cinque.pc.Entities.Image;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,9 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private MyUserRepository userRepo;
+        
+        @Autowired
+        private ImageService imageService;
 
 	//CREATE
 	/**
@@ -73,6 +77,9 @@ public class MyUserService implements UserDetailsService{
 		user.setPhone(phone);
 		user.setBirthday(birthday);
 		
+                Image profilePicture = imageService.saveImage(picture);
+                user.setProfilePicture(profilePicture);
+                
 		userRepo.save(user);		
 	}
 	
