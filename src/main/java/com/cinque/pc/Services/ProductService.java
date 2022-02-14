@@ -72,6 +72,7 @@ public class ProductService {
             return null;
 	}
 	
+        //TODO unir metodos get y find
 	public Product getById(String id) {
             try {
                 return productRepository.getById(id);
