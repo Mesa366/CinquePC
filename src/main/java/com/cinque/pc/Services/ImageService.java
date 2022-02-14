@@ -28,7 +28,7 @@ public class ImageService {
 				
 				return imageRepository.save(image);//Devuelvo la imágen que guardo
 			}catch(Exception e) {
-				System.err.println(e.getMessage());
+				System.err.println("The method saveImage has failed and has throw the next message: " + e.getMessage());
 			}
 		}
 		return null; //Si es nula retorna nulo
@@ -56,17 +56,21 @@ public class ImageService {
 				
 				return imageRepository.save(image);//Devuelvo la imágen que guardo
 			}catch(Exception e) {
-				System.err.println(e.getMessage());
+				System.err.println("The method editImage has failed and has throw the next message: " + e.getMessage());
 			}
-		}
+		} 
 		return null; //Si es nula retorna nulo
 	}
 	
 	
 	public void deleteImage(String id) {
-		Image image = imageRepository.getById(id);
-
-		imageRepository.delete(image);
+            try {
+                Image image = imageRepository.getById(id);
+                
+                imageRepository.delete(image);
+            } catch (Exception e) {
+                System.err.println("The method deleteImage has failed and has throw the next message: " + e.getMessage());
+            }
 	}
 	
 }

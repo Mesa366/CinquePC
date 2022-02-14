@@ -64,23 +64,52 @@ public class ProductService {
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
 	
 	public List<Product> getAll() {
-		return productRepository.findAll();
+            try {
+                return productRepository.findAll();
+            } catch (Exception e) {            
+                System.err.println("The method getAll from ProductService has failed and has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public Product getById(String id) {
-		return productRepository.getById(id);
+            try {
+                return productRepository.getById(id);
+            } catch (Exception e) {
+                System.err.println("The method getById from ProductService has failed and has throw the "
+                        + "next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public Optional<Product> findById(String id) {
-		return productRepository.findById(id);
+            try {
+                return productRepository.findById(id);
+            } catch (Exception e) {
+                System.err.println("The method findById from ProductService has failed and has throw the "
+                        + "next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public List<Product> getProductsBySellerId(String id){
-		return productRepository.getProductsBySellerId(id);
+            try {
+                return productRepository.getProductsBySellerId(id);
+            } catch (Exception e) {
+                System.err.println("The method getProductsBySellerId from ProductService has failed and "
+                        + "has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public List<Product> getProductsByBuyerId(String id){
-		return productRepository.getProductsByBuyerId(id);
+            try {
+                return productRepository.getProductsByBuyerId(id);
+            } catch (Exception e) {
+                System.err.println("The method getProductsByBuyerId from ProductService has failed and "
+                        + "has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	
