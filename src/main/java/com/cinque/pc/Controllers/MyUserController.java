@@ -42,7 +42,7 @@ public class MyUserController {
 		try {
                     myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
                             user.getDni(), user.getPhone(), user.getBirthday(), null);
-                    ra.addFlashAttribute("exitoso", "Se registró correctamente! Inicie sesión");
+                    ra.addFlashAttribute("success", "User created successfully. Sign in now!");
                     return "redirect:/user/register";
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());
