@@ -129,11 +129,14 @@
             <span class="input-group-text" id="basic-addon1">Teléfono</span>
             <input th:value="${myUser.phone}" type="number"  name="phone" class="form-control" placeholder="Teléfono" aria-label="Username" aria-describedby="basic-addon1">
         </div>
-        
-        <!-- TODO  cambiar type por password en el html user  -->
+
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Contraseña</span>
-            <input th:value="${myUser.password}" type="text" name="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1">
+            <input th:value="${myUser.password}" type="password" name="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Contraseña</span>
+            <input th:value="${myUser.password}" type="password" name="password" class="form-control" placeholder="Vuelva a ingresar la contraseña" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         
         

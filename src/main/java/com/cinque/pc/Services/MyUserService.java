@@ -1,8 +1,7 @@
 package com.cinque.pc.Services;
 
-import com.cinque.pc.Entities.Image;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Repositories.MyUserRepository;
 
@@ -29,17 +29,12 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private Validator validator;
-	
-	/* TODO Tenemos que hacer repositorio y servicio de imagen
-	@Autowired
-	private Image;
-	*/
 
 	@Autowired
 	private MyUserRepository userRepo;
         
-        @Autowired
-        private ImageService imageService;
+    @Autowired
+    private ImageService imageService;
 
 	//CREATE
 	/**
@@ -53,22 +48,21 @@ public class MyUserService implements UserDetailsService{
         * @param picture
         * @throws java.lang.Exception
 	 */
-	public void createUser(String name, String password, String email, String dni, String phone, 
-                Date birthday, MultipartFile picture) throws Exception {
+	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
+                LocalDate birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password"); //TODO validar y agregar doble verificacion
+		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");
 		validator.stringValidate(dni, "DNI");
 		validator.stringValidate(phone, "Phone");
-//		validator.dateValidate(birthday, "Birthday");
+		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = new MyUser();
 		user.setName(name);
 		/**
 		 * Password encryption
 		 */
-
-		String encPass = new BCryptPasswordEncoder().encode(password);
+		String encPass = new BCryptPasswordEncoder().encode(password1);
 		
 		user.setPassword(encPass);
 
@@ -87,19 +81,23 @@ public class MyUserService implements UserDetailsService{
 	/**
 	 * Updates user
 	 */
-	public void updateUser(String id, String name, String password, String email, String dni, 
-                String phone, Date birthday, MultipartFile picture) throws Exception {
+	public void updateUser(String id, String name, String password1, String password2, String email, String dni, 
+                String phone, LocalDate birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(id, "ID");
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password");
+		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");
 		validator.stringValidate(dni, "DNI");
 		validator.stringValidate(phone, "Phone");
-		//validator.dateValidate(birthday, "Birthday");
+		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = userRepo.getById(id);
+		
+		String encPass = new BCryptPasswordEncoder().encode(password1);
+		
 		user.setName(name);
-		user.setPassword(password);
+		
+		user.setPassword(encPass);
 		user.setEmail(email);
 		user.setDni(dni);
 		user.setPhone(phone);

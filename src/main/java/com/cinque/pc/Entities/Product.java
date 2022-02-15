@@ -1,5 +1,7 @@
 package com.cinque.pc.Entities;
 
+import java.time.LocalDate;
+
 /* TODO traducir al ingles
  * 	corregir detalles
  */
@@ -18,9 +20,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Entidad de Productos. Sarasa
- *
- * @author David Gonzalez
+ * Entidad de Productos.
  */
 
 @Entity
@@ -47,16 +47,18 @@ public class Product {
 	private MyUser user;
 
 	@Temporal(TemporalType.DATE)
-	private Date sellingDate;
+	private LocalDate sellingDate;
 
 	@Temporal(TemporalType.DATE)
-	private Date buyingDate;
+	private LocalDate buyingDate;
 	
 	private Integer stock;
 	private Boolean enabled;
+	
+	private String category;
 
 	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser buyer, MyUser user,
-			Date sellingDate, Date buyingDate, Integer stock, Boolean enabled) {
+			LocalDate sellingDate, LocalDate buyingDate, Integer stock, Boolean enabled, String category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -69,6 +71,7 @@ public class Product {
 		this.buyingDate = buyingDate;
 		this.stock = stock;
 		this.enabled = enabled;
+		this.category = category;
 	}
 
 	public Product() {
@@ -115,19 +118,19 @@ public class Product {
 		this.buyer = buyer;
 	}
 
-	public Date getSellingDate() {
+	public LocalDate getSellingDate() {
 		return sellingDate;
 	}
 
-	public void setSellingDate(Date sellingDate) {
+	public void setSellingDate(LocalDate sellingDate) {
 		this.sellingDate = sellingDate;
 	}
 
-	public Date getBuyingDate() {
+	public LocalDate getBuyingDate() {
 		return buyingDate;
 	}
 
-	public void setBuyingDate(Date buyingDate) {
+	public void setBuyingDate(LocalDate buyingDate) {
 		this.buyingDate = buyingDate;
 	}
 
@@ -163,6 +166,12 @@ public class Product {
 		this.user = user;
 	}
 
-	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	
 }
