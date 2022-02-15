@@ -35,19 +35,6 @@ public class MyUserController {
 		model.addAttribute("user", user);
 		return "register";
 	}
-
-	@PostMapping("/register")
-	public String usuarioCreado(MyUser user, MultipartFile photo, RedirectAttributes ra) {
-		try {
-                    myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
-                          user.getDni(), user.getPhone(), user.getBirthday(), photo);
-                    ra.addFlashAttribute("success", "User created successfully. Sign in now!");
-                    return "redirect:/user/register";
-		} catch (Exception e) {
-                    ra.addFlashAttribute("error", e.getMessage());
-		}
-		return "redirect:/user/register";
-	}
 	
 	@GetMapping("/{id}")
 	public String profile(@PathVariable String id, Model model) {
@@ -75,7 +62,7 @@ public class MyUserController {
 	@GetMapping("/{id}/seller-list")
 	public String sellerList(@PathVariable String id, Model model) {
 		
-		model.addAttribute("sellerList", myUserService.getById(id).getSellingProduct());
+		model.addAttribute("sellerList", myUserService.getById(id).getSellingProducts());
 		
 		return "catalog";
 	}

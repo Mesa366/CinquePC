@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/auth")
@@ -18,9 +20,6 @@ public class LoginController {
 
 	@Autowired
 	MyUserService myUserService;
-
-	@Autowired
-	Validator validator;
 
 	@GetMapping("/form/{state}")
 	public String showForm(@PathVariable("state") String state, Model model) {
@@ -30,7 +29,7 @@ public class LoginController {
 		} else if (state.equals("register")) {
 			model.addAttribute("state", "register");
 			model.addAttribute("myUser", new MyUser());
-
+			return "register";
 		} else {
 			return "redirect:../";
 		}
@@ -58,25 +57,34 @@ public class LoginController {
 	// TODO can the user simply change his/her email?
 
 	// USER REGISTER
+
 	@PostMapping("/register")
-	public String registerUserRedirect(Image profilePicture, String name, String password1, String password2, String email, String dni,
-			String phone) throws Exception {
-		validator.passwordValidate(password1,password2);
-		myUserService.createUser(name, password1, email, dni, phone, null, null);
-
-		return "redirect:../";
+	public String registerUserRedirect(MyUser user, MultipartFile photo, RedirectAttributes ra, String password2) {
+		try {
+                    myUserService.createUser(user.getName(), user.getPassword(), password2, user.getEmail(), 
+                          user.getDni(), user.getPhone(), user.getBirthday(), photo);
+                    ra.addFlashAttribute("success", "User created successfully. Sign in now!");
+                    return "redirect:/user/register";
+		} catch (Exception e) {
+                    ra.addFlashAttribute("error", e.getMessage());
+		}
+		return "redirect:/user/register";
 	}
-
+	
+	
+	
+	
 	// UPDATE USER
 	@PostMapping("/update/{id}")
-	public String updateUserRedirect(@PathVariable String id, Image profilePicture, String name, String password,
+	public String updateUserRedirect(@PathVariable String id, Image profilePicture, String name, String password1, String password2,
 			String email, String dni, String phone) throws Exception {
 		System.out.println("NAME: "+name);
-		System.out.println("CLAVE: "+password);
+		System.out.println("CLAVE: "+password1);
+		System.out.println("CLAVE2: "+password2);		
 		System.out.println("MAIL: "+email);
 		System.out.println("DNI: "+dni);
 		System.out.println("NUM TEL: "+phone);
-		myUserService.updateUser(id, name, password, email, dni, phone, null, null);
+		myUserService.updateUser(id, name, password1, password2, email, dni, phone, null, null);
 
 		return "redirect:/auth/form/update/" + id ;
 	}
