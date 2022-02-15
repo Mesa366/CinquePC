@@ -1,5 +1,7 @@
 package com.cinque.pc.Entities;
 
+import java.time.LocalDate;
+
 /* TODO traducir al ingles
  * 	corregir detalles
  */
@@ -59,15 +61,15 @@ public class MyUser {
 	
 	private String dni;
 	private String phone;
-        @Temporal(javax.persistence.TemporalType.DATE)
-	private Date birthday;
+    @Temporal(javax.persistence.TemporalType.DATE)
+	private LocalDate birthday;
 
 	@OneToMany(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> sellingProduct;
+	private List<Product> sellingProducts;
 
 	@OneToMany(
 			mappedBy = "user",
@@ -81,7 +83,7 @@ public class MyUser {
 	}
 
 	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni,
-			String phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
+			String phone, LocalDate birthday, List<Product> sellingProduct, List<Product> wishList) {
 		this.id = id;
 		this.name = name;
 		this.profilePicture = profilePicture;
@@ -90,7 +92,7 @@ public class MyUser {
 		this.dni = dni;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.sellingProduct = sellingProduct;
+		this.sellingProducts = sellingProduct;
 		this.wishList = wishList;
 	}
 
@@ -150,20 +152,20 @@ public class MyUser {
 		this.phone = phone;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
-	public List<Product> getSellingProduct() {
-		return sellingProduct;
+	public List<Product> getSellingProducts() {
+		return sellingProducts;
 	}
 
 	public void setSellingProduct(List<Product> sellingProduct) {
-		this.sellingProduct = sellingProduct;
+		this.sellingProducts = sellingProduct;
 	}
 
 	public List<Product> getWishList() {
