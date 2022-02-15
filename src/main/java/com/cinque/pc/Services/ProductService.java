@@ -1,6 +1,6 @@
 package com.cinque.pc.Services;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +20,14 @@ public class ProductService {
 	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, Integer stock) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, LocalDate sellingDate, Integer stock, String category) throws Exception {
 		
 		validator.stringValidate(name, "Name");
+		validator.stringValidate(category, "Category");
 		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
-		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA */
+		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA (Why??)*/
 		
 		
 		Product product = new Product(); 
@@ -36,25 +37,26 @@ public class ProductService {
 		product.setSeller(seller);
 		product.setSellingDate(sellingDate);
 		product.setStock(stock);
-		
+		seller.getSellingProducts().add(product);
+		product.setCategory(category);
 		productRepository.save(product);
 		
 	}
 	
-	public void editProduct(String id, String name, Double price,Integer stock) throws Exception{
+	public void editProduct(String id, String name, Double price,Integer stock, String category) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
 		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
-//		validator.listValidate(categories, "Categories");
+//		validator.listValidate(categories, "Categories");	
 		
 		Product product = productRepository.getById(id); 
 		
 		product.setName(name);
 		product.setPrice(price);
-		
+		product.setCategory(category);
 		product.setStock(stock);
 		
 		productRepository.save(product);
@@ -83,15 +85,22 @@ public class ProductService {
             return null;
 	}
 	
-	public Optional<Product> findById(String id) {
-            try {
-                return productRepository.findById(id);
-            } catch (Exception e) {
-                System.err.println("The method findById from ProductService has failed and has throw the "
-                        + "next message: " + e.getMessage());
-            }
-            return null;
-	}
+	//TODO convertir a findByName (para un buscador)
+	/* TODO 
+	 *  public List<Product> getByAtt(){
+		return ;
+	} */
+	
+	
+//	public Optional<Product> findById(String id) {
+//            try {
+//                return productRepository.findById(id);
+//            } catch (Exception e) {
+//                System.err.println("The method findById from ProductService has failed and has throw the "
+//                        + "next message: " + e.getMessage());
+//            }
+//            return null;
+//	}
 	
 	public List<Product> getProductsBySellerId(String id){
             try {
@@ -113,11 +122,15 @@ public class ProductService {
             return null;
 	}
 	
-	
-	/* TODO 
-	 *  public List<Product> getByAtt(){
-		return ;
-	} */
+	public List<Product> getProductsByCategory(String category){
+        try {
+            return productRepository.getProductsByCategory(category);
+        } catch (Exception e) {
+            System.err.println("The method getProductsByCategory from ProductService has failed and "
+                    + "has throw the next message: " + e.getMessage());
+        }
+        return null;
+}
 	
 	public void productStatus(String id) throws Exception{
 		Product product = productRepository.getById(id); 
