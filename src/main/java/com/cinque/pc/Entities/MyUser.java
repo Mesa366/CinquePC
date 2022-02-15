@@ -61,7 +61,7 @@ public class MyUser {
 	
 	private String dni;
 	private String phone;
-    @Temporal(javax.persistence.TemporalType.DATE)
+   // @Temporal(javax.persistence.TemporalType.DATE)
 	private LocalDate birthday;
 
 	@OneToMany(
