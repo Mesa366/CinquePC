@@ -46,10 +46,10 @@ public class Product {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private MyUser user;
 
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private LocalDate sellingDate;
 
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private LocalDate buyingDate;
 	
 	private Integer stock;

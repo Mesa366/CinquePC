@@ -28,8 +28,8 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	MyUserService myUserService;
-	@Autowired
-	Categories category;
+	//@Autowired
+	//Categories category;
 
 	@GetMapping("/{id}")
 	public String product(@PathVariable String id, Model model) {
@@ -39,14 +39,14 @@ public class ProductController {
 	}
 
 	@GetMapping("/form")
-	public String form(ModelMap model) {
+	public String form() {
 
 //		List<String> categories = new ArrayList<String>();
 //		for (Categories categorie : category.values()) {
 //			categories.add(categorie.toString());
 //		}
 		
-		model.put("categories", category);
+	//	model.put("categories", category);
 
 		return "product-form";
 	}

@@ -61,7 +61,7 @@ public class MyUser {
 	
 	private String dni;
 	private String phone;
-  
+
 	private LocalDate birthday;
 
 	@OneToMany(
