@@ -72,4 +72,18 @@ public class Validator {
 			throw new Exception(name + " can´t be null");
 		}
 	}
+
+	/**
+	 * Method to verify if the passwords are the same.
+	 * @param password1 It's the "password" original variable, in this case it's a String
+	 * @param password2 It's the "password" to verify
+	 * @throws Exception Throws an exception if the passwords aren't equals
+	 */
+	public void passwordValidate(String password1, String password2) throws Exception {
+		stringValidate(password1,"password");
+		stringValidate(password2,"password");
+		if(!password1.equals(password2)){
+			throw new Exception("passwords don't match");
+		}
+	}
 }
