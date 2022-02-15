@@ -1,13 +1,12 @@
 package com.cinque.pc.Services;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 /**
  * 
- * @author Lamberti
  * This service can validate if the parameters are null or empty and throw an exception if they are null
  */
 
@@ -31,7 +30,7 @@ public class Validator {
 	 * @param name It's the "content" original name or the name that we want to show in the case of a thrown exception
 	 * @throws Exception Throws an exception in a null case
 	 */
-	public void dateValidate(Date content, String name) throws Exception {
+	public void dateValidate(LocalDate content, String name) throws Exception {
 		if(content == null) {
 			throw new Exception(name + " can´t be null");
 		}
@@ -86,4 +85,8 @@ public class Validator {
 			throw new Exception("passwords don't match");
 		}
 	}
+	
+	//TODO Validar mayoría de edad.
+	
+	
 }
