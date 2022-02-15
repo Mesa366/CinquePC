@@ -143,7 +143,7 @@
     </form>
 
 
-        <form th:action="@{/auth/logincheck}" method="POST" th:if="${#strings.equals(state, 'login') }">
+        <form th:action="@{/auth/login}" method="POST" th:if="${#strings.equals(state, 'login') }">
 
             <!-- <p th:if="${session.usersession != null}" th:text="${session.usersession.id}" >  </p> -->
             <!-- TODO Add our logo -->

@@ -75,6 +75,7 @@ public class MyUser {
 			orphanRemoval = true
 			)
 	private List<Product> wishList;
+	
 
 	public MyUser() {
 
