@@ -1,5 +1,6 @@
 package com.cinque.pc.Services;
 
+import com.cinque.pc.Entities.Image;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,17 +37,29 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private MyUserRepository userRepo;
+        
+        @Autowired
+        private ImageService imageService;
 
 	//CREATE
 	/**
 	 * Creates user 
+        * @param name
+        * @param password
+        * @param email
+        * @param dni
+        * @param phone
+        * @param birthday
+        * @param picture
+        * @throws java.lang.Exception
 	 */
-	public void createUser(String name, String password, String email, Integer dni, Integer phone, Date birthday, MultipartFile picture) throws Exception {
+	public void createUser(String name, String password, String email, String dni, String phone, 
+                Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password");
+		validator.stringValidate(password, "Password"); //TODO validar y agregar doble verificacion
 		validator.stringValidate(email, "Email");
-		validator.integerValidate(dni, "DNI");
-		validator.integerValidate(phone, "Phone");
+		validator.stringValidate(dni, "DNI");
+		validator.stringValidate(phone, "Phone");
 //		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = new MyUser();
@@ -64,28 +77,25 @@ public class MyUserService implements UserDetailsService{
 		user.setPhone(phone);
 		user.setBirthday(birthday);
 		
+                Image profilePicture = imageService.saveImage(picture);
+                user.setProfilePicture(profilePicture);
+                
 		userRepo.save(user);		
-	}
-	
-	public void createUser(MyUser myUser) {
-		
-		//TODO encriptar pass
-		
-		userRepo.save(myUser);
 	}
 	
 	//UPDATE
 	/**
 	 * Updates user
 	 */
-	public void updateUser(String id, String name, String password, String email, Integer dni, Integer phone, Date birthday, MultipartFile picture) throws Exception {
+	public void updateUser(String id, String name, String password, String email, String dni, 
+                String phone, Date birthday, MultipartFile picture) throws Exception {
 		validator.stringValidate(id, "ID");
 		validator.stringValidate(name, "Name");
 		validator.stringValidate(password, "Password");
 		validator.stringValidate(email, "Email");
-		validator.integerValidate(dni, "DNI");
-		validator.integerValidate(phone, "Phone");
-		validator.dateValidate(birthday, "Birthday");
+		validator.stringValidate(dni, "DNI");
+		validator.stringValidate(phone, "Phone");
+		//validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = userRepo.getById(id);
 		user.setName(name);

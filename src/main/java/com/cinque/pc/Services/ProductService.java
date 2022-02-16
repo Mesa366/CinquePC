@@ -1,6 +1,6 @@
 package com.cinque.pc.Services;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +41,14 @@ public class ProductService {
 		
 	}
 	
-	public void editProduct(String id, String name, Double price, List<String> categories ,Integer stock) throws Exception{
+	public void editProduct(String id, String name, Double price,Integer stock) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
-		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA */
-		validator.listValidate(categories, "Categories");
+		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
+		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
+//		validator.listValidate(categories, "Categories");
 		
 		Product product = productRepository.getById(id); 
 		
@@ -63,23 +64,53 @@ public class ProductService {
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
 	
 	public List<Product> getAll() {
-		return productRepository.findAll();
+            try {
+                return productRepository.findAll();
+            } catch (Exception e) {            
+                System.err.println("The method getAll from ProductService has failed and has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
+        //TODO unir metodos get y find
 	public Product getById(String id) {
-		return productRepository.getById(id);
+            try {
+                return productRepository.getById(id);
+            } catch (Exception e) {
+                System.err.println("The method getById from ProductService has failed and has throw the "
+                        + "next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public Optional<Product> findById(String id) {
-		return productRepository.findById(id);
+            try {
+                return productRepository.findById(id);
+            } catch (Exception e) {
+                System.err.println("The method findById from ProductService has failed and has throw the "
+                        + "next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public List<Product> getProductsBySellerId(String id){
-		return productRepository.getProductsBySellerId(id);
+            try {
+                return productRepository.getProductsBySellerId(id);
+            } catch (Exception e) {
+                System.err.println("The method getProductsBySellerId from ProductService has failed and "
+                        + "has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	public List<Product> getProductsByBuyerId(String id){
-		return productRepository.getProductsByBuyerId(id);
+            try {
+                return productRepository.getProductsByBuyerId(id);
+            } catch (Exception e) {
+                System.err.println("The method getProductsByBuyerId from ProductService has failed and "
+                        + "has throw the next message: " + e.getMessage());
+            }
+            return null;
 	}
 	
 	
@@ -94,7 +125,15 @@ public class ProductService {
 		productRepository.save(product);
 		
 	}
-	
+
+	public void deleteProduct(String id) throws Exception{
+		try{
+			productRepository.deleteById(id);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
 	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR
 	public void deleteProduct(String id) throws Exception {
 		
