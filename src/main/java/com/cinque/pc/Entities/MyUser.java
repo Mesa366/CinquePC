@@ -79,13 +79,14 @@ public class MyUser {
 			)
 	private List<Product> shoppingCart;
 	
+	private Integer saldo;	
 
 	public MyUser() {
 
 	}
 
 	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni,
-			String phone, LocalDate birthday, List<Product> sellingProduct, List<Product> wishList) {
+			String phone, LocalDate birthday, List<Product> sellingProduct, List<Product> wishList, Integer saldo) {
 		this.id = id;
 		this.name = name;
 		this.profilePicture = profilePicture;
@@ -96,6 +97,7 @@ public class MyUser {
 		this.birthday = birthday;
 		this.sellingProducts = sellingProduct;
 		this.wishList = wishList;
+		this.saldo = saldo;
 	}
 
 	public String getId() {
@@ -178,4 +180,25 @@ public class MyUser {
 		this.wishList = wishList;
 	}
 
+	public List<Product> getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(List<Product> shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	public Integer getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Integer saldo) {
+		this.saldo = saldo;
+	}
+
+	public void setSellingProducts(List<Product> sellingProducts) {
+		this.sellingProducts = sellingProducts;
+	}
+
+	
 }
