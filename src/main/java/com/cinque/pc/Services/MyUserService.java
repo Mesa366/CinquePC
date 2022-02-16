@@ -49,8 +49,7 @@ public class MyUserService implements UserDetailsService{
         * @throws java.lang.Exception
 	 */
 	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
-                LocalDate birthday, MultipartFile picture) throws Exception {
-		System.out.println("Entre al createUser (pss el Birtday es: " + birthday);
+                LocalDate birthday, MultipartFile picture) throws Exception {		
 		validator.stringValidate(name, "Name");
 		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");

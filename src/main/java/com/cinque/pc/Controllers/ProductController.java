@@ -39,8 +39,9 @@ public class ProductController {
 	}
 
 	@GetMapping("/form")
-	public String form() {
-
+	public String form(Model model) {
+		
+		
 //		List<String> categories = new ArrayList<String>();
 //		for (Categories categorie : category.values()) {
 //			categories.add(categorie.toString());
