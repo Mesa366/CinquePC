@@ -1,12 +1,6 @@
 package com.cinque.pc.Entities;
 
 import java.time.LocalDate;
-
-/* TODO traducir al ingles
- * 	corregir detalles
- */
-
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -77,6 +71,13 @@ public class MyUser {
 			orphanRemoval = true
 			)
 	private List<Product> wishList;
+	
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private List<Product> shoppingCart;
 	
 
 	public MyUser() {

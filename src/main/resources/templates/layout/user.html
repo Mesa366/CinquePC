@@ -129,6 +129,11 @@
             <span class="input-group-text" id="basic-addon1">Teléfono</span>
             <input th:value="${myUser.phone}" type="number"  name="phone" class="form-control" placeholder="Teléfono" aria-label="Username" aria-describedby="basic-addon1">
         </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Fecha de nacimiento</span>
+            <input th:value="${myUser.birthDate}" type="date"  name="birthDay" class="form-control" placeholder="birthDate" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Contraseña</span>
@@ -146,8 +151,8 @@
     </form>
 
 
-        <form th:action="@{/auth/login}" method="POST" th:if="${#strings.equals(state, 'login') }">
-
+        <form th:action="@{/auth/logincheck}" method="POST" th:if="${#strings.equals(state, 'login') }">
+			<p th:if="${session.usersession != null}" th:text="${session.usersession.id}" >  </p>
             <!-- <p th:if="${session.usersession != null}" th:text="${session.usersession.id}" >  </p> -->
             <!-- TODO Add our logo -->
             <!-- <img class="mb-4" src="" alt="" width="72" height="57" /> -->
