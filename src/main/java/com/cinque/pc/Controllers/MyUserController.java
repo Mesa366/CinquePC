@@ -37,11 +37,11 @@ public class MyUserController {
 	}
 
 	@PostMapping("/register")
-	public String usuarioCreado(MyUser user, MultipartFile photo, RedirectAttributes ra) {
+	public String usuarioCreado(MyUser user, MultipartFile photo, RedirectAttributes ra, String password2) {
 		try {
-                    myUserService.createUser(user.getName(), user.getPassword(), user.getEmail(), 
+                    myUserService.createUser(user.getName(), user.getPassword(), password2 , user.getEmail(), 
                           user.getDni(), user.getPhone(), user.getBirthday(), photo);
-                    ra.addFlashAttribute("success", "User created successfully. Sign in now!");
+                    ra.addFlashAttribute("success", "User created successfully. Sign in now!"); // --> Esto añade una pequeña ventana cuando el usuario se crea satisfactoriamente
                     return "redirect:/user/register";
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());
@@ -75,7 +75,7 @@ public class MyUserController {
 	@GetMapping("/{id}/seller-list")
 	public String sellerList(@PathVariable String id, Model model) {
 		
-		model.addAttribute("sellerList", myUserService.getById(id).getSellingProduct());
+		model.addAttribute("sellerList", myUserService.getById(id).getSellingProducts());
 		
 		return "catalog";
 	}

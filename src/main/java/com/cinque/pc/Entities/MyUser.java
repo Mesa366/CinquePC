@@ -1,10 +1,6 @@
 package com.cinque.pc.Entities;
 
-/* TODO traducir al ingles
- * 	corregir detalles
- */
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -59,15 +55,15 @@ public class MyUser {
 	
 	private String dni;
 	private String phone;
-        @Temporal(javax.persistence.TemporalType.DATE)
-	private Date birthday;
+
+	private LocalDate birthday;
 
 	@OneToMany(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> sellingProduct;
+	private List<Product> sellingProducts;
 
 	@OneToMany(
 			mappedBy = "user",
@@ -75,13 +71,21 @@ public class MyUser {
 			orphanRemoval = true
 			)
 	private List<Product> wishList;
+	
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private List<Product> shoppingCart;
+	
 
 	public MyUser() {
 
 	}
 
 	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni,
-			String phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
+			String phone, LocalDate birthday, List<Product> sellingProduct, List<Product> wishList) {
 		this.id = id;
 		this.name = name;
 		this.profilePicture = profilePicture;
@@ -90,7 +94,7 @@ public class MyUser {
 		this.dni = dni;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.sellingProduct = sellingProduct;
+		this.sellingProducts = sellingProduct;
 		this.wishList = wishList;
 	}
 
@@ -150,20 +154,20 @@ public class MyUser {
 		this.phone = phone;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
-	public List<Product> getSellingProduct() {
-		return sellingProduct;
+	public List<Product> getSellingProducts() {
+		return sellingProducts;
 	}
 
 	public void setSellingProduct(List<Product> sellingProduct) {
-		this.sellingProduct = sellingProduct;
+		this.sellingProducts = sellingProduct;
 	}
 
 	public List<Product> getWishList() {
