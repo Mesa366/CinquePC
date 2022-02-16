@@ -49,7 +49,7 @@ public class MyUserService implements UserDetailsService{
         * @throws java.lang.Exception
 	 */
 	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
-                LocalDate birthday, MultipartFile picture) throws Exception {
+                LocalDate birthday, MultipartFile picture) throws Exception {		
 		validator.stringValidate(name, "Name");
 		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");
@@ -76,6 +76,36 @@ public class MyUserService implements UserDetailsService{
                 
 		userRepo.save(user);		
 	}
+	
+	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
+            MultipartFile picture) throws Exception {
+	
+	validator.stringValidate(name, "Name");
+	validator.passwordValidate(password1, password2);
+	validator.stringValidate(email, "Email");
+	validator.stringValidate(dni, "DNI");
+	validator.stringValidate(phone, "Phone");
+	
+			
+	MyUser user = new MyUser();
+	user.setName(name);
+	/**
+	 * Password encryption
+	 */
+	String encPass = new BCryptPasswordEncoder().encode(password1);
+	
+	user.setPassword(encPass);
+
+	user.setEmail(email);
+	user.setDni(dni);
+	user.setPhone(phone);
+	//user.setBirthday(birthday);
+	
+            Image profilePicture = imageService.saveImage(picture);
+            user.setProfilePicture(profilePicture);
+            
+	userRepo.save(user);		
+}
 	
 	//UPDATE
 	/**

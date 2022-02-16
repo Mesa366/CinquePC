@@ -32,7 +32,7 @@ public class Validator {
 	 */
 	public void dateValidate(LocalDate content, String name) throws Exception {
 		if(content == null) {
-			throw new Exception(name + " can´t be null");
+			throw new Exception(name + " can´t be null + " + content);
 		}
 	}
 	
