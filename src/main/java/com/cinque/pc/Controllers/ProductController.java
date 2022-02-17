@@ -1,12 +1,10 @@
 package com.cinque.pc.Controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
-import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
 
@@ -35,7 +32,7 @@ public class ProductController {
 	public String product(@PathVariable String id, Model model) {
 		Product product = productService.getById(id);
 		model.addAttribute("product", product);
-		return "product-single";
+		return "product.html";
 	}
 
 	@GetMapping("/form")
