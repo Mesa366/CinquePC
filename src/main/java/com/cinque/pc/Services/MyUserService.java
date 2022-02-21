@@ -77,6 +77,7 @@ public class MyUserService implements UserDetailsService{
 		userRepo.save(user);		
 	}
 	
+        //ELIMINAR?
 	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
             MultipartFile picture) throws Exception {
 	

@@ -13,8 +13,11 @@ import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/photo")
 public class ImageController {
 
 	@Autowired
@@ -40,8 +43,8 @@ public class ImageController {
 		}
 	}
 	
-	@GetMapping("/product")
-	public ResponseEntity<byte[]> getProductImage(@RequestParam String id){
+	@GetMapping("/product/{id}")
+	public ResponseEntity<byte[]> getProductImage(@PathVariable String id){
 		try {
 			Product product = productService.getById(id);
 			byte[] image = product.getPhoto().getContent();	
