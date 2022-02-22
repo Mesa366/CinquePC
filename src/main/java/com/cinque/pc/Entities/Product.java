@@ -8,6 +8,8 @@ import java.time.LocalDate;
 
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.cinque.pc.Enums.Categories;
 
 /**
  * Entidad de Productos.
@@ -52,10 +56,12 @@ public class Product {
 	private Integer stock;
 	private Boolean enabled;
 	
-	private String category;
+	@Enumerated(EnumType.STRING)
+	private Categories category;
+	
 
 	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser buyer, MyUser user,
-			LocalDate sellingDate, LocalDate buyingDate, Integer stock, Boolean enabled, String category) {
+			LocalDate sellingDate, LocalDate buyingDate, Integer stock, Boolean enabled, Categories category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -163,11 +169,11 @@ public class Product {
 		this.user = user;
 	}
 
-	public String getCategory() {
+	public Categories getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Categories category) {
 		this.category = category;
 	}
 	

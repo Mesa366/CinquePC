@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Repositories.ProductRepository;
 
 @Service
@@ -20,10 +21,9 @@ public class ProductService {
 	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, LocalDate sellingDate, Integer stock, String category) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, LocalDate sellingDate, Integer stock, Categories category) throws Exception {
 		
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(category, "Category");
 		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
@@ -43,14 +43,13 @@ public class ProductService {
 		
 	}
 	
-	public void editProduct(String id, String name, Double price,Integer stock, String category) throws Exception{
+	public void editProduct(String id, String name, Double price,Integer stock, Categories category) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
 		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
-//		validator.listValidate(categories, "Categories");	
 		
 		Product product = productRepository.getById(id); 
 		
@@ -122,15 +121,15 @@ public class ProductService {
             return null;
 	}
 	
-	public List<Product> getProductsByCategory(String category){
-        try {
-            return productRepository.getProductsByCategory(category);
-        } catch (Exception e) {
-            System.err.println("The method getProductsByCategory from ProductService has failed and "
-                    + "has throw the next message: " + e.getMessage());
-        }
-        return null;
-}
+//	public List<Product> getProductsByCategory(Categories category){
+//        try {
+//            return productRepository.getProductsByCategory(category);
+//        } catch (Exception e) {
+//            System.err.println("The method getProductsByCategory from ProductService has failed and "
+//                    + "has throw the next message: " + e.getMessage());
+//        }
+//        return null;
+//}
 	
 	public void productStatus(String id) throws Exception{
 		Product product = productRepository.getById(id); 

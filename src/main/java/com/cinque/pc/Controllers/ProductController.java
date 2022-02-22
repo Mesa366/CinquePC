@@ -1,6 +1,7 @@
 package com.cinque.pc.Controllers;
 
 import java.util.List;
+import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
 
@@ -37,24 +39,19 @@ public class ProductController {
 
 	@GetMapping("/form")
 	public String form(Model model) {
-		
-		
-//		List<String> categories = new ArrayList<String>();
-//		for (Categories categorie : category.values()) {
-//			categories.add(categorie.toString());
-//		}
-		
-	//	model.put("categories", category);
+
+		model.addAttribute("categories", Categories.values());
 
 		return "product-form";
 	}
 
 	@PostMapping("/form")
-	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId, String category) throws Exception{
+	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId, Categories category) throws Exception{
 		MyUser user = myUserService.getById(userId);
 		productService.createProduct(name,price,user, null,stock, category);
 		return "redirect:../";
 	}
+	
 	@GetMapping("/catalog")
 	public String catalog(Model model) {
 		List<Product> catalog = productService.getAll();
@@ -70,7 +67,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo, String category) throws Exception{
+	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo,  Categories category) throws Exception{
 		productService.editProduct(id,name,price,stock, category);
 		return "product-single";
 	}
