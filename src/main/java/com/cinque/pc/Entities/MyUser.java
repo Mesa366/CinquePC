@@ -80,7 +80,7 @@ public class MyUser {
 			)
 	private List<Product> shoppingCart;
 	
-	//Change made by Bombón esteban, Alan y ana
+	//Change made by Bombón Bellota y burbuja(alan y cia)
 	@OneToMany(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,

@@ -1,7 +1,6 @@
 package com.cinque.pc.Controllers;
 
 import java.util.List;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
@@ -46,10 +46,10 @@ public class ProductController {
 	}
 
 	@PostMapping("/form")
-	public String createProduct(String name, Double price, Integer stock,String userId, Categories category) throws Exception{
-		System.out.println("Entré al método");
+	public String createProduct(String name, Double price, Integer stock,@RequestParam("userId")String userId, Categories category) throws Exception{
+		
 		MyUser user = myUserService.getById(userId);
-		System.out.println("Traje el usuario");
+		
 		productService.createProduct(name, price, user, stock, category);
 		return "redirect:../";
 	}

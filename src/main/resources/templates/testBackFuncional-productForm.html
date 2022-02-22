@@ -18,9 +18,13 @@
 			</div>
 			
 			<form th:action="@{/product/form}" method="post" enctype="multipart/form-data" class="flexbox">
+			<!--th must be value because text is for printing, and we want to save the value. 
+				We change p for input
+			-->
 			
-				<p type="hidden" th:if="${session.usersession != null}" th:text="${session.usersession.id}"name="userId" ></p> 
-					
+			
+				<input type="hidden" th:if="${session.usersession != null}" th:value="${session.usersession.id}"name="userId" /> 
+				
 								
 				<div class="mb-3">
 					<label for="name" class="form-label">Name</label>
