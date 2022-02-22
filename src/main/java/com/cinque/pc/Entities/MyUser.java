@@ -58,6 +58,7 @@ public class MyUser {
 
 	private LocalDate birthday;
 
+	
 	@OneToMany(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,
@@ -78,6 +79,14 @@ public class MyUser {
 			orphanRemoval = true
 			)
 	private List<Product> shoppingCart;
+	
+	//Change made by Bombón esteban, Alan y ana
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private List<Product> shoppingHistory;
 	
 	private Integer wallet;	
 

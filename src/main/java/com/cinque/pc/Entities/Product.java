@@ -37,12 +37,17 @@ public class Product {
 	@OneToOne
 	private MyUser seller;
 
+	//TODO esto no es OneToOne
 	@OneToOne
 	private Image photo;
 	
+	//For privacy reasons, and because the stock attribute this can be a Many to Many
+	//We are going to delete this attribute from Product, and leave it in user.
+	//Atte: Ana, Esteban y Alan
+	/*
 	@OneToOne
 	private MyUser buyer;
-	
+	*/
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private MyUser user;
@@ -60,7 +65,7 @@ public class Product {
 	private Categories category;
 	
 
-	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser buyer, MyUser user,
+	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser user,
 			LocalDate sellingDate, LocalDate buyingDate, Integer stock, Boolean enabled, Categories category) {
 		super();
 		this.id = id;
@@ -68,7 +73,7 @@ public class Product {
 		this.price = price;
 		this.seller = seller;
 		this.photo = photo;
-		this.buyer = buyer;
+		
 		this.user = user;
 		this.sellingDate = sellingDate;
 		this.buyingDate = buyingDate;
@@ -113,13 +118,7 @@ public class Product {
 		this.seller = seller;
 	}
 
-	public MyUser getBuyer() {
-		return buyer;
-	}
 
-	public void setBuyer(MyUser buyer) {
-		this.buyer = buyer;
-	}
 
 	public LocalDate getSellingDate() {
 		return sellingDate;

@@ -12,9 +12,9 @@ import com.cinque.pc.Entities.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-	@Query("SELECT a FROM Product a WHERE a.buyer.id = :id")
+	/*@Query("SELECT a FROM Product a WHERE a.buyer.id = :id")
 	public List<Product> getProductsByBuyerId(@Param("id") String id);
-	
+	*/
 	@Query("SELECT a FROM Product a WHERE a.seller.id = :id")
 	public List<Product> getProductsBySellerId(@Param("id") String id);
 	

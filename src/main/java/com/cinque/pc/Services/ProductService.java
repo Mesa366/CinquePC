@@ -21,22 +21,23 @@ public class ProductService {
 	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, LocalDate sellingDate, Integer stock, Categories category) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category) throws Exception {
 		
 		validator.stringValidate(name, "Name");
-		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA (Why??)*/
 		
+		System.out.println("Entré a create product");
 		
 		Product product = new Product(); 
 		
 		product.setName(name);
 		product.setPrice(price);
 		product.setSeller(seller);
-		product.setSellingDate(sellingDate);
+		//product.setSellingDate(sellingDate);
 		product.setStock(stock);
+				System.out.println("seteando");
 		seller.getSellingProducts().add(product);
 		product.setCategory(category);
 		productRepository.save(product);
@@ -106,16 +107,6 @@ public class ProductService {
                 return productRepository.getProductsBySellerId(id);
             } catch (Exception e) {
                 System.err.println("The method getProductsBySellerId from ProductService has failed and "
-                        + "has throw the next message: " + e.getMessage());
-            }
-            return null;
-	}
-	
-	public List<Product> getProductsByBuyerId(String id){
-            try {
-                return productRepository.getProductsByBuyerId(id);
-            } catch (Exception e) {
-                System.err.println("The method getProductsByBuyerId from ProductService has failed and "
                         + "has throw the next message: " + e.getMessage());
             }
             return null;

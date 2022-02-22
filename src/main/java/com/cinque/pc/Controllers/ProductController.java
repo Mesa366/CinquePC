@@ -42,13 +42,15 @@ public class ProductController {
 
 		model.addAttribute("categories", Categories.values());
 
-		return "product-form";
+		return "testBackFuncional-productForm";
 	}
 
 	@PostMapping("/form")
-	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId, Categories category) throws Exception{
+	public String createProduct(String name, Double price, Integer stock,String userId, Categories category) throws Exception{
+		System.out.println("Entré al método");
 		MyUser user = myUserService.getById(userId);
-		productService.createProduct(name,price,user, null,stock, category);
+		System.out.println("Traje el usuario");
+		productService.createProduct(name, price, user, stock, category);
 		return "redirect:../";
 	}
 	
