@@ -77,6 +77,7 @@ public class MyUserService implements UserDetailsService{
 		userRepo.save(user);		
 	}
 	
+        //ELIMINAR?
 	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
             MultipartFile picture) throws Exception {
 	
@@ -162,6 +163,18 @@ public class MyUserService implements UserDetailsService{
 	}
 	
 
+	/**
+	 * @Author Franco Lamberti
+	 * Method to withdraw money from an user
+	 * @param withdrawal It's the quantity of money that the user wants to withdraw 
+	 * @param user It's the user that wants to withdraw money  
+	 * @throws Exception 
+	 */
+	public void withdrawMoney(Integer withdrawal,  MyUser user) throws Exception {
+		validator.withdrawalValidate(withdrawal, user.getWallet());
+		user.setWallet( user.getWallet() - withdrawal );
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<MyUser> opt = userRepo.getByEmail(email);

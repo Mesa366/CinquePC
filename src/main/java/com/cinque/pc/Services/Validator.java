@@ -86,6 +86,17 @@ public class Validator {
 		}
 	}
 	
+	/**
+	 * Method to verify if the user has the amount of money to withdrawal it
+	 * @param withdrawal It's the quantity of money that the user wants to withdraw 
+	 * @param userWallet It's the actual money that the user has.  
+	 */
+	public void withdrawalValidate(Integer withdrawal, Integer userWallet) throws Exception {
+		if( userWallet < withdrawal ){ // If the user has less money that the quantity that he wants to withdraw, throws exception
+			throw new Exception("Not enough money");
+		}
+	}
+	
 	//TODO Validar mayoría de edad.
 	
 	
