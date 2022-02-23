@@ -43,15 +43,15 @@ public class ProductController {
 
 		model.addAttribute("categories", Categories.values());
 
-		return "testBackFuncional-productForm";
+		return "test-productRegister";
 	}
 
 	@PostMapping("/form")
-	public String createProduct(String name, Double price, Integer stock,@RequestParam("userId")String userId, Categories category) throws Exception{
+	public String createProduct(String name, Double price, Integer stock,@RequestParam("userId")String userId, Categories category, MultipartFile photo) throws Exception{
 		
 		MyUser user = myUserService.getById(userId);
 		
-		productService.createProduct(name, price, user, stock, category);
+		productService.createProduct(name, price, user, stock, category,photo);
 		return "redirect:../";
 	}
 	
@@ -68,13 +68,14 @@ public class ProductController {
 	public String update(@PathVariable String id,Model model){
 		Product product = productService.getById(id);
 		model.addAttribute("product",product);
-		return "product-form";
+		model.addAttribute("categories", Categories.values());
+		return "test-productUpdate";
 	}
 
 	@PostMapping("/update/{id}")
-	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo,  Categories category) throws Exception{
+	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, Categories category) throws Exception{
 		productService.editProduct(id,name,price,stock, category);
-		return "product-single";
+		return "redirect:../catalog";
 	}
 	
 	@GetMapping("/addToCart/{id}")

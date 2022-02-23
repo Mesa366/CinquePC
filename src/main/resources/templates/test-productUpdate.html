@@ -17,7 +17,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 			
-			<form th:action="@{/product/form}" method="post" enctype="multipart/form-data" class="flexbox">
+			<form th:action="@{/product/form}" method="post" enctype="multipart/form-data" class="flexbox" th:object="${product}">
 			<!--th must be value because text is for printing, and we want to save the value. 
 				We change p for input
 			-->
@@ -29,17 +29,17 @@
 				<div class="mb-3">
 					<label for="name" class="form-label">Name</label>
 					
-					<input type="text" class="form-control" name="name" />
+					<input type="text" class="form-control" name="name" th:value="${product.name}"/>
 				</div>
 				<div class="mb-3">
 					<label for="price" class="form-label">Price</label>
 					<!-- Step is to allow decimal numbers -->
-					<input type="number" step="0.01" class="form-control" name="price" />
+					<input type="number" step="0.01" class="form-control" name="price" th:value="${product.price}"/>
 				</div>
 
 				<div class="mb-3">
 					<label for="stock" class="form-label">Stock</label>
-					<input type="number" class="form-control" name="stock" />
+					<input type="number" class="form-control" name="stock" th:value="${product.stock}"/>
 				</div>
 
 				<div class="mb-3">
@@ -48,13 +48,12 @@
 	                  <option th:each="category : ${categories}" th:value="${category}" th:text="${category}">
 	              	</select>  
 				</div>
-				<!--
+
 				<div class="mb-3">
 					<label for="photo" class="form-label">Photo</label>
 					<input type="file" class="form-control" name="photo" />
 				</div>
-				-->
-				
+
 				 <button class="w-100 btn btn-lg btn-primary" type="submit">
 				          Publicar
         		 </button>
