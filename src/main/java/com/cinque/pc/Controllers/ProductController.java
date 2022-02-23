@@ -58,7 +58,7 @@ public class ProductController {
 	public String catalog(Model model) {
 		List<Product> catalog = productService.getAll();
 		model.addAttribute("products", catalog);
-		return "testCatalog";
+		return "testCatalog2";
 	}
 
 	@GetMapping("/update/{id}")
