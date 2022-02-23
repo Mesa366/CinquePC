@@ -58,8 +58,8 @@ public class ProductController {
 	@GetMapping("/catalog")
 	public String catalog(Model model, Principal principal) throws Exception {
 		List<Product> catalog = productService.getAll();
-		model.addAttribute("products", catalog);		
-		MyUser user = myUserService.getByEmail( principal.getName() );	
+		model.addAttribute("products", catalog);	
+		MyUser user = myUserService.getByEmail( principal.getName());	
 		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
 		return "testCatalog";
 	}
