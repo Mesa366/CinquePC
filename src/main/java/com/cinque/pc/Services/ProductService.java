@@ -31,8 +31,6 @@ public class ProductService {
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA (Why??)*/
 		
-		System.out.println("Entré a create product");
-		
 		Product product = new Product(); 
 		
 		product.setName(name);
@@ -40,7 +38,6 @@ public class ProductService {
 		product.setSeller(seller);
 		//product.setSellingDate(sellingDate);
 		product.setStock(stock);
-				System.out.println("seteando");
 		seller.getSellingProducts().add(product);
 		product.setCategory(category);
 		productRepository.save(product);
