@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
 
 @Repository
@@ -20,5 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	
 	@Query("SELECT a FROM Product a WHERE a.category = :category")
 	public List<Product> getProductsByCategory(@Param("category") String category);
+
+	@Query("SELECT a FROM Product a WHERE a.userShoppingCart = :userShoppingCart")
+	public List<Product> getShoppingCartByUserShoppingCart(@Param("userShoppingCart") MyUser userShoppingCart);	
+	
 	
 }

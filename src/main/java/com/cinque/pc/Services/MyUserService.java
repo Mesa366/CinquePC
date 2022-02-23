@@ -145,6 +145,10 @@ public class MyUserService implements UserDetailsService{
 		return userRepo.getById(id);
 	}
 	
+	public MyUser getByEmail(String email) {
+		return userRepo.getByEmail(email).get();
+	}
+	
 	//READ
 	/**
 	 * Lists all users
