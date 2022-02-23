@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.cinque.pc.Entities.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Repositories.ProductRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductService {
@@ -20,11 +22,14 @@ public class ProductService {
 	
 	@Autowired
 	private Validator validator;
+
+	@Autowired
+	private ImageService imageService;
 	
 	@Autowired
 	private MyUserService userService;
 
-	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category, MultipartFile picture) throws Exception {
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
@@ -40,6 +45,9 @@ public class ProductService {
 		product.setStock(stock);
 		seller.getSellingProducts().add(product);
 		product.setCategory(category);
+		//Transform from MultipartFile to Image, so we can set it to the attribute
+		Image photo = imageService.saveImage(picture);
+		product.setPhoto(photo);
 		productRepository.save(product);
 		
 	}
@@ -98,17 +106,6 @@ public class ProductService {
 		return ;
 	} */
 	
-	
-//	public Optional<Product> findById(String id) {
-//            try {
-//                return productRepository.findById(id);
-//            } catch (Exception e) {
-//                System.err.println("The method findById from ProductService has failed and has throw the "
-//                        + "next message: " + e.getMessage());
-//            }
-//            return null;
-//	}
-	
 	public List<Product> getProductsBySellerId(String id){
             try {
                 return productRepository.getProductsBySellerId(id);
@@ -124,15 +121,15 @@ public class ProductService {
 		return productRepository.getShoppingCartByUserShoppingCart( user );
 	}
 	
-//	public List<Product> getProductsByCategory(Categories category){
-//        try {
-//            return productRepository.getProductsByCategory(category);
-//        } catch (Exception e) {
-//            System.err.println("The method getProductsByCategory from ProductService has failed and "
-//                    + "has throw the next message: " + e.getMessage());
-//        }
-//        return null;
-//}
+	public List<Product> getProductsByCategory(Categories category){
+        try {
+            return productRepository.getProductsByCategory(category.toString());
+        } catch (Exception e) {
+            System.err.println("The method getProductsByCategory from ProductService has failed and "
+                    + "has throw the next message: " + e.getMessage());
+        }
+        return null;
+}
 	
 	public void productStatus(String id) throws Exception{
 		Product product = productRepository.getById(id); 
