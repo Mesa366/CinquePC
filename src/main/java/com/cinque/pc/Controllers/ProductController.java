@@ -1,5 +1,6 @@
 package com.cinque.pc.Controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +56,12 @@ public class ProductController {
 	}
 	
 	@GetMapping("/catalog")
-	public String catalog(Model model) {
+	public String catalog(Model model, Principal principal) throws Exception {
 		List<Product> catalog = productService.getAll();
-		model.addAttribute("products", catalog);
-		return "testCatalog2";
+		model.addAttribute("products", catalog);		
+		MyUser user = myUserService.getByEmail( principal.getName() );	
+		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
+		return "testCatalog";
 	}
 
 	@GetMapping("/update/{id}")
@@ -72,6 +75,14 @@ public class ProductController {
 	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo,  Categories category) throws Exception{
 		productService.editProduct(id,name,price,stock, category);
 		return "product-single";
+	}
+	
+	@GetMapping("/addToCart/{id}")
+	public String updateProduct(@PathVariable String id, Principal principal) throws Exception{
+		MyUser user = myUserService.getByEmail( principal.getName() );
+		Product product = productService.getById(id);
+		productService.addToCart(user, product);
+		return "redirect:/product/catalog";
 	}
 
 	@GetMapping("/delete/{id}")

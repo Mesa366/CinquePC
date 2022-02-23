@@ -60,21 +60,21 @@ public class MyUser {
 
 	
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userSellingProducts",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
 	private List<Product> sellingProducts;
 
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userWishList",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
 	private List<Product> wishList;
 	
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userShoppingCart",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
@@ -82,7 +82,7 @@ public class MyUser {
 	
 	//Change made by Bombón Bellota y burbuja(alan y cia)
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userShoppingHistory",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
@@ -94,18 +94,24 @@ public class MyUser {
 
 	}
 
-	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni,
-			String phone, LocalDate birthday, List<Product> sellingProduct, List<Product> wishList, Integer wallet) {
+	
+
+	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni, String phone,
+			LocalDate birthday, List<Product> sellingProducts, List<Product> wishList, List<Product> shoppingCart,
+			List<Product> shoppingHistory, Integer wallet) {
+		super();
 		this.id = id;
-		this.name = name;
 		this.profilePicture = profilePicture;
+		this.name = name;
 		this.password = password;
 		this.email = email;
 		this.dni = dni;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.sellingProducts = sellingProduct;
+		this.sellingProducts = sellingProducts;
 		this.wishList = wishList;
+		this.shoppingCart = shoppingCart;
+		this.shoppingHistory = shoppingHistory;
 		this.wallet = wallet;
 	}
 
@@ -209,5 +215,12 @@ public class MyUser {
 		this.sellingProducts = sellingProducts;
 	}
 
-	
+	public List<Product> getShoppingHistory() {
+		return shoppingHistory;
+	}
+
+	public void setShoppingHistory(List<Product> shoppingHistory) {
+		this.shoppingHistory = shoppingHistory;
+	}
+
 }

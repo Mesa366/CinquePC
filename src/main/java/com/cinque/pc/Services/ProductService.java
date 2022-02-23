@@ -20,6 +20,9 @@ public class ProductService {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Autowired
+	private MyUserService userService;
 
 	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category) throws Exception {
 		
@@ -61,6 +64,13 @@ public class ProductService {
 		
 		productRepository.save(product);
 		
+	}
+	
+	public void addToCart(MyUser user, Product product) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		validator.stringValidate(product.getId(), "ProductID");
+		product.setUserShoppingCart(user);
+		productRepository.save(product);
 	}
 	
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
@@ -110,6 +120,11 @@ public class ProductService {
                         + "has throw the next message: " + e.getMessage());
             }
             return null;
+	}
+	
+	public List<Product> getShoppingCartProductsByUser(MyUser user) throws Exception{
+		
+		return productRepository.getShoppingCartByUserShoppingCart( user );
 	}
 	
 //	public List<Product> getProductsByCategory(Categories category){
