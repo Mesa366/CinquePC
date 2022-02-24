@@ -66,7 +66,6 @@ public class LoginController {
 	@PostMapping("/register")
 	public String registerUserRedirect(RedirectAttributes ra, String name, String password1, String password2, String email, String dni, String phone, MultipartFile photo, @RequestParam(name = "birthday", required = false) 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.MM.yyyy") String birthday ) {
-		System.out.println("Entre al postmapping de /auth/register");
 		try {
 			LocalDate localDate = LocalDate.parse(birthday);
 			
@@ -78,22 +77,21 @@ public class LoginController {
 		}
 		return "redirect:/user/register";
 	}
-	
-	
-	
-	
-	// UPDATE USER
-	@PostMapping("/update/{id}")
-	public String updateUserRedirect(@PathVariable String id, Image profilePicture, String name, String password1, String password2,
-			String email, String dni, String phone) throws Exception {
-		System.out.println("NAME: "+name);
-		System.out.println("CLAVE: "+password1);
-		System.out.println("CLAVE2: "+password2);		
-		System.out.println("MAIL: "+email);
-		System.out.println("DNI: "+dni);
-		System.out.println("NUM TEL: "+phone);
-		myUserService.updateUser(id, name, password1, password2, email, dni, phone, null, null);
 
+	// UPDATE USER DATA
+	@PostMapping("/update/{id}")
+	public String updateUserRedirect(@PathVariable String id,String name, String password1, String password2,
+			String email, String dni, String phone, @RequestParam(name = "birthday", required = false) 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.MM.yyyy") String birthday) throws Exception {
+		LocalDate localDate = LocalDate.parse(birthday);
+		myUserService.updateUser(id, name, password1, password2, email, dni, phone, localDate);
+		return "redirect:/auth/form/update/" + id ;
+	}
+	// UPDATE USER PROFILE PICTURE
+	//TODO Hacer GETMAPPING del modal.
+	@PostMapping("/update/{id}/photo")
+	public String updatePictureUserRedirect(@PathVariable String id, MultipartFile profilePicture) throws Exception {
+		myUserService.updateProfilePicture(profilePicture, id);
 		return "redirect:/auth/form/update/" + id ;
 	}
 
