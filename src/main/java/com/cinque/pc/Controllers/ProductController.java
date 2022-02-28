@@ -62,6 +62,8 @@ public class ProductController {
 		MyUser user = myUserService.getByEmail( principal.getName() );
 		
 		Double compraTotal = productService.devolverTotal(user);
+		model.addAttribute("compraTotal", compraTotal);
+		
 		
 		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
 		return "testCatalog";

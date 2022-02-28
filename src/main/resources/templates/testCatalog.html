@@ -84,13 +84,14 @@
 
 								</div>
 								<!-- Modal de compra -->
-								<button type="button" class="btn btn-outline-info d-flex" data-bs-toggle="modal"
-									data-bs-target="#exampleModal">
-									Comprar todo
-								</button>
+								
 
 								<!-- Modal de compra -->
 							</li>
+							<button type="button" class="btn btn-outline-info d-flex" data-bs-toggle="modal"
+									data-bs-target="#exampleModal">
+									Comprar todo
+								</button>
 							<li th:if="${#lists.isEmpty(wishList)}">
 								<p class="dropdown-item" href="#"> Oh oh, it's empty :c </p>
 							</li>
@@ -114,25 +115,18 @@
 		<section class="py-5 text-center container">
 			<div class="row py-lg-5">
 				<div class="col-lg-6 col-md-8 mx-auto">
-
-					<!-- Modal -->
-					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						Launch demo modal
-					</button>
-
-					<!-- Modal -->
+	
 					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 						aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+									<h5 class="modal-title" id="exampleModalLabel">Productos en el carrito</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal"
 										aria-label="Close"></button>
 								</div>
 								<div class="modal-body">									
-									<div class="col" th:each="product : ${products}">
+									<div class="col" th:each="product : ${wishList}">
 										<!-- inicio tarjeta -->
 										<div class="card shadow-sm">
 											<svg class="bd-placeholder-img card-img-top" width="100%" height="225"
@@ -146,21 +140,16 @@
 											<div class="card-body">
 												<p class="card-text" th:text="${product.name}"></p>
 												<div class="d-flex justify-content-between align-items-center">
-													<div class="btn-group">
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">View</button>
-														<a th:if="${! #lists.contains(wishList, product)}"
-															th:href="@{/product/addToCart/}+${product.id}"
-															class="btn btn-sm btn-outline-secondary">Añadir al carro</a>
-														<a th:if="${#lists.contains(wishList, product)}"
-															th:href="@{/product/removeFromCart/}+${product.id}"
-															class="btn btn-sm btn-outline-danger">Eliminar del carro</a>
+													<div class="btn-group">														
 													</div>
 													<small class="text-muted"> $ <span th:text="${product.price}">
 														</span> </small>
 												</div>
 											</div>
 										</div>
+									</div>
+									<div>
+									<p>Precio total: $<span th:text="${compraTotal}"></span ></p>
 									</div>
 								</div>
 								<div class="modal-footer">
