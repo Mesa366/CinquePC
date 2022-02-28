@@ -1,5 +1,6 @@
 package com.cinque.pc.Controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
 
@@ -37,29 +40,28 @@ public class ProductController {
 
 	@GetMapping("/form")
 	public String form(Model model) {
-		
-		
-//		List<String> categories = new ArrayList<String>();
-//		for (Categories categorie : category.values()) {
-//			categories.add(categorie.toString());
-//		}
-		
-	//	model.put("categories", category);
 
-		return "product-form";
+		model.addAttribute("categories", Categories.values());
+
+		return "testBackFuncional-productForm";
 	}
 
 	@PostMapping("/form")
-	public String productRegister(String name, Double price, Integer stock, MultipartFile photo,String userId, String category) throws Exception{
+	public String createProduct(String name, Double price, Integer stock,@RequestParam("userId")String userId, Categories category) throws Exception{
+		
 		MyUser user = myUserService.getById(userId);
-		productService.createProduct(name,price,user, null,stock, category);
+		
+		productService.createProduct(name, price, user, stock, category);
 		return "redirect:../";
 	}
+	
 	@GetMapping("/catalog")
-	public String catalog(Model model) {
+	public String catalog(Model model, Principal principal) throws Exception {
 		List<Product> catalog = productService.getAll();
-		model.addAttribute("products", catalog);
-		return "catalog";
+		model.addAttribute("products", catalog);		
+		MyUser user = myUserService.getByEmail( principal.getName() );	
+		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
+		return "testCatalog";
 	}
 
 	@GetMapping("/update/{id}")
@@ -70,9 +72,17 @@ public class ProductController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo, String category) throws Exception{
+	public String updateProduct(@PathVariable String id,String name, Double price, Integer stock, MultipartFile photo,  Categories category) throws Exception{
 		productService.editProduct(id,name,price,stock, category);
 		return "product-single";
+	}
+	
+	@GetMapping("/addToCart/{id}")
+	public String updateProduct(@PathVariable String id, Principal principal) throws Exception{
+		MyUser user = myUserService.getByEmail( principal.getName() );
+		Product product = productService.getById(id);
+		productService.addToCart(user, product);
+		return "redirect:/product/catalog";
 	}
 
 	@GetMapping("/delete/{id}")

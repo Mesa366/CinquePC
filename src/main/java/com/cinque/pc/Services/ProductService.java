@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Repositories.ProductRepository;
 
 @Service
@@ -19,38 +20,40 @@ public class ProductService {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Autowired
+	private MyUserService userService;
 
-	public void createProduct (String name, Double price, MyUser seller, LocalDate sellingDate, Integer stock, String category) throws Exception {
+	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category) throws Exception {
 		
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(category, "Category");
-		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA (Why??)*/
 		
+		System.out.println("Entré a create product");
 		
 		Product product = new Product(); 
 		
 		product.setName(name);
 		product.setPrice(price);
 		product.setSeller(seller);
-		product.setSellingDate(sellingDate);
+		//product.setSellingDate(sellingDate);
 		product.setStock(stock);
+				System.out.println("seteando");
 		seller.getSellingProducts().add(product);
 		product.setCategory(category);
 		productRepository.save(product);
 		
 	}
 	
-	public void editProduct(String id, String name, Double price,Integer stock, String category) throws Exception{
+	public void editProduct(String id, String name, Double price,Integer stock, Categories category) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
 		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
 		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
-//		validator.listValidate(categories, "Categories");	
 		
 		Product product = productRepository.getById(id); 
 		
@@ -61,6 +64,13 @@ public class ProductService {
 		
 		productRepository.save(product);
 		
+	}
+	
+	public void addToCart(MyUser user, Product product) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		validator.stringValidate(product.getId(), "ProductID");
+		product.setUserShoppingCart(user);
+		productRepository.save(product);
 	}
 	
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
@@ -112,25 +122,20 @@ public class ProductService {
             return null;
 	}
 	
-	public List<Product> getProductsByBuyerId(String id){
-            try {
-                return productRepository.getProductsByBuyerId(id);
-            } catch (Exception e) {
-                System.err.println("The method getProductsByBuyerId from ProductService has failed and "
-                        + "has throw the next message: " + e.getMessage());
-            }
-            return null;
+	public List<Product> getShoppingCartProductsByUser(MyUser user) throws Exception{
+		
+		return productRepository.getShoppingCartByUserShoppingCart( user );
 	}
 	
-	public List<Product> getProductsByCategory(String category){
-        try {
-            return productRepository.getProductsByCategory(category);
-        } catch (Exception e) {
-            System.err.println("The method getProductsByCategory from ProductService has failed and "
-                    + "has throw the next message: " + e.getMessage());
-        }
-        return null;
-}
+//	public List<Product> getProductsByCategory(Categories category){
+//        try {
+//            return productRepository.getProductsByCategory(category);
+//        } catch (Exception e) {
+//            System.err.println("The method getProductsByCategory from ProductService has failed and "
+//                    + "has throw the next message: " + e.getMessage());
+//        }
+//        return null;
+//}
 	
 	public void productStatus(String id) throws Exception{
 		Product product = productRepository.getById(id); 

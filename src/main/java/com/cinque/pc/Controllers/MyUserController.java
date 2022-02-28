@@ -89,13 +89,15 @@ public class MyUserController {
 		return "catalog";
 	}
 
-	//6.- Ver historial de compra
-	@GetMapping("/{id}/buying-history")
+	//6.- Ver historial de compra 
+	//Lo pusimos como atributo Atte: Bombón, bellota y burbuja
+	//TODO mostrar historial de compra
+	/*@GetMapping("/{id}/buying-history")
 	public String buyingHistory(@PathVariable String id, Model model) {
 		model.addAttribute("history", productService.getProductsByBuyerId(id));
 		return "catalog";
 	}
-	
+	*/
 	@GetMapping("/{id}/selling-history")
 	public String sellingHistory(@PathVariable String id, Model model) {
 		model.addAttribute("history", productService.getProductsBySellerId(id));
