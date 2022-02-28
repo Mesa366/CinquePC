@@ -88,7 +88,7 @@
 
 								<!-- Modal de compra -->
 							</li>
-							<button type="button" class="btn btn-outline-info d-flex" data-bs-toggle="modal"
+							<button th:if="${!#lists.isEmpty(wishList)}" type="button" class="btn btn-outline-info d-flex" data-bs-toggle="modal"
 									data-bs-target="#exampleModal">
 									Comprar todo
 								</button>
