@@ -59,7 +59,10 @@ public class ProductController {
 	public String catalog(Model model, Principal principal) throws Exception {
 		List<Product> catalog = productService.getAll();
 		model.addAttribute("products", catalog);		
-		MyUser user = myUserService.getByEmail( principal.getName() );	
+		MyUser user = myUserService.getByEmail( principal.getName() );
+		
+		Double compraTotal = productService.devolverTotal(user);
+		
 		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
 		return "testCatalog";
 	}
@@ -78,10 +81,23 @@ public class ProductController {
 	}
 	
 	@GetMapping("/addToCart/{id}")
-	public String updateProduct(@PathVariable String id, Principal principal) throws Exception{
+	public String addToCart(@PathVariable String id, Principal principal) throws Exception{
 		MyUser user = myUserService.getByEmail( principal.getName() );
 		Product product = productService.getById(id);
 		productService.addToCart(user, product);
+		return "redirect:/product/catalog";
+	}
+	
+	@GetMapping("/removeFromCart/{id}")
+	public String removeFromCart(@PathVariable String id) throws Exception{
+		Product product = productService.getById(id);		
+		productService.removeFromCart(product);
+		return "redirect:/product/catalog";
+	}
+	
+	@GetMapping("/buyCart")
+	public String buyCart(Principal principal) {
+		
 		return "redirect:/product/catalog";
 	}
 
