@@ -120,6 +120,13 @@ public class ProductService {
 		productRepository.save(product);
 	}
 	
+	public void removeFromCart(Product product) throws Exception {	
+		validator.stringValidate(product.getId(), "ProductID");
+		product.setUserShoppingCart(null);
+		productRepository.save(product);
+	}
+	
+	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
 	
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
 	//READ
@@ -184,6 +191,22 @@ public class ProductService {
                     + "has throw the next message: " + e.getMessage());
         }
         return null;
+
+//	public List<Product> getProductsByCategory(Categories category){
+//        try {
+//            return productRepository.getProductsByCategory(category);
+//        } catch (Exception e) {
+//            System.err.println("The method getProductsByCategory from ProductService has failed and "
+//                    + "has throw the next message: " + e.getMessage());
+//        }
+//        return null;
+//}
+	
+	public void productStatus(String id) throws Exception{
+		Product product = productRepository.getById(id); 
+		product.setEnabled(!product.getEnabled());
+		productRepository.save(product);
+		
 	}
 	//DELETE
 	/*
@@ -196,6 +219,17 @@ public class ProductService {
 			System.out.println(e.getMessage());
 		}
 	}
+
+	public Double devolverTotal(MyUser user) {
+		List<Product> carrito = user.getShoppingCart();
+		Double compraTotal = 0.0;
+		for (Product product : carrito) {
+			compraTotal += product.getPrice();
+		}
+		return compraTotal;
+	}
+
+	
 
 	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR
 	public void deleteProduct(String id) throws Exception {
