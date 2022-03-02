@@ -1,15 +1,18 @@
 package com.cinque.pc.Services;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.cinque.pc.Entities.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Repositories.ProductRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductService {
@@ -20,49 +23,109 @@ public class ProductService {
 	@Autowired
 	private Validator validator;
 
-	public void createProduct (String name, Double price, MyUser seller, Date sellingDate, Integer stock) throws Exception {
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private MyUserService userService;
+
+	//CREATE
+	/**
+	 * Creates product
+        * @param name
+        * @param price
+        * @param user seller
+        * @param stock
+        * @param category
+        * @param product's picture
+        * @throws java.lang.Exception
+	 */
+	public void createProduct (String name, Double price, MyUser seller, Integer stock, Categories category, MultipartFile picture) throws Exception {
 		
 		validator.stringValidate(name, "Name");
-		validator.dateValidate(sellingDate, "Selling Date");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
-		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA */
-		
 		
 		Product product = new Product(); 
 		
 		product.setName(name);
 		product.setPrice(price);
 		product.setSeller(seller);
-		product.setSellingDate(sellingDate);
+		//product.setSellingDate(sellingDate);
 		product.setStock(stock);
-		
+		seller.getSellingProducts().add(product);
+		product.setCategory(category);
+		//Transform from MultipartFile to Image, so we can set it to the attribute
+		Image photo = imageService.saveImage(picture);
+		product.setPhoto(photo);
 		productRepository.save(product);
 		
 	}
-	
-	public void editProduct(String id, String name, Double price,Integer stock) throws Exception{
+	//UPDATE
+	/**
+	 * Updates product data
+        * @param name
+        * @param price
+        * @param user seller
+        * @param stock
+        * @param category
+        * @throws java.lang.Exception
+	 */
+	public void editProduct(String id, String name, Double price,Integer stock, Categories category) throws Exception{
 		
 		validator.stringValidate(name, "Name");
 		validator.doubleValidate(price, "Price");
 		validator.integerValidate(stock, "Stock");
-		/* TODO UTILIZAR LIST<OBJECT> COMO LISTA GENERICA
-		*   TODO AGREGAR  List<String> categories A LOS PARAMETROS */
-//		validator.listValidate(categories, "Categories");
 		
 		Product product = productRepository.getById(id); 
 		
 		product.setName(name);
 		product.setPrice(price);
-		
+		product.setCategory(category);
 		product.setStock(stock);
 		
 		productRepository.save(product);
 		
 	}
 	
-	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
+	//UPDATE PRODUCT PICTURE
+	/**
+	 * Only updates product's profile picture. 
+	 * @param picture It's the MultipartFile coming from the frontend.
+	 * @param id It's the product's id. 
+	 */
+	public void updatePicture(MultipartFile picture, String id) throws Exception {
+		Product product = productRepository.getById(id); 
+		//Transform from MultipartFile to Image, so we can set it to the attribute
+		Image photo = imageService.saveImage(picture);
+		product.setPhoto(photo);
+		productRepository.save(product);
+	}
 	
+	//CHANGE PRODUCT STATUS
+	/*
+	 * Set the product status (enabled/disabled)
+	 */
+	public void productStatus(String id) throws Exception{
+		Product product = productRepository.getById(id); 
+		product.setEnabled(!product.getEnabled());
+		productRepository.save(product);
+		
+	}
+	
+	public void addToCart(MyUser user, Product product) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		validator.stringValidate(product.getId(), "ProductID");
+		product.setUserShoppingCart(user);
+		productRepository.save(product);
+	}
+	
+	
+	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
+	//READ
+	/**
+	 * Lists all products.
+	 */
 	public List<Product> getAll() {
             try {
                 return productRepository.findAll();
@@ -72,7 +135,9 @@ public class ProductService {
             return null;
 	}
 	
-        //TODO unir metodos get y find
+	/**
+	 * Get product by id.
+	 */
 	public Product getById(String id) {
             try {
                 return productRepository.getById(id);
@@ -83,16 +148,15 @@ public class ProductService {
             return null;
 	}
 	
-	public Optional<Product> findById(String id) {
-            try {
-                return productRepository.findById(id);
-            } catch (Exception e) {
-                System.err.println("The method findById from ProductService has failed and has throw the "
-                        + "next message: " + e.getMessage());
-            }
-            return null;
-	}
-	
+	/**
+	 * Get products by name.
+	 */
+	public List<Product> getByName(String name) {
+		return productRepository.getByName(name);
+	} 
+	/**
+	 * Seller filter.
+	 */
 	public List<Product> getProductsBySellerId(String id){
             try {
                 return productRepository.getProductsBySellerId(id);
@@ -102,30 +166,29 @@ public class ProductService {
             }
             return null;
 	}
-	
-	public List<Product> getProductsByBuyerId(String id){
-            try {
-                return productRepository.getProductsByBuyerId(id);
-            } catch (Exception e) {
-                System.err.println("The method getProductsByBuyerId from ProductService has failed and "
-                        + "has throw the next message: " + e.getMessage());
-            }
-            return null;
-	}
-	
-	
-	/* TODO 
-	 *  public List<Product> getByAtt(){
-		return ;
-	} */
-	
-	public void productStatus(String id) throws Exception{
-		Product product = productRepository.getById(id); 
-		product.setEnabled(!product.getEnabled());
-		productRepository.save(product);
+	/*
+	 * Frank/David háganlo ustedes
+	 */
+	public List<Product> getShoppingCartProductsByUser(MyUser user) throws Exception{
 		
+		return productRepository.getShoppingCartByUserShoppingCart( user );
 	}
-
+	/**
+	 * Category filter.
+	 */
+	public List<Product> getProductsByCategory(Categories category){
+        try {
+            return productRepository.getProductsByCategory(category.toString());
+        } catch (Exception e) {
+            System.err.println("The method getProductsByCategory from ProductService has failed and "
+                    + "has throw the next message: " + e.getMessage());
+        }
+        return null;
+	}
+	//DELETE
+	/*
+	 * Deletes the product in database.
+	 */
 	public void deleteProduct(String id) throws Exception{
 		try{
 			productRepository.deleteById(id);

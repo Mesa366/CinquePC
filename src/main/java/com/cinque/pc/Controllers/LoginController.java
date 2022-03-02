@@ -1,12 +1,18 @@
 package com.cinque.pc.Controllers;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
@@ -14,8 +20,9 @@ import com.cinque.pc.Services.MyUserService;
 
 @Controller
 @RequestMapping("/auth")
-public class LoginController {
 
+public class LoginController {	
+	
 	@Autowired
 	MyUserService myUserService;
 
@@ -26,10 +33,10 @@ public class LoginController {
 			model.addAttribute("state", "login");
 		} else if (state.equals("register")) {
 			model.addAttribute("state", "register");
-			model.addAttribute("myUser", new MyUser());
-
+			model.addAttribute("user", new MyUser());
+			return "register";
 		} else {
-			return "redirect:../";
+			return "redirect:/auth/form/login";
 		}
 
 		return "layout/user";
@@ -39,93 +46,53 @@ public class LoginController {
 	@GetMapping("/form/{state}/{id}")
 	public String form(@PathVariable("state") String state, Model model, @PathVariable("id") String id) {
 
-		/* TODO cambiar type por password en el html user */
-
 		if ((state.equals("delete"))) {
 			myUserService.deleteUser(id);
-			return "redirect:../";
+			return "redirect:/auth/form/login";
 		} else if (state.equals("update")) {
 			model.addAttribute("state", "update");
 			model.addAttribute("myUser", myUserService.getById(id));
 		} else {
-			return "redirect:../";
+			return "redirect:/auth/form/login";
 		}
 		return "layout/user";
 	}
 
-	// TODO TEST (ESTE FUNCA!)
-//	@GetMapping("/form/{id}")
-//	public String form1(Model model, @PathVariable("id") String id) {
-//		
-//		model.addAttribute("state", "update");
-//		
-//		model.addAttribute("myUser", myUserService.getById(id));
-//		
-//		return"layout/user";
-//	}
-
-	/**
-	 * USER UPDATE
-	 */
-
 	// TODO method for changing password securely
 	// TODO can the user simply change his/her email?
-	//@PostMapping("/update/{id}")
-	//public String updateUserRedirect(@PathVariable String id,Image profilePicture,
-	//String name, String password, String email, Integer dni, Integer phone,
-	//Date birthday) {
-
-
-
-		//return "redirect:/{id}";
-
-	//}
 
 	// USER REGISTER
+
 	@PostMapping("/register")
-	public String registerUserRedirect(Image profilePicture, String name, String password, String email, String dni,
-			String phone) throws Exception {
-
-		myUserService.createUser(name, password, email, dni, phone, null, null);
-
-		return "redirect:../";
-
+	public String registerUserRedirect(RedirectAttributes ra, String name, String password1, String password2, String email, String dni, String phone, MultipartFile photo, @RequestParam(name = "birthday", required = false) 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.MM.yyyy") String birthday ) {
+		try {
+			LocalDate localDate = LocalDate.parse(birthday);
+			
+			myUserService.createUser(name, password1, password2, email, dni, phone, localDate, photo);
+            ra.addFlashAttribute("success", "User created successfully. Sign in now!"); // --> Esto añade una pequeña ventana cuando el usuario se crea satisfactoriamente
+            return "redirect:/user/register";
+		} catch (Exception e) {
+                    ra.addFlashAttribute("error", e.getMessage());                    
+		}
+		return "redirect:/user/register";
 	}
 
-	// UPDATE REGISTER
+	// UPDATE USER DATA
 	@PostMapping("/update/{id}")
-	public String updateUserRedirect(@PathVariable String id, Image profilePicture, String name, String password,
-			String email, String dni, String phone) throws Exception {
-		System.out.println("NAME: "+name);
-		System.out.println("CLAVE: "+password);
-		System.out.println("MAIL: "+email);
-		System.out.println("DNI: "+dni);
-		System.out.println("NUM TEL: "+phone);
-		myUserService.updateUser(id, name, password, email, dni, phone, null, null);
-
-		//return "redirect:../";
+	public String updateUserRedirect(@PathVariable String id,String name, String password1, String password2,
+			String email, String dni, String phone, @RequestParam(name = "birthday", required = false) 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.MM.yyyy") String birthday) throws Exception {
+		LocalDate localDate = LocalDate.parse(birthday);
+		myUserService.updateUser(id, name, password1, password2, email, dni, phone, localDate);
 		return "redirect:/auth/form/update/" + id ;
 	}
-
-	/*
-	@GetMapping("/form/delete/")
-	public String deleteUser(String id) throws Exception{
-
-		MyUserRepository.delete(user);
-
-		return "redirect:../";
+	// UPDATE USER PROFILE PICTURE
+	//TODO Hacer GETMAPPING del modal.
+	@PostMapping("/update/{id}/photo")
+	public String updatePictureUserRedirect(@PathVariable String id, MultipartFile profilePicture) throws Exception {
+		myUserService.updateProfilePicture(profilePicture, id);
+		return "redirect:/auth/form/update/" + id ;
 	}
-	*/
-
-
-	/*
-	 * @PostMapping("/register")
-	 * 
-	 * public String registerUserRedirect(@RequestParam MyUser myUser) {
-	 * 
-	 * myUserService.createUser(myUser);
-	 * 
-	 * return "redirect:../"; }
-	 */
 
 }

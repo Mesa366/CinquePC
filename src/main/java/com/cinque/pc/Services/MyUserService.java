@@ -1,8 +1,7 @@
 package com.cinque.pc.Services;
 
-import com.cinque.pc.Entities.Image;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Repositories.MyUserRepository;
 
@@ -29,17 +29,12 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private Validator validator;
-	
-	/* TODO Tenemos que hacer repositorio y servicio de imagen
-	@Autowired
-	private Image;
-	*/
 
 	@Autowired
 	private MyUserRepository userRepo;
         
-        @Autowired
-        private ImageService imageService;
+    @Autowired
+    private ImageService imageService;
 
 	//CREATE
 	/**
@@ -53,22 +48,21 @@ public class MyUserService implements UserDetailsService{
         * @param picture
         * @throws java.lang.Exception
 	 */
-	public void createUser(String name, String password, String email, String dni, String phone, 
-                Date birthday, MultipartFile picture) throws Exception {
+	public void createUser(String name, String password1, String password2, String email, String dni, String phone, 
+                LocalDate birthday, MultipartFile picture) throws Exception {		
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password"); //TODO validar y agregar doble verificacion
+		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");
 		validator.stringValidate(dni, "DNI");
 		validator.stringValidate(phone, "Phone");
-//		validator.dateValidate(birthday, "Birthday");
+		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = new MyUser();
 		user.setName(name);
 		/**
 		 * Password encryption
 		 */
-
-		String encPass = new BCryptPasswordEncoder().encode(password);
+		String encPass = new BCryptPasswordEncoder().encode(password1);
 		
 		user.setPassword(encPass);
 
@@ -76,49 +70,72 @@ public class MyUserService implements UserDetailsService{
 		user.setDni(dni);
 		user.setPhone(phone);
 		user.setBirthday(birthday);
-		
-                Image profilePicture = imageService.saveImage(picture);
-                user.setProfilePicture(profilePicture);
+		/*
+		 * We use our image service to convert MultipartFile into Image class
+		 */
+        Image profilePicture = imageService.saveImage(picture);
+        user.setProfilePicture(profilePicture);
                 
 		userRepo.save(user);		
 	}
 	
 	//UPDATE
 	/**
-	 * Updates user
+	 * Updates user data. 
+	 * 
 	 */
-	public void updateUser(String id, String name, String password, String email, String dni, 
-                String phone, Date birthday, MultipartFile picture) throws Exception {
+	public void updateUser(String id, String name, String password1, String password2, String email, String dni, 
+                String phone, LocalDate birthday) throws Exception {
 		validator.stringValidate(id, "ID");
 		validator.stringValidate(name, "Name");
-		validator.stringValidate(password, "Password");
+		validator.passwordValidate(password1, password2);
 		validator.stringValidate(email, "Email");
 		validator.stringValidate(dni, "DNI");
 		validator.stringValidate(phone, "Phone");
-		//validator.dateValidate(birthday, "Birthday");
+		validator.dateValidate(birthday, "Birthday");
 				
 		MyUser user = userRepo.getById(id);
+		
+		String encPass = new BCryptPasswordEncoder().encode(password1);
+		
 		user.setName(name);
-		user.setPassword(password);
+		
+		user.setPassword(encPass);
 		user.setEmail(email);
 		user.setDni(dni);
 		user.setPhone(phone);
 		user.setBirthday(birthday);
-		
 		userRepo.save(user);		
+	}
+	//UPDATE PROFILE PICTURE
+	/**
+	 * Only updates user's profile picture. 
+	 * @param picture It's the MultipartFile coming from the frontend.
+	 * @param id It's the user's id. 
+	 */
+	public void updateProfilePicture(MultipartFile picture, String id) throws Exception {
+		MyUser user = userRepo.getById(id);
+		Image profilePicture = imageService.saveImage(picture);
+        user.setProfilePicture(profilePicture);
+        userRepo.save(user);
 	}
 	
 	//READ
 	/**
-	 * Get user by id
+	 * Get user by id.
 	 */
 	public MyUser getById(String id) {
 		return userRepo.getById(id);
 	}
-	
-	//READ
 	/**
-	 * Lists all users
+	 * Get user by email.
+	 */
+	public MyUser getByEmail(String email) {
+		return userRepo.getByEmail(email).get();
+	}
+	
+	/**
+	 * Lists all users.
 	 */
 	public List<MyUser> getAll() {
 		return userRepo.findAll();
@@ -126,7 +143,7 @@ public class MyUserService implements UserDetailsService{
 
 	//DELETE
 	/**
-	 * Deletes user
+	 * Deletes user.
 	 */
 	public void deleteUser(String id) {
 		MyUser user = userRepo.getById(id);
@@ -134,6 +151,18 @@ public class MyUserService implements UserDetailsService{
 	}
 	
 
+	/**
+	 * @Author Franco Lamberti
+	 * Method to withdraw money from an user
+	 * @param withdrawal It's the quantity of money that the user wants to withdraw 
+	 * @param user It's the user that wants to withdraw money  
+	 * @throws Exception 
+	 */
+	public void withdrawMoney(Integer withdrawal,  MyUser user) throws Exception {
+		validator.withdrawalValidate(withdrawal, user.getWallet());
+		user.setWallet( user.getWallet() - withdrawal );
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<MyUser> opt = userRepo.getByEmail(email);

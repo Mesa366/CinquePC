@@ -28,9 +28,9 @@ public class Image {
 	 * Estrategia seleccionada GeneratedValue por defecto. Si falla, usa
 	 * GenericGenerator. Garantiza un ID único e irrepetible rápidamente.
 	 * 
-	 * @param id   UUID autogenerada
-	 * @param mime es el tipo de archivo de imagen
-	 * @param name es el nombre del archivo
+	 * param id   UUID autogenerada
+	 * param mime es el tipo de archivo de imagen
+	 * param name es el nombre del archivo
 	 */
 	@Id
 	@GeneratedValue(generator = "uuid")
