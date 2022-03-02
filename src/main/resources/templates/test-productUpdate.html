@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/webLayout">
+<head>
+<meta charset="utf-8">
+<title>Index</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<div class="container" style="margin: 100px auto  100px  auto; ">
+			<div th:if="${success}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+				<strong th:text="${success}"></strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+				<strong th:text="${error}"></strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+				 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+				 preserveAspectRatio="xMidYMid slice" focusable="false">
+				<img th:src="@{/photo/product/}+ ${product.id}"/>
+				<title>Placeholder</title>
+
+			</svg>
+			<form th:action="@{/product/update}+${product.id}" method="post" enctype="multipart/form-data" class="flexbox" th:object="${product}">
+			<!--th must be value because text is for printing, and we want to save the value. 
+				We change p for input
+			-->
+			
+			
+				<input type="hidden" th:if="${session.usersession != null}" th:value="${session.usersession.id}"name="userId" /> 
+				
+								
+				<div class="mb-3">
+					<label for="name" class="form-label">Name</label>
+					
+					<input type="text" class="form-control" name="name" th:value="${product.name}"/>
+				</div>
+				<div class="mb-3">
+					<label for="price" class="form-label">Price</label>
+					<!-- Step is to allow decimal numbers -->
+					<input type="number" step="0.01" class="form-control" name="price" th:value="${product.price}"/>
+				</div>
+
+				<div class="mb-3">
+					<label for="stock" class="form-label">Stock</label>
+					<input type="number" class="form-control" name="stock" th:value="${product.stock}"/>
+				</div>
+
+				<div class="mb-3">
+					<label>Seleccione una categoria</label>
+	        		<select name="category">
+	                  <option th:each="category : ${categories}" th:value="${category}" th:text="${category}">
+	              	</select>  
+				</div>
+
+
+				 <button class="w-100 btn btn-lg btn-primary" type="submit">
+				          Publicar
+        		 </button>
+			</form>
+
+</body>
+</html>

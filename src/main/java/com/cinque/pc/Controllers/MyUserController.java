@@ -28,26 +28,6 @@ public class MyUserController {
 	@Autowired
 	private ProductService productService;
         
-        
-        @GetMapping("/register")
-	public String registrar(Model model) {
-		MyUser user = new MyUser();
-		model.addAttribute("user", user);
-		return "register";
-	}
-
-	@PostMapping("/register")
-	public String usuarioCreado(MyUser user, MultipartFile photo, RedirectAttributes ra, String password2) {
-		try {
-                    myUserService.createUser(user.getName(), user.getPassword(), password2 , user.getEmail(), 
-                          user.getDni(), user.getPhone(), user.getBirthday(), photo);
-                    ra.addFlashAttribute("success", "User created successfully. Sign in now!"); // --> Esto añade una pequeña ventana cuando el usuario se crea satisfactoriamente
-                    return "redirect:/user/register";
-		} catch (Exception e) {
-                    ra.addFlashAttribute("error", e.getMessage());
-		}
-		return "redirect:/user/register";
-	}
 	
 	@GetMapping("/{id}")
 	public String profile(@PathVariable String id, Model model) {
@@ -55,22 +35,6 @@ public class MyUserController {
 		model.addAttribute("user", myUserService.getById(id));		
 		return "profile";
 	}
-	
-	@GetMapping("/update/{id}")
-	public String updateUser(@PathVariable String id, Model model) {
-		
-		model.addAttribute("user", myUserService.getById(id));		
-		return "userProfile";		
-	}
-
-
-	
-	@GetMapping("/delete/{id}")
-	public String deleteUser(@PathVariable String id) {
-		myUserService.deleteUser(id);		
-		return "redirect:../";
-	}
-	
 	
 	@GetMapping("/{id}/seller-list")
 	public String sellerList(@PathVariable String id, Model model) {
@@ -89,13 +53,15 @@ public class MyUserController {
 		return "catalog";
 	}
 
-	//6.- Ver historial de compra
-	@GetMapping("/{id}/buying-history")
+	//6.- Ver historial de compra 
+	//Lo pusimos como atributo Atte: Bombón, bellota y burbuja
+	//TODO mostrar historial de compra
+	/*@GetMapping("/{id}/buying-history")
 	public String buyingHistory(@PathVariable String id, Model model) {
 		model.addAttribute("history", productService.getProductsByBuyerId(id));
 		return "catalog";
 	}
-	
+	*/
 	@GetMapping("/{id}/selling-history")
 	public String sellingHistory(@PathVariable String id, Model model) {
 		model.addAttribute("history", productService.getProductsBySellerId(id));
