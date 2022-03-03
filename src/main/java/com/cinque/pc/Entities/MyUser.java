@@ -64,7 +64,7 @@ public class MyUser {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> sellingProducts;
+	private List<SingleBuy> sellingProducts;
 
 	@OneToMany(
 			mappedBy = "userWishList",
@@ -78,7 +78,7 @@ public class MyUser {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> shoppingCart;
+	private List<SingleBuy> shoppingCart;
 	
 	//Change made by Bombón Bellota y burbuja(alan y cia)
 	@OneToMany(
@@ -86,7 +86,7 @@ public class MyUser {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> shoppingHistory;
+	private List<SingleBuy> shoppingHistory;
 	
 	private Integer wallet;	
 
@@ -97,8 +97,8 @@ public class MyUser {
 	
 
 	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni, String phone,
-			LocalDate birthday, List<Product> sellingProducts, List<Product> wishList, List<Product> shoppingCart,
-			List<Product> shoppingHistory, Integer wallet) {
+			LocalDate birthday, List<SingleBuy> sellingProducts, List<Product> wishList, List<SingleBuy> shoppingCart,
+			List<SingleBuy> shoppingHistory, Integer wallet) {
 		super();
 		this.id = id;
 		this.profilePicture = profilePicture;
@@ -179,11 +179,11 @@ public class MyUser {
 		this.birthday = birthday;
 	}
 
-	public List<Product> getSellingProducts() {
+	public List<SingleBuy> getSellingProducts() {
 		return sellingProducts;
 	}
 
-	public void setSellingProduct(List<Product> sellingProduct) {
+	public void setSellingProduct(List<SingleBuy> sellingProduct) {
 		this.sellingProducts = sellingProduct;
 	}
 
@@ -195,11 +195,11 @@ public class MyUser {
 		this.wishList = wishList;
 	}
 
-	public List<Product> getShoppingCart() {
+	public List<SingleBuy> getShoppingCart() {
 		return shoppingCart;
 	}
 
-	public void setShoppingCart(List<Product> shoppingCart) {
+	public void setShoppingCart(List<SingleBuy> shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
 
@@ -211,15 +211,15 @@ public class MyUser {
 		this.wallet = wallet;
 	}
 
-	public void setSellingProducts(List<Product> sellingProducts) {
+	public void setSellingProducts(List<SingleBuy> sellingProducts) {
 		this.sellingProducts = sellingProducts;
 	}
 
-	public List<Product> getShoppingHistory() {
+	public List<SingleBuy> getShoppingHistory() {
 		return shoppingHistory;
 	}
 
-	public void setShoppingHistory(List<Product> shoppingHistory) {
+	public void setShoppingHistory(List<SingleBuy> shoppingHistory) {
 		this.shoppingHistory = shoppingHistory;
 	}
 

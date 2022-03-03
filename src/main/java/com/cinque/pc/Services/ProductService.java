@@ -52,8 +52,7 @@ public class ProductService {
 		product.setPrice(price);
 		product.setSeller(seller);
 		//product.setSellingDate(sellingDate);
-		product.setStock(stock);
-		seller.getSellingProducts().add(product);
+		product.setStock(stock);		
 		product.setCategory(category);
 		//Transform from MultipartFile to Image, so we can set it to the attribute
 		Image photo = imageService.saveImage(picture);
@@ -205,7 +204,7 @@ public class ProductService {
 			System.out.println(e.getMessage());
 		}
 	}
-
+/* TODO arreglar
 	public Double devolverTotal(MyUser user) {
 		List<Product> carrito = user.getShoppingCart();
 		Double compraTotal = 0.0;
@@ -214,7 +213,7 @@ public class ProductService {
 		}
 		return compraTotal;
 	}
-
+*/
 	
 
 	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR

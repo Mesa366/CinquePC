@@ -68,7 +68,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false">
-							Shopping Cart
+							Deseados
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li th:if="${session.usersession != null}" th:each="wishListProduct : ${wishList}">
@@ -78,6 +78,7 @@
 									
 									<a class="dropdown-item" href="#" th:text="${wishListProduct.name}"> </a>
 									<!-- Cada producto-->
+									<p> </p>
 									<a th:href="@{/product/removeFromCart/}+${wishListProduct.id}"
 										class="btn btn-sm btn-outline-danger">Eliminar</a>
 									<!-- Boton de eliminar cada producto-->
@@ -193,10 +194,10 @@
 										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
 										<a th:if="${! #lists.contains(wishList, product)}"
 											th:href="@{/product/addToCart/}+${product.id}"
-											class="btn btn-sm btn-outline-secondary">Añadir al carro</a>
+											class="btn btn-sm btn-outline-secondary">Añadir a deseados</a>
 										<a th:if="${#lists.contains(wishList, product)}"
 											th:href="@{/product/removeFromCart/}+${product.id}"
-											class="btn btn-sm btn-outline-danger">Eliminar del carro</a>
+											class="btn btn-sm btn-outline-danger">Eliminar de deseados</a>
 									</div>
 									<small th:if="${product.stock > 1}" class="text-muted"> Quedan <span th:text="${product.stock}"> </span> unidades </small>
 									<small th:if="${product.stock == 1}" class="text-muted"> Queda <span th:text="${product.stock}"> </span> unidad </small>

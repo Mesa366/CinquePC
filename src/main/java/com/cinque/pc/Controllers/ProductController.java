@@ -53,7 +53,7 @@ public class ProductController {
 		MyUser user = myUserService.getById(userId);
 		
 		productService.createProduct(name, price, user, stock, category,photo);
-		return "redirect:../";
+		return "redirect:/product/catalog";
 	}
 	
 	@GetMapping("/catalog")
@@ -63,8 +63,8 @@ public class ProductController {
 		model.addAttribute("products", catalog);		
 		MyUser user = myUserService.getByEmail( principal.getName() );
 		
-		Double compraTotal = productService.devolverTotal(user);
-		model.addAttribute("compraTotal", compraTotal);
+//		Double compraTotal = productService.devolverTotal(user);
+//		model.addAttribute("compraTotal", compraTotal);
 
 		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
 		return "testCatalog";

@@ -75,7 +75,7 @@ public class LoginController {
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());                    
 		}
-		return "redirect:/user/register";
+		return "redirect:/";
 	}
 
 	// UPDATE USER DATA
