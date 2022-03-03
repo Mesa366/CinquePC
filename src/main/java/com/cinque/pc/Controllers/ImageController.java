@@ -43,8 +43,8 @@ public class ImageController {
 		}
 	}
 	
-	@GetMapping("/product/{id}")
-	public ResponseEntity<byte[]> getProductImage(@PathVariable String id){
+	@GetMapping("/product")
+	public ResponseEntity<byte[]> getProductImage(@RequestParam String id){
 		try {
 			Product product = productService.getById(id);
 			byte[] image = product.getPhoto().getContent();	
