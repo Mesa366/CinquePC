@@ -1,18 +1,17 @@
 package com.cinque.pc.Services;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
-import com.cinque.pc.Entities.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cinque.pc.Entities.Image;
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Entities.SingleBuy;
 import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Repositories.ProductRepository;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductService {
@@ -59,6 +58,11 @@ public class ProductService {
 		product.setPhoto(photo);
 		productRepository.save(product);
 		
+	}
+	
+	public Product save(Product product) throws Exception{
+		validator.stringValidate(product.getId(), "ProductId");
+		return productRepository.save(product);
 	}
 	//UPDATE
 	/**
@@ -111,19 +115,40 @@ public class ProductService {
 		productRepository.save(product);
 		
 	}
-	
-	public void addToCart(MyUser user, Product product) throws Exception {
+	//Wishlist
+	public void addToWishList(MyUser user, Product product) throws Exception {
 		validator.stringValidate(user.getId(), "UserID");
 		validator.stringValidate(product.getId(), "ProductID");
-		product.setUserShoppingCart(user);
+		product.setUserWishList(user);
 		productRepository.save(product);
 	}
 
-	public void removeFromCart(Product product) throws Exception {	
+	public void removeFromWishList(Product product) throws Exception {	
+		validator.stringValidate(product.getId(), "ProductID");
+		product.setUserWishList(null);
+		productRepository.save(product);
+	}
+	//Wishlist
+	
+	//ShoppingCart
+	public void addToShoppingCart(MyUser user, Product product, Integer quantity) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		validator.stringValidate(product.getId(), "ProductID");
+		validator.integerValidate(quantity, "Quantity");
+		
+		product.setUserShoppingCart(user);
+		
+		
+		productRepository.save(product);
+	}
+
+	public void removeFromShoppingCart(Product product) throws Exception {	
 		validator.stringValidate(product.getId(), "ProductID");
 		product.setUserShoppingCart(null);
 		productRepository.save(product);
 	}
+	//ShoppingCart
+	
 	
 	/* MOSTRAR TODOS LOS PRODUCTOS(LISTA) - MOSTRAR UN PRODUCTO(CLICK) - MOSTRAR PRODUCTOS POR FILTRO - ALTA/BAJA */
 
@@ -176,9 +201,9 @@ public class ProductService {
 	/*
 	 * Frank/David háganlo ustedes
 	 */
-	public List<Product> getShoppingCartProductsByUser(MyUser user) throws Exception{
+	public List<Product> getWishListProductsByUserWishList(MyUser user) throws Exception{
 		
-		return productRepository.getShoppingCartByUserShoppingCart( user );
+		return productRepository.getWishListProductsByUserWishList( user );
 	}
 
 	/**
@@ -204,16 +229,16 @@ public class ProductService {
 			System.out.println(e.getMessage());
 		}
 	}
-/* TODO arreglar
+
 	public Double devolverTotal(MyUser user) {
-		List<Product> carrito = user.getShoppingCart();
+		List<SingleBuy> carrito = user.getShoppingCart();
 		Double compraTotal = 0.0;
-		for (Product product : carrito) {
-			compraTotal += product.getPrice();
+		for (SingleBuy singleBuy : carrito) {
+			compraTotal += ( singleBuy.getProduct().getPrice() * singleBuy.getQuantity() );
 		}
 		return compraTotal;
 	}
-*/
+
 	
 
 	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR

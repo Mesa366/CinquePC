@@ -50,7 +50,7 @@ public class Product {
 	*/
 	@ManyToOne
 	@JoinColumn(name = "userWishList_id")
-	private MyUser userWishList;
+	private MyUser userWishList; //Deberia estar solo este porque los otros 3 los tiene SingleBuy
 	
 	@ManyToOne
 	@JoinColumn(name = "userSellingProducts_id")

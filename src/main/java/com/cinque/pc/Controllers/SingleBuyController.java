@@ -1,11 +1,16 @@
 package com.cinque.pc.Controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cinque.pc.Entities.MyUser;
+import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.SingleBuyService;
 
 @Controller
@@ -14,6 +19,9 @@ public class SingleBuyController {
 
 	@Autowired
 	private SingleBuyService singleBuyService;
+	
+	@Autowired
+	private MyUserService userService;
 	
 	//SAVE
 	@PostMapping("/create")
@@ -30,9 +38,16 @@ public class SingleBuyController {
 	}
 	
 	//DELETE
-	@GetMapping("/delete")
-	public String deleteSingleBuy(String singleBuyId) throws Exception{
-		singleBuyService.delete(singleBuyId);
+	@GetMapping("/delete/{id}")
+	public String deleteSingleBuy(@PathVariable ("id") String id) throws Exception{
+		singleBuyService.delete(id);
+		return "redirect:/product/catalog";
+	}
+	
+	@GetMapping("/buyAllShoppingCart")
+	public String buyAllShoppingCart(Principal principal) throws Exception {
+		MyUser user =  userService.getByEmail( principal.getName() );
+		singleBuyService.buyAllShoppingCart(user);
 		return "redirect:/product/catalog";
 	}
 }

@@ -88,7 +88,7 @@ public class MyUser {
 			)
 	private List<SingleBuy> shoppingHistory;
 	
-	private Integer wallet;	
+	private Double wallet;	
 
 	public MyUser() {
 
@@ -98,7 +98,7 @@ public class MyUser {
 
 	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni, String phone,
 			LocalDate birthday, List<SingleBuy> sellingProducts, List<Product> wishList, List<SingleBuy> shoppingCart,
-			List<SingleBuy> shoppingHistory, Integer wallet) {
+			List<SingleBuy> shoppingHistory, Double wallet) {
 		super();
 		this.id = id;
 		this.profilePicture = profilePicture;
@@ -203,11 +203,11 @@ public class MyUser {
 		this.shoppingCart = shoppingCart;
 	}
 
-	public Integer getWallet() {
+	public Double getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(Integer wallet) {
+	public void setWallet(Double wallet) {
 		this.wallet = wallet;
 	}
 

@@ -79,6 +79,11 @@ public class MyUserService implements UserDetailsService{
 		userRepo.save(user);		
 	}
 	
+	public MyUser save(MyUser user) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		return userRepo.save(user);	
+	}
+	
 	//UPDATE
 	/**
 	 * Updates user data. 
@@ -158,9 +163,15 @@ public class MyUserService implements UserDetailsService{
 	 * @param user It's the user that wants to withdraw money  
 	 * @throws Exception 
 	 */
-	public void withdrawMoney(Integer withdrawal,  MyUser user) throws Exception {
+	public void withdrawMoney(Double withdrawal,  MyUser user) throws Exception {
 		validator.withdrawalValidate(withdrawal, user.getWallet());
 		user.setWallet( user.getWallet() - withdrawal );
+	}
+	
+	public void depositMoney(Double deposit,  MyUser user) throws Exception {
+		validator.doubleValidate(deposit, "Deposit");
+		validator.stringValidate(user.getId(), "UserId");
+		user.setWallet( user.getWallet() + deposit );
 	}
 	
 	@Override

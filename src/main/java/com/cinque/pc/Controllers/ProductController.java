@@ -18,6 +18,7 @@ import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
+import com.cinque.pc.Services.SingleBuyService;
 
 @Controller
 /* TODO revisar mapping permalink Martin */
@@ -28,8 +29,9 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	MyUserService myUserService;
-	//@Autowired
-	//Categories category;
+	
+	@Autowired
+	SingleBuyService sbService;
 
 	@GetMapping("/{id}")
 	public String product(@PathVariable String id, Model model) {
@@ -63,10 +65,13 @@ public class ProductController {
 		model.addAttribute("products", catalog);		
 		MyUser user = myUserService.getByEmail( principal.getName() );
 		
-//		Double compraTotal = productService.devolverTotal(user);
-//		model.addAttribute("compraTotal", compraTotal);
+		Double compraTotal = productService.devolverTotal(user);
+		model.addAttribute("compraTotal", compraTotal);
 
-		model.addAttribute("wishList", productService.getShoppingCartProductsByUser(user));
+		model.addAttribute("wishList", productService.getWishListProductsByUserWishList(user));
+		
+		model.addAttribute("shoppingCart", sbService.getByUserShoppingCart(user) );
+		
 		return "testCatalog";
 	}
 
@@ -84,18 +89,18 @@ public class ProductController {
 		return "redirect:../catalog";
 	}
 	
-	@GetMapping("/addToCart/{id}")
-	public String addToCart(@PathVariable String id, Principal principal) throws Exception{
+	@GetMapping("/addToWishList/{id}")
+	public String addToWishList(@PathVariable String id, Principal principal) throws Exception{
 		MyUser user = myUserService.getByEmail( principal.getName() );
 		Product product = productService.getById(id);
-		productService.addToCart(user, product);
+		productService.addToWishList(user, product);
 		return "redirect:/product/catalog";
 	}
 	
-	@GetMapping("/removeFromCart/{id}")
-	public String removeFromCart(@PathVariable String id) throws Exception{
+	@GetMapping("/removeFromWishList/{id}")
+	public String removeFromWishList(@PathVariable String id) throws Exception{
 		Product product = productService.getById(id);		
-		productService.removeFromCart(product);
+		productService.removeFromWishList(product);
 		return "redirect:/product/catalog";
 	}
 	
