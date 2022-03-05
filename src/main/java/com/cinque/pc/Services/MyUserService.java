@@ -65,7 +65,7 @@ public class MyUserService implements UserDetailsService{
 		String encPass = new BCryptPasswordEncoder().encode(password1);
 		
 		user.setPassword(encPass);
-
+		user.setWallet(0.0);
 		user.setEmail(email);
 		user.setDni(dni);
 		user.setPhone(phone);
@@ -77,6 +77,11 @@ public class MyUserService implements UserDetailsService{
         user.setProfilePicture(profilePicture);
                 
 		userRepo.save(user);		
+	}
+	
+	public MyUser save(MyUser user) throws Exception {
+		validator.stringValidate(user.getId(), "UserID");
+		return userRepo.save(user);	
 	}
 	
 	//UPDATE
@@ -158,9 +163,22 @@ public class MyUserService implements UserDetailsService{
 	 * @param user It's the user that wants to withdraw money  
 	 * @throws Exception 
 	 */
-	public void withdrawMoney(Integer withdrawal,  MyUser user) throws Exception {
+	public void withdrawMoney(Double withdrawal,  MyUser user) throws Exception {
 		validator.withdrawalValidate(withdrawal, user.getWallet());
+		
+		System.out.println("User wallet = " + user.getWallet());
 		user.setWallet( user.getWallet() - withdrawal );
+		System.out.println("User wallet post withdrawal = " + user.getWallet());
+		userRepo.save(user);
+	}
+	
+	public void depositMoney(Double deposit,  MyUser user) throws Exception {
+		validator.doubleValidate(deposit, "Deposit");
+		validator.stringValidate(user.getId(), "UserId");
+		System.out.println("User wallet = " + user.getWallet());
+		user.setWallet( user.getWallet() + deposit );
+		System.out.println("User wallet post deposit = " + user.getWallet());
+		userRepo.save(user);
 	}
 	
 	@Override

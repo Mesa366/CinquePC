@@ -75,6 +75,7 @@ public class LoginController {
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());                    
 		}
+
 		return "redirect:../auth/form/register";
 	}
 

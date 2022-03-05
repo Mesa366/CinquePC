@@ -91,9 +91,9 @@ public class Validator {
 	 * @param withdrawal It's the quantity of money that the user wants to withdraw 
 	 * @param userWallet It's the actual money that the user has.  
 	 */
-	public void withdrawalValidate(Integer withdrawal, Integer userWallet) throws Exception {
+	public void withdrawalValidate(Double withdrawal, Double userWallet) throws Exception {
 		if( userWallet < withdrawal ){ // If the user has less money that the quantity that he wants to withdraw, throws exception
-			throw new Exception("Not enough money");
+			throw new Exception("Not enough money, costs " + withdrawal + " and you have " + userWallet);
 		}
 	}
 	
