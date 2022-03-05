@@ -71,11 +71,12 @@ public class LoginController {
 			
 			myUserService.createUser(name, password1, password2, email, dni, phone, localDate, photo);
             ra.addFlashAttribute("success", "User created successfully. Sign in now!"); // --> Esto añade una pequeña ventana cuando el usuario se crea satisfactoriamente
-            return "redirect:/user/register";
+            return "redirect:../";
 		} catch (Exception e) {
                     ra.addFlashAttribute("error", e.getMessage());                    
 		}
-		return "redirect:/";
+
+		return "redirect:../auth/form/register";
 	}
 
 	// UPDATE USER DATA
