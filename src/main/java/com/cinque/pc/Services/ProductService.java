@@ -239,8 +239,6 @@ public class ProductService {
 		return compraTotal;
 	}
 
-	
-
 	/* TODO BOOLEANO PARA VER SI EL USUARIO ES ADMIN PARA ELIMINAR
 	public void deleteProduct(String id) throws Exception {
 		

@@ -91,16 +91,26 @@ public class SingleBuyService {
 		List<SingleBuy> shoppingCart = user.getShoppingCart();//Obtengo el carrito
 		
 		userService.withdrawMoney(total, user); //Retiro el dinero de el comprador
-		
+		System.out.println("Usuario comprador:" + user.getEmail() + " tiene $" + user.getWallet());
+
 		for(int i = 0; i < shoppingCart.size(); i++) {//Recorro cada producto
 			MyUser seller = shoppingCart.get(i).getProduct().getSeller(); //Obtengo el vendedor del producto actual
 			Double montoActual = shoppingCart.get(i).getProduct().getPrice() * shoppingCart.get(i).getQuantity(); //montoActual es igual a el precio del producto actual multiplicado la cantidad
 			userService.depositMoney(montoActual, seller);//Le deposito el dinero debido a el vendedor actual
 			userService.save(seller);
+			
+			
+			System.out.println("Usuario Vendedor:" + seller.getEmail() + " tiene $" + seller.getWallet());
+			System.out.println("Usuario comprador:" + user.getEmail() + " tiene $" + user.getWallet());
+
+			Product product = shoppingCart.get(i).getProduct();//Obtengo el producto actual
+			product.setStock(  product.getStock() - shoppingCart.get(i).getQuantity() ); //Le saco el stock que compré
+			
 		}
-		user.setShoppingCart(null);//Reseteo el carrito de compras
+		System.out.println("Usuario comprador al comprar todo:" + user.getEmail() + " tiene $" + user.getWallet());
+
+		user.getShoppingCart().clear();//Vacío el carrito
 		
-		System.out.println("Salio bien?");
 		userService.save(user);
 		
 	}

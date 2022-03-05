@@ -142,10 +142,60 @@
 					<!-- ShoppingCart dropdown -->
 
 				</ul>
+
 				<form class="d-flex">
 					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#moneyModal"
+					style="margin-left: 10px">
+					<img src="/img/wallet.png" style="height: 30px; "> $<span th:text="${session.usersession.wallet}"></span>
+				</button>
+
+				<!-- Modal de dinero -->
+				<div class="modal fade" id="moneyModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Wallet</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p>Actual money: $<span th:text="${session.usersession.wallet}"></span></p>
+
+								<form th:action="@{/user/wallet}" method="POST">
+									<label>Action:</label>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="action" value="deposit">
+										<label class="form-check-label" for="flexRadioDefault1">Deposit</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="action" value="withdraw">
+										<label class="form-check-label" for="flexRadioDefault2">Withdraw</label>
+									</div>
+
+									<label>Amount:</label>
+									<input type="number" name="quantity">
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Close</button>
+										<input type="submit" class="btn btn-primary" value="Confirm">
+									</div>
+
+								</form>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- Modal de dinero -->
+
 			</div>
 		</div>
 	</nav>
@@ -254,14 +304,14 @@
 										<!-- Add to ShoppingCart button -->
 										<!-- Modal de SingleBuy -->
 										<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-											th:data-bs-target="${'#'+ product.name}">
+											th:data-bs-target="${'#id'+ product.id }">
 											<img src="/img/shopping-cart.png" style="height: 30px;">
 										</button>
 										<!-- Modal de SingleBuy -->
 
 
 										<!-- Modal -->
-										<div class="modal fade" th:id="${product.name}" tabindex="-1"
+										<div class="modal fade" th:id="${'id' + product.id}" tabindex="-1"
 											aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
 												<div class="modal-content">
