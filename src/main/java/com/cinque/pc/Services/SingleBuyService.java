@@ -1,5 +1,6 @@
 package com.cinque.pc.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,22 +94,23 @@ public class SingleBuyService {
 		userService.withdrawMoney(total, user); //Retiro el dinero de el comprador
 		System.out.println("Usuario comprador:" + user.getEmail() + " tiene $" + user.getWallet());
 
+		List<SingleBuy> historial = user.getShoppingHistory(); 
+		
 		for(int i = 0; i < shoppingCart.size(); i++) {//Recorro cada producto
-			MyUser seller = shoppingCart.get(i).getProduct().getSeller(); //Obtengo el vendedor del producto actual
-			Double montoActual = shoppingCart.get(i).getProduct().getPrice() * shoppingCart.get(i).getQuantity(); //montoActual es igual a el precio del producto actual multiplicado la cantidad
+			SingleBuy singleBuy = shoppingCart.get(i);
+			Product product = shoppingCart.get(i).getProduct();
+			
+			MyUser seller = product.getSeller(); //Obtengo el vendedor del producto actual
+			Double montoActual = product.getPrice() * singleBuy.getQuantity(); //montoActual es igual a el precio del producto actual multiplicado la cantidad
 			userService.depositMoney(montoActual, seller);//Le deposito el dinero debido a el vendedor actual
-			userService.save(seller);
-			
-			
-			System.out.println("Usuario Vendedor:" + seller.getEmail() + " tiene $" + seller.getWallet());
-			System.out.println("Usuario comprador:" + user.getEmail() + " tiene $" + user.getWallet());
-
-			Product product = shoppingCart.get(i).getProduct();//Obtengo el producto actual
-			product.setStock(  product.getStock() - shoppingCart.get(i).getQuantity() ); //Le saco el stock que compré
-			
+			userService.save(seller);//guardo los cambios del vendedor			
+									
+			product.setStock(  product.getStock() - singleBuy.getQuantity() ); //Le saco el stock que compré
+			singleBuy.setUserShoppingHistory(user);//guardo al usuario actual como comprador de este producto, o sea que con esto va a su historial
+			historial.add(singleBuy);
 		}
 		System.out.println("Usuario comprador al comprar todo:" + user.getEmail() + " tiene $" + user.getWallet());
-
+		user.setShoppingHistory(historial);
 		user.getShoppingCart().clear();//Vacío el carrito
 		
 		userService.save(user);
