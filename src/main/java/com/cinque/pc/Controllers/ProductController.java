@@ -33,6 +33,25 @@ public class ProductController {
 	@Autowired
 	SingleBuyService sbService;
 
+	//DONDE IRIA ESTOOOOOOOOOO
+	//String keyword = "queso";
+//	List<Product> catalog = productService.getAll(keyword);
+
+	 @GetMapping(value = "/search")
+	    public String productSearch(Model model, @RequestParam(value ="query",required = false)String keyword){
+	        try {
+	        	
+	            List<Product> searchResults = productService.findByKeyword(keyword);
+	            model.addAttribute("searchResult", searchResults);
+	            model.addAttribute("result",keyword);  // VER DONDE AGREGAR AL HTML
+	            return "search";
+	        } catch (Exception e) {
+	            model.addAttribute("error", e.getMessage());
+	            return "error";
+	        }
+	    }
+	
+	
 	@GetMapping("/{id}")
 	public String product(@PathVariable String id, Model model) {
 		Product product = productService.getById(id);
@@ -60,6 +79,8 @@ public class ProductController {
 	
 	@GetMapping("/catalog")
 	public String catalog(Model model, Principal principal) throws Exception {
+		
+		
 		List<Product> catalog = productService.getAll();
 
 		model.addAttribute("products", catalog);		

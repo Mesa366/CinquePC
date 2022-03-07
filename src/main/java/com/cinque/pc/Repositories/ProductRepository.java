@@ -27,5 +27,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	@Query("SELECT a FROM Product a WHERE a.userWishList = :userWishList")
 	public List<Product> getWishListProductsByUserWishList(@Param("userWishList") MyUser userWishList);	
 	
-	
+	//VER COMO PASAR LA QUERY NATIVA A UNA DE TIPO JPA HIBERNATE:
+	 // @Query(value = "SELECT * FROM Product WHERE Product.name LIKE %:q%", nativeQuery = true)
+	  //  List<Product> findByTitle(@Param("q")String q);
+	  
+	  @Query("SELECT a FROM Product a WHERE a.name = :keyword") //agregar OR a.seller
+		public List<Product> findByKeyword(@Param("keyword") String keyword);
 }

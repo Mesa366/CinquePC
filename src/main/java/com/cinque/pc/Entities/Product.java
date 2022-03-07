@@ -33,6 +33,7 @@ public class Product {
 	private String id;
 	private String name;
 	private Double price;
+	private String keyword; //Agregue este atributo para las busquedas
 
 	@OneToOne
 	private MyUser seller;

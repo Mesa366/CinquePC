@@ -213,7 +213,7 @@
      	 	<input type="text" name="keyword" class="form-control" id="keyword" th:value="${keyword}" placeholder="Search for a particular product by entering its name or its seller's name here..." required> 
      	 </div>
      	 <input type="submit" class="btn btn-secondary mb-2" value="Search" th:href="@{/product/search/}">
-       	 <input type="submit" class="btn btn-secondary mb-2" value="Clear" th:href="@{/product/catalog/}"> 
+       	 <input type="submit" class="btn btn-secondary mb-2" value="Clear" th:href="@{/product/catalog/}">
       </form>
        <!-- Filtro de productos por palabras claves -->
       
@@ -287,11 +287,11 @@
 		<div class="album py-5 bg-light">
 			<div class="container">
 
-<!--VER DONDE VA SEARCHRESULTS!!!!!!!!!!!!!quizas tengo que tener dos html -->
+<!--VER DONDE VA SEARCHRESULTS!!!!!!!!!!!!! dos html o hacer un if con thymeleaf-->
 
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 					<!-- Producto individual -->
-					<div class="col" th:each="Product : ${products}"> <!-- viene del controller /catalog-->
+					<div class="col" th:each="Product : ${searchResult}"> <!-- viene del controller /search en esta vista-->
 						<!-- inicio tarjeta -->
 						<div class="card shadow-sm">
 

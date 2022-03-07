@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.Image;
@@ -158,8 +159,23 @@ public class ProductService {
 	/**
 	 * Lists all products.
 	 */
-	public List<Product> getAll() {
+	
+	  @Transactional
+	    public List<Product> findByKeyword(String keyword) throws Exception{
+	        try{
+	            List<Product> searchResults = this.productRepository.findByKeyword(keyword);
+	            return searchResults;
+	        } catch (Exception e) {
+	            throw new Exception(e.getMessage());
+	        }
+	    }
+	
+	public List<Product> getAll(){
+	//public List<Product> getAll(String keyword) {
             try {
+            //	if(keyword != null) {
+            //		return productRepository.findAll(keyword);
+           // 	}
                 return productRepository.findAll();
             } catch (Exception e) {            
                 System.err.println("The method getAll from ProductService has failed and has throw the next message: " + e.getMessage());
