@@ -1,6 +1,7 @@
 package com.cinque.pc.Controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
+import com.cinque.pc.Entities.SingleBuy;
 import com.cinque.pc.Enums.Categories;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
 import com.cinque.pc.Services.SingleBuyService;
+import com.cinque.pc.Services.Validator;
 
 @Controller
 /* TODO revisar mapping permalink Martin */
@@ -29,7 +32,8 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	MyUserService myUserService;
-	
+	@Autowired
+	Validator validator;
 	@Autowired
 	SingleBuyService sbService;
 
@@ -62,15 +66,22 @@ public class ProductController {
 	public String catalog(Model model, Principal principal) throws Exception {
 		List<Product> catalog = productService.getAll();
 
-		model.addAttribute("products", catalog);		
-		MyUser user = myUserService.getByEmail( principal.getName() );
-		
-		Double compraTotal = productService.devolverTotal(user);
-		model.addAttribute("compraTotal", compraTotal);
+		model.addAttribute("products", catalog);
+		if(principal != null) {
+			MyUser user = myUserService.getByEmail( principal.getName() );
+			
+			Double compraTotal = productService.devolverTotal(user);
+			model.addAttribute("compraTotal", compraTotal);
 
-		model.addAttribute("wishList", productService.getWishListProductsByUserWishList(user));
+			model.addAttribute("wishList", productService.getWishListProductsByUserWishList(user));
+			
+			model.addAttribute("shoppingCart", sbService.getByUserShoppingCart(user) );
+			
+			model.addAttribute("registered", true);
+		}else {
+			model.addAttribute("registered", false);			
+		}
 		
-		model.addAttribute("shoppingCart", sbService.getByUserShoppingCart(user) );
 		
 		return "testCatalog";
 	}
