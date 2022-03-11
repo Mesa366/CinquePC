@@ -201,7 +201,7 @@ public class ProductService {
 	
 	public List<Product> getByProductsFilterName(String filterName) {
         try {
-            return productRepository.getProductsByName(filterName);
+            return productRepository.findByNameContainingIgnoreCase(filterName);
         } catch (Exception e) {
             System.err.println("The method getProductsFilterName from ProductService has failed and has throw the "
                     + "next message: " + e.getMessage());

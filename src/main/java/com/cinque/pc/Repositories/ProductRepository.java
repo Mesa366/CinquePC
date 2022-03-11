@@ -28,8 +28,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	public List<Product> getWishListProductsByUserWishList(@Param("userWishList") MyUser userWishList);	
 	
 	// This query is looking up for products with seller name like or name of the product like
-	@Query("SELECT a FROM Product a WHERE a.name LIKE %:filterName% OR a.seller.name LIKE %:filterName%" )
-	public List<Product> getProductsByName(@Param("filterName") String filterName);
+	
+	public List<Product> findByNameContainingIgnoreCase(@Param("filterName") String filterName);
 	
 	
 	
