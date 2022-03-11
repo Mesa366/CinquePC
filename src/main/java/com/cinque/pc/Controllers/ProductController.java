@@ -63,8 +63,14 @@ public class ProductController {
 	}
 	
 	@GetMapping("/catalog")
-	public String catalog(Model model, Principal principal) throws Exception {
-		List<Product> catalog = productService.getAll();
+	public String catalog(Model model, Principal principal, @RequestParam(required=false) String filterName) throws Exception {
+		List<Product> catalog;
+		
+		if (filterName==null) {
+				catalog = productService.getAll();}
+		else {
+				catalog= productService.getByProductsFilterName(filterName);}
+			
 
 		model.addAttribute("products", catalog);
 		if(principal != null) {

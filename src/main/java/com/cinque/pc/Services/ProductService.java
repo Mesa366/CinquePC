@@ -198,6 +198,16 @@ public class ProductService {
             }
             return null;
 	}
+	
+	public List<Product> getByProductsFilterName(String filterName) {
+        try {
+            return productRepository.getProductsByName(filterName);
+        } catch (Exception e) {
+            System.err.println("The method getProductsFilterName from ProductService has failed and has throw the "
+                    + "next message: " + e.getMessage());
+        }
+        return null;
+}
 	/*
 	 * Frank/David háganlo ustedes
 	 */
