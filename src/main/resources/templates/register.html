@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/headDefault.html :: head">
+</head >
+<body>
+
+<nav th:replace="/fragments/navbar.html :: nav"></nav >
+
+		<div class="container" style="margin: 100px auto  100px  auto; ">
+			<div th:if="${success}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+				<strong th:text="${success}"></strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+				<strong th:text="${error}"></strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<form th:action="@{/auth/register}" method="post" enctype="multipart/form-data" class="flexbox">
+				<div class="mb-3">
+					<label for="name" class="form-label">Name</label>
+					<input type="text" class="form-control" th:field="${user.name}" name="name" />
+				</div>
+				<div class="mb-3">
+					<label for="Password" class="form-label">Password</label>
+					<input type="password" class="form-control" name="password1" />
+				</div>
+
+				<div class="mb-3">
+					<label for="Password" class="form-label">Password</label>
+					<input type="password" class="form-control" name="password2" />
+				</div>
+
+				<div class="mb-3">
+					<label for="email" class="form-label">Email address</label>
+					<input type="email" class="form-control" aria-describedby="emailHelp" name="email" />
+				</div>
+				<div class="mb-3">
+					<label for="dni" class="form-label">DNI</label>
+					<input type="text" class="form-control" name="dni" />
+				</div>
+				<div class="mb-3">
+					<label for="phone" class="form-label">Phone</label>
+					<input type="text" class="form-control" name="phone" />
+				</div>
+
+				<div class="mb-3">
+					<label for="birthday" class="form-label">Fecha de nacimiento</label>
+					<input type="date" class="form-control" name="birthday" />
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">
+					Register
+				</button>
+			</form>
+		</div>
+<div th:replace="/fragments/footerDefault.html :: div"></div >
+</body>
+</html>

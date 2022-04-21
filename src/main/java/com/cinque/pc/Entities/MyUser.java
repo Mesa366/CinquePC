@@ -1,10 +1,6 @@
 package com.cinque.pc.Entities;
 
-/* TODO traducir al ingles
- * 	corregir detalles
- */
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -56,40 +53,66 @@ public class MyUser {
 	@Column(unique = true, nullable = false)
 	private String email;
 	
-	private Integer dni;
-	private Integer phone;
-	private Date birthday;
+	private String dni;
+	private String phone;
 
+	private LocalDate birthday;
+
+	
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userSellingProducts",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
-	private List<Product> sellingProduct;
+	private List<SingleBuy> sellingProducts;
 
 	@OneToMany(
-			mappedBy = "user",
+			mappedBy = "userWishList",
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 			)
 	private List<Product> wishList;
+	
+	@OneToMany(
+			mappedBy = "userShoppingCart",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private List<SingleBuy> shoppingCart;
+	
+	//Change made by Bombón Bellota y burbuja(alan y cia)
+	@OneToMany(
+			mappedBy = "userShoppingHistory",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private List<SingleBuy> shoppingHistory;
+	
+	private Double wallet;	
 
 	public MyUser() {
 
 	}
 
-	public MyUser(String id, Image profilePicture, String name, String password, String email, Integer dni,
-			Integer phone, Date birthday, List<Product> sellingProduct, List<Product> wishList) {
+	
+
+	public MyUser(String id, Image profilePicture, String name, String password, String email, String dni, String phone,
+			LocalDate birthday, List<SingleBuy> sellingProducts, List<Product> wishList, List<SingleBuy> shoppingCart,
+			List<SingleBuy> shoppingHistory, Double wallet) {
+		super();
 		this.id = id;
-		this.name = name;
 		this.profilePicture = profilePicture;
+		this.name = name;
 		this.password = password;
 		this.email = email;
 		this.dni = dni;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.sellingProduct = sellingProduct;
+		this.sellingProducts = sellingProducts;
 		this.wishList = wishList;
+		this.shoppingCart = shoppingCart;
+		this.shoppingHistory = shoppingHistory;
+		this.wallet = wallet;
 	}
 
 	public String getId() {
@@ -132,36 +155,36 @@ public class MyUser {
 		this.email = email;
 	}
 
-	public Integer getDni() {
+	public String getDni() {
 		return dni;
 	}
 
-	public void setDni(Integer dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
-	public List<Product> getSellingProduct() {
-		return sellingProduct;
+	public List<SingleBuy> getSellingProducts() {
+		return sellingProducts;
 	}
 
-	public void setSellingProduct(List<Product> sellingProduct) {
-		this.sellingProduct = sellingProduct;
+	public void setSellingProduct(List<SingleBuy> sellingProduct) {
+		this.sellingProducts = sellingProduct;
 	}
 
 	public List<Product> getWishList() {
@@ -171,5 +194,45 @@ public class MyUser {
 	public void setWishList(List<Product> wishList) {
 		this.wishList = wishList;
 	}
+
+	public List<SingleBuy> getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(List<SingleBuy> shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	public Double getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(Double wallet) {
+		this.wallet = wallet;
+	}
+
+	public void setSellingProducts(List<SingleBuy> sellingProducts) {
+		this.sellingProducts = sellingProducts;
+	}
+
+	public List<SingleBuy> getShoppingHistory() {
+		return shoppingHistory;
+	}
+
+	public void setShoppingHistory(List<SingleBuy> shoppingHistory) {
+		this.shoppingHistory = shoppingHistory;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "MyUser [id=" + id + ", profilePicture=" + profilePicture + ", name=" + name + ", password=" + password
+				+ ", email=" + email + ", dni=" + dni + ", phone=" + phone + ", birthday=" + birthday
+				+ ", sellingProducts=" + sellingProducts + ", wishList=" + wishList + ", shoppingCart=" + shoppingCart
+				+ ", shoppingHistory=" + shoppingHistory + ", wallet=" + wallet + "]";
+	}
+	
+	
 
 }

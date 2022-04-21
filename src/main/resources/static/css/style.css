@@ -1,0 +1,42 @@
+.maxWH{
+	max-width: 100%; 
+	max-height: 100%;
+}
+
+.vh20{
+	height: 20vh;
+}
+
+.minH80vh{
+	min-height: 80vh;
+}
+
+.bottomBorderLightBlue{
+	border-bottom: solid 2px rgb(51, 153, 255); 
+	border-right: solid 2px rgb(51, 153, 255);
+}
+
+.height100per{
+	height: 100%;
+}
+
+.blackBG{
+	background-color: rgba(20, 20, 20, 0.8);
+}
+
+.redFont{
+	color:red; 
+	font-weight: bold;
+}
+
+.positionAbsolute{
+	position: absolute;
+}
+
+.padding5px{
+	padding: 5px;
+}
+
+.fontSize-1-5em{
+	font-size: 1.5em;
+}

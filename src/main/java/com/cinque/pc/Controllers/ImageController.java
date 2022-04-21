@@ -13,8 +13,11 @@ import com.cinque.pc.Entities.MyUser;
 import com.cinque.pc.Entities.Product;
 import com.cinque.pc.Services.MyUserService;
 import com.cinque.pc.Services.ProductService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/photo")
 public class ImageController {
 
 	@Autowired

@@ -1,0 +1,183 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<!--inicio navbar-->
+	<div class="container-fluid">
+		<a class="navbar-brand" th:href="@{/}">
+			<img src="/img/CinquePClogo.png" style="height: 30px;"> Cinque
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<!-- Wishlist dropdown -->
+				<li class="nav-item dropdown">
+				<li class="nav-item">
+					<a th:if="${session.usersession != null}" class="nav-link" th:href="@{/product/catalog}">Productos</a>
+					<a th:if="${session.usersession == null}" class="nav-link" th:href="@{/auth/form/register}">Productos</a>					
+				</li>
+
+				<!-- Wishlist dropdown -->
+				<li th:if="${session.usersession != null}" class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="shoppingCartDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Wishlist
+					</a>
+
+					<ul class="dropdown-menu" aria-labelledby="shoppingCartDropdown">
+						<li th:if="${session.usersession != null}" th:each="wishListProduct : ${wishList}">
+							<!-- aca va la foto -->
+
+							<div class="d-flex">
+
+								<a class="dropdown-item" href="#" th:text="${wishListProduct.name}"> </a>
+								<!-- Cada producto-->
+								<p> </p>
+								<a th:href="@{/product/removeFromWishList/}+${wishListProduct.id}"
+									class="btn btn-sm btn-outline-danger">Eliminar</a>
+								<!-- Boton de eliminar cada producto-->
+							</div>
+						</li>
+
+						<li th:if="${#lists.isEmpty(wishList)}">
+							<p class="dropdown-item" href="#"> Oh oh, it's empty :c </p>
+						</li>
+						
+					</ul>
+				</li>
+				<!-- Wishlist dropdown -->
+
+				<!-- ShoppingCart dropdown -->
+				<li th:if="${session.usersession != null}" class="nav-item dropdown d-flex justify-content-center">
+					<a class="nav-link dropdown-toggle" href="#" id="shoppingCartDropdown2" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Shopping Cart
+					</a>
+
+					<ul class="dropdown-menu" aria-labelledby="shoppingCartDropdown2">
+						<li th:if="${session.usersession != null}" th:each="shoppingCartProduct : ${shoppingCart}">
+							<!-- aca va la foto -->
+
+							<div class="d-flex">
+								<p class="dropdown-item" th:text="${shoppingCartProduct.quantity}"> </p>
+								<p class="dropdown-item" th:text="${shoppingCartProduct.product.name}"> </p>
+								<!-- Cada producto-->
+								<p> </p>
+
+								<a th:href="@{/sb/delete/}+${shoppingCartProduct.id}"
+									class="btn bg-danger d-flex justify-content-center align-items-center" style="max-height: 30px;">
+										<img src="/img/trash.png" style="height: 20px; ">
+									</a>
+								<!-- Boton de eliminar cada producto-->
+							</div>
+						</li>
+
+						<div class="d-flex justify-content-center align-items-center">
+							<button th:if="${! #lists.isEmpty(shoppingCart)}" type="button"
+							class="btn btn-outline-info d-flex" data-bs-toggle="modal" data-bs-target="#shoppingCart">
+							Comprar todo
+							</button>
+						</div >
+						
+
+
+						<li th:if="${#lists.isEmpty(shoppingCart)}">
+							<p class="dropdown-item" href="#"> Oh oh, it's empty :c </p>
+						</li>
+					</ul>
+				</li>
+				<!-- ShoppingCart dropdown -->
+
+			</ul>
+
+			<div>
+				<form th:action="@{/product/catalog/}" method="post" class="d-flex">
+					<input class="form-control me-2" type="search"  name="word" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+
+			<!-- Boton modal dinero -->
+			<div>
+
+
+				<!-- Modal user -->
+
+
+				<div th:if="${session.usersession != null}" class="dropdown">
+					<a class="dropdown-toggle mx-1" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						<img src="/img/User.png" style="height: 40px; background: white; border-radius: 50%;">
+					</a>
+
+					<ul class="dropdown-menu dropdown-menu-end dropstart" aria-labelledby="dropdownMenuButton1">
+						<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#moneyModal">
+							<img src="/img/wallet.png" style="height: 30px; "> Tu billetera
+						</a>
+
+						<a th:if="${session.usersession != null}" class="btn btn-danger dropdown-item"
+							th:href="@{/auth/logout}">
+							<img src="/img/Logout.png" style="height: 30px; "> Cerrar sesión
+						</a>
+
+					</ul>
+				</div>
+				<!-- Modal user -->
+
+			</div>
+
+			<div th:if="${session.usersession == null}">
+				<a class="btn btn-primary mx-1" th:href="@{/auth/form/register}">
+					Registrarse
+				</a>
+				<a class="btn btn-primary" th:href="@{/auth/form/login}">
+					Iniciar sesión
+				</a>
+			</div>
+			<!-- Boton modal dinero -->
+			<!-- Modal de dinero -->
+			<div th:if="${session.usersession != null}" class="modal fade" id="moneyModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Wallet</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+
+							<p>Actual money: $<span th:text="${session.usersession.wallet}"></span></p>
+
+							<form th:action="@{/user/wallet}" method="POST">
+								<label>Action:</label>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="action" value="deposit">
+									<label class="form-check-label" for="flexRadioDefault1">Deposit</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="action" value="withdraw">
+									<label class="form-check-label" for="flexRadioDefault2">Withdraw</label>
+								</div>
+
+								<label>Amount:</label>
+								<input type="number" name="quantity">
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<input type="submit" class="btn btn-primary" value="Confirm">
+								</div>
+
+							</form>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Modal de dinero -->
+
+		</div>
+	</div>
+</nav>
+<!--fin de navbar-->

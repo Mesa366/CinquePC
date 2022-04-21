@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace="/fragments/headDefault.html :: head">
+
+
+</head>
+
+<body>
+
+	<nav th:replace="/fragments/navbar.html :: nav"></nav>
+
+	<div class="container-fluid" style="background-image: url(/img/FondoGamer.jpg);">
+		<div class="row flex-lg-row-reverse align-items-center py-5 ">
+			<div class="col-10 col-sm-8 col-lg-6">
+				<img src="/img/gamingKeyboard.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes"
+					width="700" height="500" loading="lazy">
+			</div>
+			<div class="col-lg-6 text-center text-white">
+				<h1 class="display-5 fw-bold lh-1 mb-3">Sé parte de los vendedores de CinquePC</h1>
+				<p class="lead">Te invitamos a unirte a nuestra comunidad de compra y venta de componentes informáticos.
+				</p>
+				<div class="d-grid gap-2 d-md-flex justify-content-center">
+					<a th:href="@{/product/form}" class="btn btn-primary btn-lg px-4 me-md-2">Vender productos</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<main>
+
+
+		<!-- Shopping Cart -->
+		<section class="text-center container">
+			<div>
+				<div class="col-lg-6 col-md-8 mx-auto">
+
+					<div th:if="${session.usersession != null}" class="modal fade" id="shoppingCart" tabindex="-1"
+						aria-labelledby="shoppingCartLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="shoppingCartLabel">Productos en el carrito</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div th:if="${shoppingCart != null}" class="col"
+										th:each="singleBuy : ${shoppingCart}">
+										<!-- inicio tarjeta -->
+										<div class="card shadow-sm">
+											<div class="vh20">
+												<img class="maxWH" th:if="${singleBuy.product.photo != null}"
+													th:src="${'/photo/product?id=' + singleBuy.product.id}">
+											</div>
+
+											<div class="card-body">
+												<div class="d-flex justify-content-between align-items-center">
+												</div>
+												<p>
+													Product: <span th:text="${singleBuy.product.name}"></span><br />
+													Quantity: <span th:text="${singleBuy.quantity}"></span><br />
+													Individual price: <span
+														th:text="${singleBuy.product.price}"></span><br />
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<p>Precio total: $<span th:if="${compraTotal != null}"
+											th:text="${compraTotal}"></span></p>
+								</div>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<a th:href="@{/sb/buyAllShoppingCart}" class="btn btn-primary">Comprar todo</a>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+			</div>
+			</div>
+		</section>
+		<!-- Shopping Cart -->
+
+		<!-- Products -->
+		<div class="album py-5 bg-dark minH80vh">
+			<div class="container">
+
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<!-- Producto individual -->
+					<div class="col col-sm-12 col-md-6 col-lg-4" th:each="product : ${products}">
+						<!-- inicio tarjeta -->
+						<div class="card shadow-lg bg-dark bottomBorderLightBlue height100per">
+
+							<div style="text-align: center; position:relative;">
+
+								<div class="text-white blackBG positionAbsolute fontSize-1-5em"
+									style="top: 0px; right: 0px; border-radius: 0 0 0 10px;">$<span
+										th:text="${product.price}"></span></div>
+
+								<div th:if="${product.stock > 1}" class="text-white blackBG positionAbsolute padding5px"
+									style="bottom: 0px; right: 0px; border-radius: 10px 0 0 0 ;">
+									<span th:text="${product.stock}"></span> unidades
+								</div>
+
+								<div th:if="${product.stock == 1}"
+									class="text-white blackBG positionAbsolute padding5px"
+									style="bottom: 0px; right: 0px;  border-radius: 10px 0 0 0 ;"><span
+										th:text="${product.stock}"></span> unidad
+								</div>
+
+								<div th:if="${product.stock == 0}"
+									class="text-white blackBG redFont positionAbsolute padding5px"
+									style=" bottom: 0px; right: 0px; border-radius: 10px 0 0 0 ; ">Sin stock</div>
+
+								<div class="text-white blackBG positionAbsolute padding5px"
+									style="top: 0px; left: 0px; border-radius: 0 0 10px 0 ;">
+
+									<div class="d-flex">
+
+										<!-- Add to WishList button -->
+										<div th:if="${session.usersession != null}">
+											<a th:if="${! #lists.contains(wishList, product)}"
+												th:href="@{/product/addToWishList/}+${product.id}">
+												<img src="/img/like_border_black.png" style="height: 30px;">
+											</a>
+										</div>
+										<!-- Add to WishList button -->
+
+										<div th:if="${session.usersession != null}">
+											<a th:if="${#lists.contains(wishList, product)}"
+												th:href="@{/product/removeFromWishList/}+${product.id}">
+												<img src="/img/like_red.png" style="height: 30px;">
+											</a>
+										</div>
+										<!-- Add to ShoppingCart button -->
+
+									</div>
+								</div>
+
+
+
+								<img th:if="${product.photo != null}" th:src="${'/photo/product?id=' + product.id}"
+									style="width: 100%; height: auto;">
+
+
+							</div>
+
+							<div class="card-body text-white">
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="d-flex">
+										<div>
+											<p th:text="${product.name}" style="font-size: 2em;"></p>
+											<p th:text="${product.description}"></p >
+										</div>
+
+										<!-- Modal de SingleBuy -->
+										<div th:if="${session.usersession != null}">
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												th:data-bs-target="${'#id'+ product.id }">
+												<img src="/img/shopping-cart.png" style="height: 30px;">
+											</button>
+										</div>
+
+										<!-- Modal de SingleBuy -->
+
+
+										<!-- Modal -->
+										<div th:if="${session.usersession != null}" class="modal fade"
+											th:id="${'id' + product.id}" tabindex="-1"
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog ">
+												<div class="modal-content bg-dark">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">How many <span
+																th:text="${product.name}"></span> do you want?</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal"
+															aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<form th:action="@{/sb/create}" method="POST">
+															<label for"quantity"> Select a quantity:</label>
+															<input type="hidden" name="idUser"
+																th:value="${session.usersession.id}">
+															<input type="hidden" name="idProduct"
+																th:value="${product.id}">
+															<input type="number" name="quantity" id="quantity">
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">Close</button>
+																<input type="submit" class="btn btn-primary"
+																	value="Añadir al carrito">
+															</div>
+														</form>
+													</div>
+
+												</div>
+											</div>
+										</div>
+
+
+
+
+
+
+
+										<!-- Modal para poner cantidad -->
+										<div class="modal fade" id="modal" tabindex="-1"
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal"
+															aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														...
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">Close</button>
+														<button type="button" class="btn btn-primary">Save
+															changes</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- Modal para poner cantidad -->
+
+									</div>
+								</div>
+							</div>
+							<!-- Modal de SingleBuy -->
+
+
+						</div>
+
+
+
+					</div>
+					<!-- Producto individual -->
+				</div>
+			</div>
+		</div>
+		<!--fin de tarjeta-->
+		<!-- Products -->
+		</div>
+
+	</main>
+
+	<div th:replace="/fragments/footerDefault.html :: div"></div>
+
+
+</body>
+
+</html>

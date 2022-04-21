@@ -1,26 +1,27 @@
 package com.cinque.pc.Entities;
 
+import java.time.LocalDate;
+
 /* TODO traducir al ingles
  * 	corregir detalles
  */
 
-import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.cinque.pc.Enums.Categories;
+
 /**
- * Entidad de Productos. Sarasa
- *
- * @author David Gonzalez
+ * Entidad de Productos.
  */
 
 @Entity
@@ -36,39 +37,65 @@ public class Product {
 	@OneToOne
 	private MyUser seller;
 
+	//TODO esto no es OneToOne
 	@OneToOne
 	private Image photo;
 	
+	//For privacy reasons, and because the stock attribute this can be a Many to Many
+	//We are going to delete this attribute from Product, and leave it in user.
+	//Atte: Ana, Esteban y Alan
+	/*
 	@OneToOne
 	private MyUser buyer;
+	*/
+	@ManyToOne
+	@JoinColumn(name = "userWishList_id")
+	private MyUser userWishList; //Deberia estar solo este porque los otros 3 los tiene SingleBuy
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private MyUser user;
+	@JoinColumn(name = "userSellingProducts_id")
+	private MyUser userSellingProducts;
 
-	@Temporal(TemporalType.DATE)
-	private Date sellingDate;
+	@ManyToOne
+	@JoinColumn(name = "userShoppingCart_id")
+	private MyUser userShoppingCart;
+	
+	@ManyToOne
+	@JoinColumn(name = "userShoppingHistory_id")
+	private MyUser userShoppingHistory;
+	
+	//@Temporal(TemporalType.DATE)
+	private LocalDate sellingDate;
 
-	@Temporal(TemporalType.DATE)
-	private Date buyingDate;
+	//@Temporal(TemporalType.DATE)
+	private LocalDate buyingDate;
 	
 	private Integer stock;
 	private Boolean enabled;
+	private String description;
+	
+	@Enumerated(EnumType.STRING)
+	private Categories category;
 
-	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser buyer, MyUser user,
-			Date sellingDate, Date buyingDate, Integer stock, Boolean enabled) {
+	public Product(String id, String name, Double price, MyUser seller, Image photo, MyUser userWishList,
+			MyUser userSellingProducts, MyUser userShoppingCart, MyUser userShoppingHistory, LocalDate sellingDate,
+			LocalDate buyingDate, Integer stock, Boolean enabled, String description, Categories category) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.seller = seller;
 		this.photo = photo;
-		this.buyer = buyer;
-		this.user = user;
+		this.userWishList = userWishList;
+		this.userSellingProducts = userSellingProducts;
+		this.userShoppingCart = userShoppingCart;
+		this.userShoppingHistory = userShoppingHistory;
 		this.sellingDate = sellingDate;
 		this.buyingDate = buyingDate;
 		this.stock = stock;
 		this.enabled = enabled;
+		this.description = description;
+		this.category = category;
 	}
 
 	public Product() {
@@ -107,27 +134,19 @@ public class Product {
 		this.seller = seller;
 	}
 
-	public MyUser getBuyer() {
-		return buyer;
-	}
-
-	public void setBuyer(MyUser buyer) {
-		this.buyer = buyer;
-	}
-
-	public Date getSellingDate() {
+	public LocalDate getSellingDate() {
 		return sellingDate;
 	}
 
-	public void setSellingDate(Date sellingDate) {
+	public void setSellingDate(LocalDate sellingDate) {
 		this.sellingDate = sellingDate;
 	}
 
-	public Date getBuyingDate() {
+	public LocalDate getBuyingDate() {
 		return buyingDate;
 	}
 
-	public void setBuyingDate(Date buyingDate) {
+	public void setBuyingDate(LocalDate buyingDate) {
 		this.buyingDate = buyingDate;
 	}
 
@@ -155,14 +174,52 @@ public class Product {
 		this.photo = photo;
 	}
 
-	public MyUser getUser() {
-		return user;
+	public Categories getCategory() {
+		return category;
 	}
 
-	public void setUser(MyUser user) {
-		this.user = user;
+	public void setCategory(Categories category) {
+		this.category = category;
 	}
 
-	
+	public MyUser getUserWishList() {
+		return userWishList;
+	}
+
+	public void setUserWishList(MyUser userWishList) {
+		this.userWishList = userWishList;
+	}
+
+	public MyUser getUserSellingProducts() {
+		return userSellingProducts;
+	}
+
+	public void setUserSellingProducts(MyUser userSellingProducts) {
+		this.userSellingProducts = userSellingProducts;
+	}
+
+	public MyUser getUserShoppingCart() {
+		return userShoppingCart;
+	}
+
+	public void setUserShoppingCart(MyUser userShoppingCart) {
+		this.userShoppingCart = userShoppingCart;
+	}
+
+	public MyUser getUserShoppingHistory() {
+		return userShoppingHistory;
+	}
+
+	public void setUserShoppingHistory(MyUser userShoppingHistory) {
+		this.userShoppingHistory = userShoppingHistory;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 }
